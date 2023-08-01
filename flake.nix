@@ -16,16 +16,18 @@
 
   outputs = inputs@{ nixpkgs, home-manager, ... }:
     let
+      # TODO: These values should be used in the system configuration
+      host = "nixos-fw";
       user = "guillaume";
       system = "x86_64-linux";
-      lib = nixpkgs.lib;
     in {
       nixosConfigurations = {
-        nixos-fw = lib.nixosSystem {
+        ${host} = nixpkgs.lib.nixosSystem {
           inherit system;
 
           modules = [
-            ./system/fw-laptop.nix
+            ./hardware/${host}.nix
+            ./system/${host}.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

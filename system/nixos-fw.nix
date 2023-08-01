@@ -5,10 +5,6 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ../hardware/fw-laptop.nix
-  ];
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -23,6 +19,7 @@
     extraGroups = [ "wheel" "docker" ];
     shell = pkgs.zsh;
   };
+  programs.zsh.enable = true;
 
   networking = {
     hostName = "nixos-fw"; # Define your hostname.
@@ -97,72 +94,6 @@
     pam.services.lightdm.enableKwallet = true;
   };
 
-  # Installed packages
-  environment.systemPackages = with pkgs; [
-    auto-cpufreq
-    autojump
-    bat
-    bitwarden
-    bitwarden-cli
-    btop
-    cargo
-    clinfo
-    coreutils
-    exa
-    firefox
-    gcc
-    gdb
-    gh
-    gimp
-    git
-    glxinfo
-    go
-    imagemagick
-    kitty
-    krita
-    lazygit
-    libreoffice-qt
-    libsForQt5.kdeconnect-kde
-    luajitPackages.luarocks
-    mesa
-    moonlight-qt
-    mullvad-vpn
-    neofetch
-    nixfmt
-    nodePackages.npm
-    nodejs-slim_20
-    obs-studio
-    obsidian
-    openconnect
-    openvpn
-    parsec-bin
-    pciutils
-    pipewire
-    powerstat
-    python311
-    python311Packages.pip
-    qbittorrent
-    ripgrep
-    rtkit
-    signal-desktop
-    spotify
-    starship
-    teams
-    teamviewer
-    thunderbird-bin
-    timeshift
-    usbutils
-    ungoogled-chromium
-    unzip
-    vlc
-    webcord
-    wget
-    wl-clipboard
-    wlr-randr
-    xorg.xeyes
-    zsh
-  ];
-
   # Removed unused KDE packages
   environment.plasma5.excludePackages = with pkgs.libsForQt5; [
     elisa
@@ -187,35 +118,5 @@
     ];
   };
 
-  # Enabling programs
-  programs = {
-    mtr.enable = true;
-
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
-
-    zsh.enable = true;
-
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-    };
-  };
-
-  # Session variables
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    MOZ_ENABLE_WAYLAND = "1";
-  };
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "23.05";
 }
-
