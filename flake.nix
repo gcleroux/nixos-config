@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "NixOS configuration";
 
   inputs = {
     # Which version of NixOS packages to use
@@ -14,8 +14,9 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, ... }:
     let
+      user = "guillaume";
       system = "x86_64-linux";
       lib = nixpkgs.lib;
     in {
@@ -23,7 +24,15 @@
         nixos-fw = lib.nixosSystem {
           inherit system;
 
-          modules = [ ./system/configuration.nix ];
+          modules = [
+            ./system/fw-laptop.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.${user} = import ./users/${user}/home.nix;
+            }
+          ];
         };
       };
     };

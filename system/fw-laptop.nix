@@ -6,7 +6,7 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
+    ../hardware/fw-laptop.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
