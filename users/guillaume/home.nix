@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -38,14 +38,10 @@
     lazygit
     libreoffice-qt
     libsForQt5.kdeconnect-kde
-    luajitPackages.luarocks
     mesa
     moonlight-qt
     mullvad-vpn
     neofetch
-    nixfmt
-    nodePackages.npm
-    nodejs-slim_20
     obs-studio
     obsidian
     openconnect
@@ -83,7 +79,7 @@
     MOZ_ENABLE_WAYLAND = "1";
   };
 
-  services.gpg-agent = {                          
+  services.gpg-agent = {
     enable = true;
     defaultCacheTtl = 1800;
     enableSshSupport = true;

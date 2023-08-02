@@ -14,7 +14,7 @@
     };
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, ... }:
     let
       # TODO: These values should be used in the system configuration
       host = "nixos-fw";
@@ -39,4 +39,3 @@
       };
     };
 }
-
