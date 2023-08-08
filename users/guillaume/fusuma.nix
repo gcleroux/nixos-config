@@ -1,6 +1,4 @@
 { pkgs, ... }: {
-  home.packages = with pkgs; [ fusuma ];
-
   services.fusuma = {
     enable = true;
     extraPackages = with pkgs; [ coreutils-full xdotool ];

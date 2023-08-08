@@ -17,7 +17,6 @@
   # Installed packages
   home.packages = with pkgs; [
     auto-cpufreq
-    autojump
     bat
     bitwarden
     bitwarden-cli
@@ -43,7 +42,6 @@
     lazygit
     libguestfs
     libreoffice-qt
-    libsForQt5.kdeconnect-kde
     mesa
     moonlight-qt
     mullvad-vpn
@@ -89,6 +87,11 @@
     enable = true;
     defaultCacheTtl = 1800;
     enableSshSupport = true;
+  };
+
+  services.kdeconnect = {
+    enable = true;
+    indicator = true;
   };
 
   # This value determines the Home Manager release that your

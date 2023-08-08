@@ -1,4 +1,8 @@
- { 
+{ pkgs, ... }: {
+
+  # Required packages for oh-my-zsh plugins
+  home.packages = with pkgs; [ autojump ];
+
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
