@@ -6,6 +6,7 @@
     ./starship.nix
     ./zsh.nix
     ./neovim.nix
+    ./fusuma.nix
   ];
 
   # Home Manager needs a bit of information about you and the
