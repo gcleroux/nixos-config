@@ -9,6 +9,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Enable KVM virtualisation
+  virtualisation.libvirtd.enable = true;
+  boot.extraModprobeConfig = "options kvm_intel nested=1";
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
   # Nix package manager options
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
@@ -16,7 +21,7 @@
   # User config
   users.users.guillaume = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [ "wheel" "input" "docker" "libvirtd" "qemu-libvirtd" ];
     shell = pkgs.zsh;
   };
   programs.zsh.enable = true;
@@ -49,7 +54,6 @@
         lightdm.enable = true;
         autoLogin.enable = true;
         autoLogin.user = "guillaume";
-        defaultSession = "plasmawayland";
       };
     };
 

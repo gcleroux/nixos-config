@@ -2,9 +2,10 @@
 
 {
   imports = [
-    ../../modules/starship.nix
-    ../../modules/zsh.nix
-    ../../modules/neovim.nix
+    # Importing custom application configs
+    ./starship.nix
+    ./zsh.nix
+    ./neovim.nix
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -22,9 +23,12 @@
     btop
     cargo
     clinfo
+    copyq
     coreutils
+    discord
     exa
     firefox
+    gromit-mpx
     gcc
     gdb
     gh
@@ -36,6 +40,7 @@
     kitty
     krita
     lazygit
+    libguestfs
     libreoffice-qt
     libsForQt5.kdeconnect-kde
     mesa
@@ -65,19 +70,19 @@
     usbutils
     ungoogled-chromium
     unzip
+    virt-manager
     vlc
-    webcord
+    wacomtablet
     wget
-    wl-clipboard
-    wlr-randr
-    xorg.xeyes
+    xclip
+    zathura
   ];
 
   # Session variables
-  home.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    MOZ_ENABLE_WAYLAND = "1";
-  };
+  # home.sessionVariables = {
+  #   NIXOS_OZONE_WL = "1";
+  #   MOZ_ENABLE_WAYLAND = "1";
+  # };
 
   services.gpg-agent = {
     enable = true;

@@ -39,6 +39,7 @@
       python311Packages.flake8
       shellcheck
       statix
+      yamllint
 
       # Formatters
       black
