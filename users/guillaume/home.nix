@@ -3,10 +3,12 @@
 {
   imports = [
     # Importing custom application configs
+    ./bat.nix
+    ./exa.nix
+    ./fusuma.nix
+    ./neovim.nix
     ./starship.nix
     ./zsh.nix
-    ./neovim.nix
-    ./fusuma.nix
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -17,7 +19,6 @@
   # Installed packages
   home.packages = with pkgs; [
     auto-cpufreq
-    bat
     bitwarden
     bitwarden-cli
     btop
@@ -26,7 +27,6 @@
     copyq
     coreutils
     discord
-    exa
     firefox
     gromit-mpx
     gcc

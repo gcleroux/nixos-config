@@ -8,14 +8,19 @@
     enableAutosuggestions = true;
     enableCompletion = true;
     shellAliases = {
-      icat = "kitty +kitten icat";
+      # Bat aliases
+      cat = "bat";
+      man = "batman";
+      diff = "batdiff";
+      grep = "batgrep";
+
       lg = "lazygit";
+      icat = "kitty +kitten icat";
       kssh = "kitty +kitten ssh";
       v = "nvim";
       ls = "exa";
       ll = "exa -alh";
       tree = "exa --tree";
-      cat = "bat -p";
       update = "sudo nixos-rebuild switch --flake ~/nixos-config";
     };
     history = {
