@@ -98,6 +98,36 @@
     pam.services.lightdm.enableKwallet = true;
   };
 
+  # Installed packages
+  environment.systemPackages = with pkgs; [
+    auto-cpufreq
+    clinfo
+    copyq
+    coreutils
+    gcc
+    gdb
+    glxinfo
+    gromit-mpx
+    imagemagick
+    libguestfs
+    mesa
+    openconnect
+    openvpn
+    pciutils
+    pipewire
+    powerstat
+    python311
+    python311Packages.pip
+    rtkit
+    timeshift
+    usbutils
+    unzip
+    virt-manager
+    wacomtablet
+    wget
+    xclip
+  ];
+
   # Removed unused KDE packages
   environment.plasma5.excludePackages = with pkgs.libsForQt5; [
     elisa

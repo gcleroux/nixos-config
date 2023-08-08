@@ -5,9 +5,10 @@
 
     extraPackages = with pkgs; [
       # Installing tools
+      cargo
       luajitPackages.luarocks
-      nodejs-slim_20
       nodePackages.npm
+      nodejs-slim_20
 
       # Tools packages (Comes with a bunch of stuff)
       clang-tools
