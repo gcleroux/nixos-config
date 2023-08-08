@@ -18,9 +18,7 @@
       icat = "kitty +kitten icat";
       kssh = "kitty +kitten ssh";
       v = "nvim";
-      ls = "exa";
-      ll = "exa -alh";
-      tree = "exa --tree";
+
       update = "sudo nixos-rebuild switch --flake ~/nixos-config";
     };
     history = {
