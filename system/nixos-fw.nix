@@ -71,6 +71,7 @@
     # Launching systemd services
     openssh.enable = true;
     auto-cpufreq.enable = true;
+    mullvad-vpn.enable = true;
   };
 
   # This allows screensharing on wlr compositors using pipewire
