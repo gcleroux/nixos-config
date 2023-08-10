@@ -110,6 +110,7 @@
     gromit-mpx
     imagemagick
     libguestfs
+    libsForQt5.kdeconnect-kde
     mesa
     openconnect
     openvpn
@@ -135,6 +136,9 @@
     oxygen
     sddm
   ];
+
+  # Get completion for system packages
+  environment.pathsToLink = [ "/share/zsh" ];
 
   # Installing fonts
   fonts = {

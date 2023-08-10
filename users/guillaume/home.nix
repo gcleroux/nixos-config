@@ -55,11 +55,6 @@
       defaultCacheTtl = 1800;
       enableSshSupport = true;
     };
-
-    kdeconnect = {
-      enable = true;
-      indicator = true;
-    };
   };
 
   # This value determines the Home Manager release that your
