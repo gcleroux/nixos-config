@@ -72,6 +72,50 @@
     openssh.enable = true;
     auto-cpufreq.enable = true;
     mullvad-vpn.enable = true;
+
+    # Backup tool setup for the /home directory
+    btrbk = {
+      extraPackages = with pkgs; [ btrfs-progs mbuffer openssh ];
+      instances.daily = {
+        onCalendar = "daily";
+        settings = {
+          snapshot_preserve = "14d";
+          snapshot_preserve_min = "7d";
+          volume = {
+            "/" = {
+              subvolume = { "home" = { snapshot_create = "always"; }; };
+              snapshot_dir = "/.snapshots/daily";
+            };
+          };
+        };
+      };
+      instances.weekly = {
+        onCalendar = "weekly";
+        settings = {
+          snapshot_preserve = "5w";
+          snapshot_preserve_min = "3w";
+          volume = {
+            "/" = {
+              subvolume = { "home" = { snapshot_create = "always"; }; };
+              snapshot_dir = "/.snapshots/weekly";
+            };
+          };
+        };
+      };
+      instances.monthly = {
+        onCalendar = "monthly";
+        settings = {
+          snapshot_preserve = "3m";
+          snapshot_preserve_min = "2m";
+          volume = {
+            "/" = {
+              subvolume = { "home" = { snapshot_create = "always"; }; };
+              snapshot_dir = "/.snapshots/monthly";
+            };
+          };
+        };
+      };
+    };
   };
 
   # This allows screensharing on wlr compositors using pipewire
@@ -102,6 +146,7 @@
   # Installed packages
   environment.systemPackages = with pkgs; [
     auto-cpufreq
+    btrbk
     clinfo
     copyq
     coreutils
@@ -121,7 +166,6 @@
     python311
     python311Packages.pip
     rtkit
-    timeshift
     usbutils
     unzip
     virt-manager
