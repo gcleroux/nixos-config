@@ -150,6 +150,7 @@
     clinfo
     copyq
     coreutils
+    dolphin-emu
     gcc
     gdb
     glxinfo
