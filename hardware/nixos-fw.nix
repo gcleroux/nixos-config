@@ -10,6 +10,7 @@
     [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelParams = [ "mem_sleep_default=deep" ];
   boot.extraModulePackages = [ ];
 
   boot.initrd.luks.devices."root".device =
@@ -72,4 +73,3 @@
     lib.mkDefault config.hardware.enableRedistributableFirmware;
 
 }
-
