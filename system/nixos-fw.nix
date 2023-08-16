@@ -3,7 +3,7 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 
 { config, pkgs, ... }:
-let inherit (import ../const.nix) host user;
+let inherit (import ../config.nix) user;
 in {
   # Nix package manager options
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -18,7 +18,7 @@ in {
   programs.zsh.enable = true;
 
   networking = {
-    hostName = "${host}"; # Define your hostname.
+    hostName = "nixos-fw"; # Define your hostname.
     networkmanager.enable =
       true; # Easiest to use and most distros use this by default.
     firewall.enable = false;

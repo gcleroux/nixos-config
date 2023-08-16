@@ -1,5 +1,5 @@
 { pkgs, ... }:
-let inherit (import ../../const.nix) user;
+let inherit (import ../../config.nix) user;
 in {
   imports = [
     # Importing custom application configs

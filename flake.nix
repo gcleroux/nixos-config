@@ -15,14 +15,14 @@
   };
 
   outputs = { nixpkgs, home-manager, ... }:
-    let inherit (import ./const.nix) host user;
+    let inherit (import ./config.nix) user;
     in {
-      nixosConfigurations.${host} = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.nixos-fw = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
         modules = [
-          ./hardware/${host}.nix
-          ./system/${host}.nix
+          ./hardware/nixos-fw.nix
+          ./system/nixos-fw.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
