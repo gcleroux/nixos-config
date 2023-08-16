@@ -6,13 +6,20 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules =
-    [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  # Kernel config
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   boot.kernelModules = [ "kvm-intel" ];
   boot.kernelParams = [ "mem_sleep_default=deep" ];
   boot.extraModulePackages = [ ];
+  boot.extraModprobeConfig = "options kvm_intel nested=1";
 
+  boot.initrd.availableKernelModules =
+    [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ ];
   boot.initrd.luks.devices."root".device =
     "/dev/disk/by-uuid/dbed6eea-7331-4610-b531-4f78b063fb1a";
 
