@@ -8,9 +8,6 @@ in {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # Enable KVM virtualisation
-  virtualisation.libvirtd.enable = true;
   boot.extraModprobeConfig = "options kvm_intel nested=1";
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
@@ -132,10 +129,14 @@ in {
     ];
   };
 
-  # Enabling docker
-  virtualisation.docker = {
-    enable = true;
-    storageDriver = "btrfs";
+  virtualisation = {
+    # Enable docker
+    docker = {
+      enable = true;
+      storageDriver = "btrfs";
+    };
+    # Enable KVM virtualisation
+    libvirtd.enable = true;
   };
 
   security = {
