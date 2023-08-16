@@ -1,6 +1,6 @@
 { pkgs, ... }:
-
-{
+let inherit (import ../../const.nix) user;
+in {
   imports = [
     # Importing custom application configs
     ./bat.nix
@@ -13,8 +13,8 @@
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "guillaume";
-  home.homeDirectory = "/home/guillaume";
+  home.username = "${user}";
+  home.homeDirectory = "/home/${user}";
 
   # Installed packages
   home.packages = with pkgs; [

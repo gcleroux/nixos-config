@@ -15,27 +15,21 @@
   };
 
   outputs = { nixpkgs, home-manager, ... }:
-    let
-      # TODO: These values should be used in the system configuration
-      host = "nixos-fw";
-      user = "guillaume";
-      system = "x86_64-linux";
+    let inherit (import ./const.nix) host user;
     in {
-      nixosConfigurations = {
-        ${host} = nixpkgs.lib.nixosSystem {
-          inherit system;
+      nixosConfigurations.${host} = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
 
-          modules = [
-            ./hardware/${host}.nix
-            ./system/${host}.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.${user} = import ./users/${user}/home.nix;
-            }
-          ];
-        };
+        modules = [
+          ./hardware/${host}.nix
+          ./system/${host}.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.${user} = import ./users/${user}/home.nix;
+          }
+        ];
       };
     };
 }

@@ -3,8 +3,8 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 
 { config, pkgs, ... }:
-
-{
+let inherit (import ../const.nix) host user;
+in {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -19,7 +19,7 @@
   nixpkgs.config.allowUnfree = true;
 
   # User config
-  users.users.guillaume = {
+  users.users.${user} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "input" "docker" "libvirtd" "qemu-libvirtd" ];
     shell = pkgs.zsh;
@@ -27,7 +27,7 @@
   programs.zsh.enable = true;
 
   networking = {
-    hostName = "nixos-fw"; # Define your hostname.
+    hostName = "${host}"; # Define your hostname.
     networkmanager.enable =
       true; # Easiest to use and most distros use this by default.
     firewall.enable = false;
@@ -53,7 +53,7 @@
       displayManager = {
         lightdm.enable = true;
         autoLogin.enable = true;
-        autoLogin.user = "guillaume";
+        autoLogin.user = "${user}";
       };
     };
 
