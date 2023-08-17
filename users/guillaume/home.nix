@@ -21,6 +21,7 @@ in {
     bitwarden
     bitwarden-cli
     btop
+    caprine-bin
     discord
     firefox
     gh
