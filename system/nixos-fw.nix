@@ -121,6 +121,7 @@ in {
     opengl.extraPackages = with pkgs; [
       intel-compute-runtime
       intel-media-driver
+      libvdpau-va-gl
     ];
   };
 
