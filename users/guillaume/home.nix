@@ -56,6 +56,56 @@ in {
     };
   };
 
+  xdg = {
+    enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        # Archive tool
+        "application/*tar" = [ "org.kde.ark.desktop" ];
+        "application/7z" = [ "org.kde.ark.desktop" ];
+        "application/rar" = [ "org.kde.ark.desktop" ];
+        "application/zip" = [ "org.kde.ark.desktop" ];
+
+        # DE apps
+        "application/pdf" = [ "org.kde.okular.desktop" ];
+        "inode/directory" = [ "org.kde.dolphin.desktop" ];
+        "image/*" = [ "org.kde.gwenview.desktop" ];
+
+        # Mail
+        "message/rfc822" = [ "thunderbird.desktop" ];
+        "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
+        "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
+
+        # Multimedia
+        "audio/*" = [ "vlc.desktop" ];
+        "video/*" = [ "vlc.desktop" ];
+
+        # Plain text editor
+        "text/plain" = [ "nvim.desktop" ];
+
+        # Signal
+        "x-scheme-handler/sgnl" = [ "signal-desktop.desktop" ];
+        "x-scheme-handler/signalcaptcha" = [ "signal-desktop.desktop" ];
+
+        # Web browser
+        "application/x-extension-htm" = [ "chromium-browser.desktop" ];
+        "application/x-extension-html" = [ "chromium-browser.desktop" ];
+        "application/x-extension-shtml" = [ "chromium-browser.desktop" ];
+        "application/x-extension-xht" = [ "chromium-browser.desktop" ];
+        "application/x-extension-xhtml" = [ "chromium-browser.desktop" ];
+        "application/xhtml+xml" = [ "chromium-browser.desktop" ];
+        "text/html" = [ "chromium-browser.desktop" ];
+        "x-scheme-handler/about" = [ "chromium-browser.desktop" ];
+        "x-scheme-handler/chrome" = [ "chromium-browser.desktop" ];
+        "x-scheme-handler/ftp" = [ "chromium-browser.desktop" ];
+        "x-scheme-handler/http" = [ "chromium-browser.desktop" ];
+        "x-scheme-handler/https" = [ "chromium-browser.desktop" ];
+        "x-scheme-handler/unknown" = [ "chromium-browser.desktop" ];
+      };
+    };
+  };
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
