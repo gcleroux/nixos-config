@@ -43,7 +43,6 @@ in {
     signal-desktop
     spotify
     teams
-    teamviewer
     thunderbird-bin
     ungoogled-chromium
     vlc

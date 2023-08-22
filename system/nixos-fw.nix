@@ -63,6 +63,7 @@ in {
     openssh.enable = true;
     auto-cpufreq.enable = true;
     mullvad-vpn.enable = true;
+    teamviewer.enable = true;
 
     # Backup tool setup for the /home directory
     btrbk = {
@@ -162,6 +163,7 @@ in {
     python311
     python311Packages.pip
     rtkit
+    teamviewer
     usbutils
     unzip
     virt-manager
