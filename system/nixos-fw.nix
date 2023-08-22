@@ -56,6 +56,9 @@ in {
       pulse.enable = true;
     };
 
+    # Enabling flatpak
+    flatpak.enable = true;
+
     # Enable CUPS to print documents.
     printing.enable = true;
 

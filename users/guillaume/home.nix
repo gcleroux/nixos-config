@@ -37,7 +37,6 @@ in {
     neofetch
     obs-studio
     obsidian
-    parsec-bin
     qbittorrent
     ripgrep
     signal-desktop
