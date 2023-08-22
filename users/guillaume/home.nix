@@ -22,6 +22,7 @@ in {
     bitwarden-cli
     btop
     caprine-bin
+    chromium
     discord
     firefox
     gh
@@ -43,7 +44,6 @@ in {
     spotify
     teams
     thunderbird-bin
-    ungoogled-chromium
     vlc
     zathura
   ];
