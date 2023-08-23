@@ -44,6 +44,7 @@
 
       # Formatters
       black
+      cbfmt
       isort
       nixfmt
       nodePackages.prettier
