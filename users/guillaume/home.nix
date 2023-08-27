@@ -3,6 +3,7 @@ let inherit (import ../../config.nix) user;
 in {
   imports = [
     # Importing custom application configs
+    ./alacritty.nix
     ./bat.nix
     ./exa.nix
     ./fusuma.nix
@@ -30,7 +31,6 @@ in {
     gimp
     git
     go
-    kitty
     krita
     lazygit
     libreoffice-qt
