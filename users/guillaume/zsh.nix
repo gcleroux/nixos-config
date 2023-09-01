@@ -19,7 +19,8 @@
       kssh = "kitty +kitten ssh";
       v = "nvim";
 
-      update = "sudo nixos-rebuild switch --flake ~/nixos-config";
+      # TODO: This path should be tracked somewhere
+      update = "sudo nixos-rebuild switch --flake ~/.nix/nixos-config";
     };
     history = {
       size = 10000;
