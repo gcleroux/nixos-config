@@ -24,20 +24,12 @@
         };
         "4" = {
           "up" = {
-            # Move one virtual workspace down 2-->3
+            # Move one virtual workspace down 1-->2
             command = "xdotool key ctrl+alt+Down";
           };
           "down" = {
-            # Move one virtual workspace down 3-->2
+            # Move one virtual workspace down 2-->1
             command = "xdotool key ctrl+alt+Up";
-          };
-          "left" = {
-            # Move one virtual workspace down 2-->3
-            command = "xdotool key ctrl+alt+Right";
-          };
-          "right" = {
-            # Move one virtual workspace down 3-->2
-            command = "xdotool key ctrl+alt+Left";
           };
         };
       };
