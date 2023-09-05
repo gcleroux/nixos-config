@@ -38,7 +38,6 @@ in {
     mullvad-vpn
     neofetch
     obs-studio
-    obsidian
     qbittorrent
     ripgrep
     signal-desktop
