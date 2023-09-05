@@ -126,6 +126,9 @@ in {
       intel-media-driver
       libvdpau-va-gl
     ];
+
+    logitech.wireless.enable = true;
+    logitech.wireless.enableGraphical = true;
   };
 
   virtualisation = {
