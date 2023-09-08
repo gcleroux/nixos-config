@@ -5,9 +5,9 @@ in {
     # Importing custom application configs
     ./alacritty.nix
     ./bat.nix
-    ./mako.nix
     ./exa.nix
     ./fusuma.nix
+    ./mako.nix
     ./neovim.nix
     ./starship.nix
     ./tmux.nix
