@@ -19,8 +19,15 @@
       kssh = "kitty +kitten ssh";
       v = "nvim";
 
+      gc = "git clone";
+      gs = "git status";
+
       # TODO: This path should be tracked somewhere
       update = "sudo nixos-rebuild switch --flake ~/.nix/nixos-config";
+      ns = "nix-shell -p";
+      nixconf = "cd ~/.nix/nixos-config && nvim .";
+      hyprconf = "cd ~/.config/hypr && nvim .";
+
     };
     history = {
       size = 10000;
