@@ -5,6 +5,7 @@ in {
     # Importing custom application configs
     ./alacritty.nix
     ./bat.nix
+    ./dunst.nix
     ./exa.nix
     ./fusuma.nix
     ./neovim.nix
