@@ -16,6 +16,11 @@ in {
     shell = pkgs.zsh;
   };
   programs.zsh.enable = true;
+  programs.hyprland = {
+    enable = true;
+    nvidiaPatches = false;
+    xwayland.enable = true;
+  };
 
   networking = {
     hostName = "nixos-fw"; # Define your hostname.
@@ -43,10 +48,12 @@ in {
 
       displayManager = {
         lightdm.enable = true;
-        autoLogin.enable = true;
-        autoLogin.user = "${user}";
+        #        autoLogin.enable = true;
+        #       autoLogin.user = "${user}";
       };
     };
+
+    blueman.enable = true;
 
     # Pipewire config
     pipewire = {
@@ -54,6 +61,7 @@ in {
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
+      jack.enable = true;
     };
 
     # Enabling flatpak
@@ -113,19 +121,31 @@ in {
     };
   };
 
+  sound.enable = true;
   # This allows screensharing on wlr compositors using pipewire
-  xdg.portal.wlr.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
+    wlr.enable = true;
+  };
 
   # Hardware config
   hardware = {
     bluetooth.enable = true;
 
     # GPU hardware acceleration
-    opengl.extraPackages = with pkgs; [
-      intel-compute-runtime
-      intel-media-driver
-      libvdpau-va-gl
-    ];
+    opengl = {
+      enable = true;
+
+      extraPackages = with pkgs; [
+        intel-compute-runtime
+        intel-media-driver
+        libvdpau-va-gl
+      ];
+    };
 
     logitech.wireless.enable = true;
     logitech.wireless.enableGraphical = true;
@@ -143,6 +163,7 @@ in {
 
   security = {
     rtkit.enable = true;
+    polkit.enable = true;
     pam.services.lightdm.enableKwallet = true;
   };
 
@@ -177,6 +198,25 @@ in {
     wacomtablet
     wget
     xclip
+
+    # Hyprland pkgs
+    pcmanfm
+    waybar
+    libnotify
+    rofi-wayland
+    imv
+    networkmanagerapplet
+    wl-clipboard
+    grim
+    slurp
+    libsForQt5.qt5.qtwayland
+    qt6.qtwayland
+    libsForQt5.polkit-kde-agent
+    webcord
+    pavucontrol
+    brightnessctl
+    playerctl
+    cliphist
   ];
 
   # Removed unused KDE packages
@@ -195,6 +235,13 @@ in {
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
+
+    NIXOS_OZONE_WL = "1";
+  };
+
+  environment.etc = {
+    "wireplumber/bluetooth.lua.d/50-bluez-config.lua".text =
+      "	bluez_monitor.properties = {\n		[\"with-logind\"] = false,\n	}\n";
   };
 
   # Installing fonts
