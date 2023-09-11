@@ -7,6 +7,7 @@ in {
     ./bat.nix
     ./exa.nix
     ./fusuma.nix
+    ./gtk.nix
     ./mako.nix
     ./neovim.nix
     ./starship.nix

@@ -36,6 +36,7 @@ in {
   i18n.defaultLocale = "en_CA.UTF-8";
 
   services = {
+    dbus.enable = true;
     # Enable the X11 windowing system.
     xserver = {
       enable = true;
@@ -200,6 +201,8 @@ in {
     xclip
 
     # Hyprland pkgs
+    xdg-utils
+    wdisplays
     pcmanfm
     waybar
     libnotify
