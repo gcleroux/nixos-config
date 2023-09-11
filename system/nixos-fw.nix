@@ -45,12 +45,11 @@ in {
       libinput.enable = true;
       libinput.touchpad.tapping = true;
 
-      desktopManager = { plasma5.enable = true; };
-
       displayManager = {
         lightdm.enable = true;
-        #        autoLogin.enable = true;
-        #       autoLogin.user = "${user}";
+        defaultSession = "hyprland";
+        autoLogin.enable = true;
+        autoLogin.user = "${user}";
       };
     };
 
@@ -198,36 +197,28 @@ in {
     virt-manager
     wacomtablet
     wget
-    xclip
 
     # Hyprland pkgs
-    xdg-utils
-    wdisplays
-    pcmanfm
-    waybar
-    libnotify
-    rofi-wayland
-    imv
-    networkmanagerapplet
-    wl-clipboard
-    grim
-    slurp
-    libsForQt5.qt5.qtwayland
-    qt6.qtwayland
-    libsForQt5.polkit-kde-agent
-    webcord
-    pavucontrol
     brightnessctl
-    playerctl
     cliphist
-  ];
-
-  # Removed unused KDE packages
-  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-    elisa
-    khelpcenter
-    oxygen
-    sddm
+    glib
+    grim
+    imv
+    libnotify
+    libsForQt5.polkit-kde-agent
+    libsForQt5.qt5.qtwayland
+    networkmanagerapplet
+    pavucontrol
+    pcmanfm
+    playerctl
+    qt6.qtwayland
+    rofi-wayland
+    slurp
+    waybar
+    wdisplays
+    webcord
+    wl-clipboard
+    xdg-utils
   ];
 
   # Get completion for system packages

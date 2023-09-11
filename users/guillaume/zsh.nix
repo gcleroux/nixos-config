@@ -28,6 +28,9 @@
       nixconf = "cd ~/.nix/nixos-config && nvim .";
       hyprconf = "cd ~/.config/hypr && nvim .";
 
+      # Hyprland aliases
+      lidon = "hyprctl keyword monitor 'eDP-1, preferred, 4388x0, 1.5'";
+      lidoff = "hyprctl keyword monitor 'eDP-1, disable'";
     };
     history = {
       size = 10000;

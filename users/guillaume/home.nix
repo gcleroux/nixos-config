@@ -27,7 +27,6 @@ in {
     btop
     caprine-bin
     chromium
-    discord
     firefox
     gh
     gimp
@@ -44,7 +43,6 @@ in {
     ripgrep
     signal-desktop
     spotify
-    teams
     thunderbird-bin
     vlc
     zathura
