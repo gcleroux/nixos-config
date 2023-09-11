@@ -11,6 +11,7 @@ in {
     ./mako.nix
     ./neovim.nix
     ./starship.nix
+    ./swayidle.nix
     ./tmux.nix
     ./zsh.nix
   ];
