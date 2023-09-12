@@ -1,5 +1,5 @@
 let
-  more = { pkgs, ... }: {
+  more = _: {
     programs.exa = {
       enable = true;
       enableAliases = true;
