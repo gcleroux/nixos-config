@@ -3,7 +3,7 @@
     enable = true;
     defaultTimeout = 5000;
     anchor = "top-right";
-    font = "Cousine Nerd Font Mono 16";
+    font = "Cousine Nerd Font Mono 12";
     extraConfig = ''
       [category=overlay]
       width=200
