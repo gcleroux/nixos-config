@@ -1,34 +1,29 @@
-{
+{ pkgs, ... }: {
+
   programs.swaylock = {
     enable = true;
     settings = { };
   };
 
+  # Swayidle need to be installed manually
+  home.packages = [ pkgs.swayidle ];
+
   services.swayidle = {
     enable = true;
-    systemdTarget = "hyprland-session.target";
-    events = [
-      {
-        event = "lock";
-        command = "swaylock -C ~/.config/swaylock/config";
-      }
-      {
-        event = "after-resume";
-        command = "hyprctl dispatch dpms on";
-      }
-      {
-        event = "before-sleep";
-        command = "swaylock -C ~/.config/swaylock/config";
-      }
-    ];
+    systemdTarget = "graphical-session.target";
+    events = [{
+      event = "before-sleep";
+      command = "swaylock -f -c 000000";
+    }];
     timeouts = [
       {
-        timeout = 30;
-        command = "swaylock -C ~/.config/swaylock/config";
+        timeout = 300;
+        command = "swaylock -f -c 000000";
       }
       {
-        timeout = 60;
-        command = "hyprctl dispatch dpms off";
+        timeout = 600;
+        command =
+          "'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'";
       }
     ];
   };

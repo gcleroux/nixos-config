@@ -164,7 +164,13 @@ in {
   security = {
     rtkit.enable = true;
     polkit.enable = true;
-    pam.services.lightdm.enableKwallet = true;
+
+    # This makes swaylock work to unlock session
+    pam.services.swaylock = {
+      text = ''
+        auth include login
+      '';
+    };
   };
 
   # Installed packages
@@ -214,6 +220,8 @@ in {
     qt6.qtwayland
     rofi-wayland
     slurp
+    swayidle
+    swaylock
     waybar
     wdisplays
     webcord
