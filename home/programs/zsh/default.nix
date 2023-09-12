@@ -15,19 +15,16 @@
       grep = "batgrep";
 
       lg = "lazygit";
-      icat = "kitty +kitten icat";
-      kssh = "kitty +kitten ssh";
       v = "nvim";
 
       gc = "git clone";
       gs = "git status";
 
       # TODO: This path should be tracked somewhere
+      nixconf = "cd ~/.nix/nixos-config && nvim .";
       nixup = "sudo nixos-rebuild switch --flake ~/.nix/nixos-config";
       hmup = "home-manager switch --flake ~/.nix/nixos-config";
       ns = "nix-shell -p";
-      nixconf = "cd ~/.nix/nixos-config && nvim .";
-      hyprconf = "cd ~/.config/hypr && nvim .";
 
       # Hyprland aliases
       lidon = "hyprctl keyword monitor 'eDP-1, preferred, 4388x0, 1.5'";
