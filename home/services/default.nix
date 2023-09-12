@@ -1,0 +1,1 @@
+[ ./gpg-agent ./mako ./swayidle ]

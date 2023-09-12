@@ -16,24 +16,20 @@
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { nixpkgs, home-manager, hyprland, ... }:
-    let inherit (import ./config.nix) user;
-    in {
-      # Standalone NixOS conf
-      nixosConfigurations = {
-        nixos-fw = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [ ./hardware/nixos-fw.nix ./system/nixos-fw.nix ];
-        };
+  outputs = { nixpkgs, home-manager, hyprland, ... }: {
+    # Standalone NixOS conf
+    nixosConfigurations = {
+      nixos-fw = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./hardware/nixos-fw.nix ./system/nixos-fw.nix ];
       };
-
-      homeConfigurations = {
-        "${user}@nixos-fw" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux;
-          modules =
-            [ hyprland.homeManagerModules.default ./users/${user}/home.nix ];
-        };
-      };
-
     };
+
+    homeConfigurations = {
+      "guillaume@nixos-fw" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [ hyprland.homeManagerModules.default ./home/home.nix ];
+      };
+    };
+  };
 }

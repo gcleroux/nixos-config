@@ -1,21 +1,8 @@
 { pkgs, ... }:
-let inherit (import ../../config.nix) user;
+let username = "guillaume";
 in {
-  imports = [
-    # Importing custom application configs
-    ./alacritty.nix
-    ./bat.nix
-    ./exa.nix
-    ./fusuma.nix
-    ./gtk.nix
-    # ./hyprland/hyprland.nix
-    ./mako.nix
-    ./neovim.nix
-    ./starship.nix
-    #./swayidle.nix
-    ./tmux.nix
-    ./zsh.nix
-  ];
+
+  imports = builtins.concatMap import [ ./programs ./services ./themes ./wm ];
 
   nixpkgs.config = {
     # Disable if you don't want unfree packages
@@ -27,8 +14,8 @@ in {
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "${user}";
-  home.homeDirectory = "/home/${user}";
+  home.username = "${username}";
+  home.homeDirectory = "/home/${username}";
 
   # Installed packages
   home.packages = with pkgs; [
@@ -57,14 +44,6 @@ in {
     vlc
     zathura
   ];
-
-  services = {
-    gpg-agent = {
-      enable = true;
-      defaultCacheTtl = 1800;
-      enableSshSupport = true;
-    };
-  };
 
   xdg = {
     enable = true;

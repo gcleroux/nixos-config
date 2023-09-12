@@ -3,14 +3,14 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 
 { config, pkgs, ... }:
-let inherit (import ../config.nix) user;
+let username = "guillaume";
 in {
   # Nix package manager options
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
 
   # User config
-  users.users.${user} = {
+  users.users.${username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "input" "docker" "libvirtd" "qemu-libvirtd" ];
     shell = pkgs.zsh;
@@ -49,7 +49,7 @@ in {
         lightdm.enable = true;
         defaultSession = "hyprland";
         autoLogin.enable = true;
-        autoLogin.user = "${user}";
+        autoLogin.user = "${username}";
       };
     };
 
