@@ -5,4 +5,4 @@ let
       enableAliases = true;
     };
   };
-in [ ./alacritty ./bat ./neovim ./starship ./tmux ./zsh more ]
+in [ ./alacritty ./bat ./neovim ./starship ./swaylock ./tmux ./zsh more ]
