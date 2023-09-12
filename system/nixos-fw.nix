@@ -15,7 +15,11 @@ in {
     extraGroups = [ "wheel" "input" "docker" "libvirtd" "qemu-libvirtd" ];
     shell = pkgs.zsh;
   };
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    syntaxHighlighting.enable = true;
+  };
+
   programs.hyprland = {
     enable = true;
     nvidiaPatches = false;
@@ -125,10 +129,7 @@ in {
   # This allows screensharing on wlr compositors using pipewire
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-    ];
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     wlr.enable = true;
   };
 
