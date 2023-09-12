@@ -12,24 +12,28 @@
       # We want to use the same set of nixpkgs as our system.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { nixpkgs, home-manager, ... }:
+  outputs = { nixpkgs, home-manager, hyprland, ... }:
     let inherit (import ./config.nix) user;
     in {
-      nixosConfigurations.nixos-fw = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-
-        modules = [
-          ./hardware/nixos-fw.nix
-          ./system/nixos-fw.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.${user} = import ./users/${user}/home.nix;
-          }
-        ];
+      # Standalone NixOS conf
+      nixosConfigurations = {
+        nixos-fw = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./hardware/nixos-fw.nix ./system/nixos-fw.nix ];
+        };
       };
+
+      homeConfigurations = {
+        "${user}@nixos-fw" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          modules =
+            [ hyprland.homeManagerModules.default ./users/${user}/home.nix ];
+        };
+      };
+
     };
 }

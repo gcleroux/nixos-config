@@ -8,12 +8,22 @@ in {
     ./exa.nix
     ./fusuma.nix
     ./gtk.nix
+    # ./hyprland/hyprland.nix
     ./mako.nix
     ./neovim.nix
     ./starship.nix
+    #./swayidle.nix
     ./tmux.nix
     ./zsh.nix
   ];
+
+  nixpkgs.config = {
+    # Disable if you don't want unfree packages
+    allowUnfree = true;
+
+    # Workaround for https://github.com/nix-community/home-manager/issues/2942
+    allowUnfreePredicate = _: true;
+  };
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.

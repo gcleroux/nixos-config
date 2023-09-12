@@ -183,6 +183,7 @@ in {
     dolphin-emu
     gcc
     gdb
+    git
     glxinfo
     gromit-mpx
     imagemagick
@@ -205,6 +206,7 @@ in {
     wget
 
     # Hyprland pkgs
+    home-manager
     brightnessctl
     cliphist
     glib
