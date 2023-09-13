@@ -4,6 +4,8 @@
   programs.swaylock = {
     enable = true;
     settings = {
+      daemonize = true;
+      ignore-empty-password = true;
       indicator-caps-lock = true;
       image = "$HOME/.config/swaylock/swaylock.png";
       scaling = "fill";

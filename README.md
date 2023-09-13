@@ -14,7 +14,7 @@ My NixOS configuration for customized reproducible builds.
 - [ ] Customize waybar widgets
 - [ ] Customize mako color scheme
 - [ ] Add a power menu to rofi
-- [ ] Investigate waybar sleep issue (maybe use a swayidle command after wake-up)
+- [x] Investigate waybar sleep issue (maybe use a swayidle command after wake-up)
 
 ### Repo
 

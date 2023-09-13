@@ -26,6 +26,8 @@ in {
     xwayland.enable = true;
   };
 
+  programs.dconf.enable = true;
+
   networking = {
     hostName = "nixos-fw"; # Define your hostname.
     networkmanager.enable =
@@ -131,7 +133,7 @@ in {
   # This allows screensharing on wlr compositors using pipewire
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     wlr.enable = true;
   };
 
@@ -219,7 +221,7 @@ in {
     libsForQt5.polkit-kde-agent
     libsForQt5.qt5.qtwayland
     networkmanagerapplet
-    pavucontrol
+    #pavucontrol
     pcmanfm
     playerctl
     qt6.qtwayland

@@ -1,42 +1,36 @@
-{ pkgs, ... }: {
-  # For some reason, swayidle through
-  # hyprctl not working inside shell
-  xdg.configFile = {
-    # This config locks screen after 10 min
-    # and suspend after 15 min
-    "swayidle/config".text = ''
-      lock "swaylock -f -C ~/.config/swaylock/config"
-      before-sleep "loginctl lock-session"
-      timeout 600 "loginctl lock-session"
-      timeout 900 "systemctl suspend"
-    '';
+{ pkgs, ... }:
+let
+  notify = "${pkgs.libnotify}/bin/notify-send 'Locking system in 1 minute'";
+  lock = "${pkgs.swaylock}/bin/swaylock";
+  sleep = "${pkgs.systemd}/bin/systemctl suspend";
+  dpmsOff = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+  dpmsOn = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+in {
+  services.swayidle = {
+    enable = true;
+    systemdTarget = "hyprland-session.target";
+    timeouts = [
+      {
+        timeout = 240;
+        command = notify;
+      }
+      {
+        timeout = 300;
+        command = lock;
+      }
+      {
+        timeout = 360;
+        command = dpmsOff;
+        resumeCommand = dpmsOn;
+      }
+      {
+        timeout = 900;
+        command = sleep;
+      }
+    ];
+    events = [{
+      event = "before-sleep";
+      command = lock;
+    }];
   };
-
-  # Swayidle need to be installed manually
-  home.packages = [ pkgs.swayidle ];
-
-  # services.swayidle = {
-  # enable = true;
-  # systemdTarget = "hyprland-session.target";
-  # events = [
-  # {
-  # event = "before-sleep";
-  # command = "swaylock -f -c 000000";
-  # }
-  # {
-  # event = "lock";
-  # command = "swaylock -f -c 000000";
-  # }
-  # ];
-  # timeouts = [
-  # {
-  # timeout = 10;
-  # command = "swaylock -f -c 000000";
-  # }
-  # {
-  # timeout = 60;
-  # command = "systemctl suspend";
-  # }
-  # ];
-  # };
 }
