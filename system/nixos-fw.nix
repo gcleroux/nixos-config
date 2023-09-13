@@ -225,9 +225,6 @@ in {
     qt6.qtwayland
     rofi-wayland
     slurp
-    swayidle
-    swaylock
-    waybar
     wdisplays
     webcord
     wl-clipboard
