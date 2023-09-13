@@ -9,10 +9,13 @@ My NixOS configuration for customized reproducible builds.
 ### Hyprland
 
 - [ ] Move hyprland config into nix
+- [ ] Fix workspace on waybar
 - [ ] Install a background manager
 - [ ] Configure workspaces on external monitors
 - [ ] Customize waybar widgets
 - [ ] Customize mako color scheme
+- [ ] Add sound to mako notification
+- [ ] Look into kanshi to manage monitors
 - [ ] Add a power menu to rofi
 - [x] Investigate waybar sleep issue (maybe use a swayidle command after wake-up)
 
