@@ -41,6 +41,7 @@ in {
     ripgrep
     signal-desktop
     spotify
+    swww
     thunderbird-bin
     vlc
     zathura
