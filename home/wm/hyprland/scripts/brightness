@@ -15,6 +15,6 @@ case "$1" in
     brightnessctl -c backlight set +5% && notify_user
     ;;
 "--dec")
-    brightnessctl -c backlight set 5%- && notify_user
+    brightnessctl -c backlight set 5%- --min-value 1 && notify_user
     ;;
 esac
