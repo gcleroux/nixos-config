@@ -34,9 +34,9 @@
         hyprctl keyword monitor "DP-4, disable"
       '';
       lidoff = ''
+        hyprctl keyword monitor "DP-4,preferred,0x0,1.75";
+        hyprctl keyword monitor "DP-3,preferred,2194x0,1.75"
         hyprctl keyword monitor "eDP-1, disable"; 
-        hyprctl keyword DP-4,preferred,0x0,1.75";
-        hyprctl keyword "DP-3,preferred,2194x0,1.75"
       '';
     };
     history = {
