@@ -14,6 +14,7 @@ My NixOS configuration for customized reproducible builds.
 - [ ] Configure workspaces on external monitors
 - [ ] Customize waybar widgets
 - [ ] Customize mako color scheme
+- [ ] Add low power mako notification
 - [ ] Add sound to mako notification
 - [ ] Look into kanshi to manage monitors
 - [ ] Add a power menu to rofi
