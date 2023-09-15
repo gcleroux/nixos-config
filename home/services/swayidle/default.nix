@@ -5,7 +5,7 @@ let
   dpmsOff = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
   dpmsOn = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
   sleep = ''
-    [ "$(cat /sys/class/power_supply/BAT1/status)" = "Discharging" ] && ${pkgs.systemd}/bin/systemctl suspend'';
+    [ "$(${pkgs.bat}/bin/bat -p /sys/class/power_supply/BAT1/status)" = "Discharging" ] && ${pkgs.systemd}/bin/systemctl suspend'';
 in {
   services.swayidle = {
     enable = true;
