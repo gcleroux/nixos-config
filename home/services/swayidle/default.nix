@@ -2,9 +2,10 @@
 let
   notify = "${pkgs.libnotify}/bin/notify-send 'Locking system in 1 minute'";
   lock = "${pkgs.swaylock}/bin/swaylock";
-  sleep = "${pkgs.systemd}/bin/systemctl suspend";
   dpmsOff = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
   dpmsOn = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+  sleep = ''
+    [ "$(cat /sys/class/power_supply/BAT1/status)" = "Discharging" ] && ${pkgs.systemd}/bin/systemctl suspend'';
 in {
   services.swayidle = {
     enable = true;
