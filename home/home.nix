@@ -45,6 +45,9 @@ in {
     thunderbird-bin
     vlc
     zathura
+
+    # Eventually, replace with peazip
+    libsForQt5.ark
   ];
 
   xdg = {
@@ -60,9 +63,9 @@ in {
         "application/zip" = [ "org.kde.ark.desktop" ];
 
         # DE apps
-        "application/pdf" = [ "org.kde.okular.desktop" ];
-        "inode/directory" = [ "org.kde.dolphin.desktop" ];
-        "image/*" = [ "org.kde.gwenview.desktop" ];
+        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+        "inode/directory" = [ "pcmanfm.desktop" ];
+        "image/*" = [ "imv.desktop" ];
 
         # Mail
         "message/rfc822" = [ "thunderbird.desktop" ];
