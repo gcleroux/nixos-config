@@ -75,8 +75,12 @@ in {
     # Enabling flatpak
     flatpak.enable = true;
 
-    # Enable CUPS to print documents.
+    # Enable printing
     printing.enable = true;
+    avahi.enable = true;
+    avahi.nssmdns = true;
+    # for a WiFi printer
+    avahi.openFirewall = true;
 
     # Launching systemd services
     openssh.enable = true;
@@ -133,7 +137,7 @@ in {
   # This allows screensharing on wlr compositors using pipewire
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     wlr.enable = true;
   };
 
