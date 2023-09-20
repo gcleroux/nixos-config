@@ -73,7 +73,7 @@ in {
 
         # DE apps
         "application/pdf" = [ "org.pwmt.zathura.desktop" ];
-        "inode/directory" = [ "pcmanfm.desktop" ];
+        "inode/directory" = [ "thunar.desktop" ];
         "image/*" = [ "imv.desktop" ];
 
         # Mail

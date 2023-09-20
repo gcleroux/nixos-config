@@ -26,6 +26,13 @@ in {
     xwayland.enable = true;
   };
 
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
+  };
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
+
   programs.dconf.enable = true;
 
   networking = {
@@ -226,7 +233,6 @@ in {
     libsForQt5.qt5.qtwayland
     networkmanagerapplet
     #pavucontrol
-    pcmanfm
     playerctl
     qt6.qtwayland
     rofi-wayland
