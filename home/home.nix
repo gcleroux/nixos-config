@@ -50,6 +50,15 @@ in {
     libsForQt5.ark
   ];
 
+  # TODO: Find a place for this config
+  # Creating default connection for virt-manager
+  dconf.settings = {
+    "org/virt-manager/virt-manager/connections" = {
+      autoconnect = [ "qemu:///system" ];
+      uris = [ "qemu:///system" ];
+    };
+  };
+
   xdg = {
     enable = true;
     configFile."mimeapps.list".force = true;
