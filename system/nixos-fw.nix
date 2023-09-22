@@ -33,6 +33,9 @@ in {
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true; # Thumbnail support for images
 
+  # This will prevent laptop from going to sleep when turning off screens
+  services.logind.lidSwitchExternalPower = "ignore";
+
   programs.dconf.enable = true;
 
   networking = {
