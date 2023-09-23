@@ -30,6 +30,7 @@ in {
       # Sourcing config files
       source=$HOME/.config/hypr/config.d/autostart.conf
       source=$HOME/.config/hypr/config.d/env.conf
+      # TODO: Once I switch to kanshi, I should not preset monitor settings
       source=$HOME/.config/hypr/config.d/monitors.conf
       source=$HOME/.config/hypr/config.d/input.conf
       source=$HOME/.config/hypr/config.d/keybinds.conf

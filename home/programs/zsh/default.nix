@@ -27,13 +27,13 @@
       ns = "nix-shell -p";
 
       # Hyprland aliases
-      # TODO: Eventually use kanshi to manage displays dynamically
-      lidon = ''
+      # TODO: Eventually use kanshi to manage displays dynamically once it works
+      dpon = ''
         hyprctl keyword monitor "eDP-1, preferred, 0x0, 1.5"; 
         hyprctl keyword monitor "DP-3, disable"; 
         hyprctl keyword monitor "DP-4, disable"
       '';
-      lidoff = ''
+      dpoff = ''
         hyprctl keyword monitor "DP-4,preferred,0x0,1.75";
         hyprctl keyword monitor "DP-3,preferred,2194x0,1.75"
         hyprctl keyword monitor "eDP-1, disable"; 
