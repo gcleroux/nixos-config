@@ -37,9 +37,9 @@
           "custom/left-arrow-dark"
           "battery"
           "custom/left-arrow-light"
-          "custom/left-arrow-dark"
-          "disk"
-          "custom/left-arrow-light"
+          # "custom/left-arrow-dark"
+          # "disk"
+          # "custom/left-arrow-light"
           "custom/left-arrow-dark"
           "tray"
         ];
