@@ -8,6 +8,7 @@ let
 in [
   ./alacritty
   ./bat
+  ./direnv
   ./neovim
   ./starship
   ./swaylock
