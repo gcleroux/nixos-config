@@ -12,11 +12,11 @@ My NixOS configuration for customized reproducible builds.
 - [ ] Fix workspace on waybar
 - [x] Install a background manager
 - [ ] Configure workspaces on external monitors
-- [ ] Customize waybar widgets
-- [ ] Customize mako color scheme
+- [x] Customize waybar widgets
+- [x] Customize mako color scheme
 - [ ] Add low power mako notification
 - [ ] Add sound to mako notification
-- [ ] Look into kanshi to manage monitors
+- [x] Look into kanshi to manage monitors
 - [ ] Add a power menu to rofi
 - [x] Investigate waybar sleep issue (maybe use a swayidle command after wake-up)
 
