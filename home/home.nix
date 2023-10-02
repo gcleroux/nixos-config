@@ -45,9 +45,6 @@ in {
     thunderbird-bin
     vlc
     zathura
-
-    # Eventually, replace with peazip
-    libsForQt5.ark
   ];
 
   # TODO: Find a place for this config
@@ -65,12 +62,6 @@ in {
     mimeApps = {
       enable = true;
       defaultApplications = {
-        # Archive tool
-        "application/*tar" = [ "org.kde.ark.desktop" ];
-        "application/7z" = [ "org.kde.ark.desktop" ];
-        "application/rar" = [ "org.kde.ark.desktop" ];
-        "application/zip" = [ "org.kde.ark.desktop" ];
-
         # DE apps
         "application/pdf" = [ "org.pwmt.zathura.desktop" ];
         "inode/directory" = [ "thunar.desktop" ];
