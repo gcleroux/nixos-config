@@ -1,6 +1,7 @@
 { pkgs, ... }:
 let
-  notify = "${pkgs.libnotify}/bin/notify-send 'Locking system in 1 minute'";
+  notify = ''
+    ${pkgs.libnotify}/bin/notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -c "overlay" "Locking system in 1 minute"'';
   lock = "${pkgs.swaylock}/bin/swaylock";
   dpmsOff = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
   dpmsOn = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
