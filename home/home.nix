@@ -29,6 +29,7 @@ in {
     gimp
     git
     go
+    killall
     krita
     lazygit
     libreoffice-qt
