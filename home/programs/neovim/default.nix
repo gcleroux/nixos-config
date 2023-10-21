@@ -26,6 +26,7 @@
       nodePackages.vscode-json-languageserver-bin
       nodePackages.yaml-language-server
       python311Packages.jedi-language-server
+      quick-lint-js
       taplo
 
       # Linters
