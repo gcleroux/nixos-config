@@ -29,6 +29,7 @@ in {
     gimp
     git
     go
+    kalendar
     killall
     krita
     lazygit
