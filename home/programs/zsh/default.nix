@@ -25,6 +25,7 @@
       nixup = "sudo nixos-rebuild switch --flake ~/.nix/nixos-config";
       hmup = "home-manager switch --flake ~/.nix/nixos-config";
       ns = "nix-shell -p";
+      search = "nix search nixpkgs";
 
       # Hyprland aliases
       # TODO: Eventually use kanshi to manage displays dynamically once it works

@@ -8,6 +8,8 @@ in {
   # Nix package manager options
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
+  # Needed for current webcord build
+  nixpkgs.config.permittedInsecurePackages = [ "electron-24.8.6" ];
 
   # User config
   users.users.${username} = {
@@ -36,6 +38,11 @@ in {
 
   # This will prevent laptop from going to sleep when turning off screens
   services.logind.lidSwitchExternalPower = "ignore";
+
+  # Extra rule for Goldleaf
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", GROUP="wheel"
+  '';
 
   programs.dconf.enable = true;
 

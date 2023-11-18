@@ -14,22 +14,38 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
-  };
-
-  outputs = { nixpkgs, home-manager, hyprland, ... }: {
-    # Standalone NixOS conf
-    nixosConfigurations = {
-      nixos-fw = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [ ./hardware/nixos-fw.nix ./system/nixos-fw.nix ];
-      };
-    };
-
-    homeConfigurations = {
-      "guillaume@nixos-fw" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ hyprland.homeManagerModules.default ./home/home.nix ];
-      };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
   };
+
+  outputs = { nixpkgs, home-manager, hyprland, sops-nix, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      # Standalone NixOS conf
+      nixosConfigurations = {
+        inherit system;
+        nixos-fw = nixpkgs.lib.nixosSystem {
+          modules = [ ./hardware/nixos-fw.nix ./system/nixos-fw.nix ];
+        };
+      };
+
+      homeConfigurations = {
+        "guillaume@nixos-fw" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            hyprland.homeManagerModules.default
+            sops-nix.homeManagerModules.sops
+            ./home/home.nix
+          ];
+        };
+      };
+
+      devShells.${system}.default =
+        pkgs.mkShell { packages = with pkgs; [ age ssh-to-age sops ]; };
+    };
 }

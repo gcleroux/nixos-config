@@ -9,6 +9,7 @@ in [
   ./alacritty
   ./bat
   ./direnv
+  ./git
   ./neovim
   ./starship
   ./swaylock

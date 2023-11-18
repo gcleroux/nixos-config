@@ -3,6 +3,8 @@
     enable = true;
     defaultEditor = true;
 
+    plugins = with pkgs.vimPlugins; [ nvim-treesitter.withAllGrammars ];
+
     extraPackages = with pkgs; [
       # Installing tools
       cargo

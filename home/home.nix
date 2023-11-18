@@ -1,8 +1,20 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let username = "guillaume";
 in {
 
   imports = builtins.concatMap import [ ./programs ./services ./themes ./wm ];
+
+  sops = {
+    defaultSopsFile = ../secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+
+    # This will automatically import SSH keys as age keys
+    age.sshKeyPaths = [ "/home/guillaume/.ssh/id_ed25519" ];
+
+    # TODO: Fix this uid to make it cleaner
+    defaultSymlinkPath = "/run/user/1000/secrets";
+    defaultSecretsMountPoint = "/run/user/1000/secrets.d";
+  };
 
   nixpkgs.config = {
     # Disable if you don't want unfree packages
@@ -22,13 +34,15 @@ in {
     bitwarden
     bitwarden-cli
     btop
+    bottom
     caprine-bin
     chromium
     firefox
     gh
     gimp
-    git
     go
+    hey
+    httpie
     kalendar
     killall
     krita
