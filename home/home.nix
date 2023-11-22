@@ -56,7 +56,6 @@ in {
     qbittorrent
     ripgrep
     signal-desktop
-    spotify
     swww
     thunderbird-bin
     vlc
