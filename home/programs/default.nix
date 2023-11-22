@@ -11,6 +11,7 @@ in [
   ./direnv
   ./git
   ./neovim
+  ./nnn
   ./starship
   ./swaylock
   ./tmux
