@@ -16,6 +16,7 @@
 
       lg = "lazygit";
       v = "nvim";
+      nnn = "nnn -de";
 
       gc = "git clone";
       gs = "git status";
