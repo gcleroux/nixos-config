@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, ... }@args:
 let username = "guillaume";
 in {
+  # Applying custom overlays
+  nixpkgs.overlays = import ../overlays args;
 
   imports = builtins.concatMap import [ ./programs ./services ./themes ./wm ]
     ++ [ ./modules/default-apps.nix ];

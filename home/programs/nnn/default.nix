@@ -1,11 +1,7 @@
 { pkgs, ... }: {
   programs.nnn = {
     enable = true;
-    package = pkgs.nnn.override ({
-      withNerdIcons = true;
-      # New makeFlags when they are availabe in 23.11
-      # extraMakeFlags = [ "O_GITSTATUS=1" ];
-    });
+    package = pkgs.nnn.override ({ withNerdIcons = true; });
     bookmarks = {
       d = "~/Downloads";
       p = "~/Projects";

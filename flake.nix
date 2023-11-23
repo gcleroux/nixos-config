@@ -19,12 +19,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
+
+    # Pinning chromium to 116.0.5845.187
+    chromium-pin.url =
+      "github:nixos/nixpkgs/f2ea252d23ebc9a5336bf6a61e0644921f64e67c";
   };
 
-  outputs = { nixpkgs, home-manager, hyprland, sops-nix, ... }:
+  outputs = { nixpkgs, home-manager, hyprland, sops-nix, chromium-pin, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      pinnedChromium = chromium-pin.legacyPackages.${system};
     in {
       # Standalone NixOS conf
       nixosConfigurations = {
@@ -42,6 +47,7 @@
             sops-nix.homeManagerModules.sops
             ./home/home.nix
           ];
+          extraSpecialArgs = { inherit pinnedChromium; };
         };
       };
 
