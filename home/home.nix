@@ -29,6 +29,14 @@ in {
   # paths it should manage.
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
+  home.sessionVariables = {
+    XDG_CACHE_HOME = "$HOME/.cache";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_STATE_HOME = "$HOME/.local/state";
+
+    BROWSER = "chromium-browser";
+  };
 
   # Installed packages
   home.packages = with pkgs; [

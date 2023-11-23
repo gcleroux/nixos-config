@@ -257,14 +257,7 @@ in {
   # Get completion for system packages
   environment.pathsToLink = [ "/share/zsh" ];
 
-  environment.sessionVariables = {
-    XDG_CACHE_HOME = "$HOME/.cache";
-    XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME = "$HOME/.local/share";
-    XDG_STATE_HOME = "$HOME/.local/state";
-
-    NIXOS_OZONE_WL = "1";
-  };
+  environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
   environment.etc = {
     "wireplumber/bluetooth.lua.d/50-bluez-config.lua".text =
