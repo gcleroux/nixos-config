@@ -8,6 +8,7 @@ let
 in [
   ./alacritty
   ./bat
+  ./chromium
   ./direnv
   ./git
   ./neovim

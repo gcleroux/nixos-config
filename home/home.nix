@@ -45,7 +45,6 @@ in {
     btop
     bottom
     caprine-bin
-    chromium
     firefox
     gh
     gimp
