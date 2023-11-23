@@ -2,7 +2,8 @@
 let username = "guillaume";
 in {
 
-  imports = builtins.concatMap import [ ./programs ./services ./themes ./wm ];
+  imports = builtins.concatMap import [ ./programs ./services ./themes ./wm ]
+    ++ [ ./modules/default-apps.nix ];
 
   sops = {
     defaultSopsFile = ../secrets/secrets.yaml;
@@ -58,6 +59,7 @@ in {
     signal-desktop
     swww
     thunderbird-bin
+    trashy
     vlc
     zathura
   ];
@@ -68,51 +70,6 @@ in {
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = [ "qemu:///system" ];
       uris = [ "qemu:///system" ];
-    };
-  };
-
-  xdg = {
-    enable = true;
-    configFile."mimeapps.list".force = true;
-    mimeApps = {
-      enable = true;
-      defaultApplications = {
-        # DE apps
-        "application/pdf" = [ "org.pwmt.zathura.desktop" ];
-        "inode/directory" = [ "thunar.desktop" ];
-        "image/*" = [ "imv.desktop" ];
-
-        # Mail
-        "message/rfc822" = [ "thunderbird.desktop" ];
-        "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
-        "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
-
-        # Multimedia
-        "audio/*" = [ "vlc.desktop" ];
-        "video/*" = [ "vlc.desktop" ];
-
-        # Plain text editor
-        "text/plain" = [ "nvim.desktop" ];
-
-        # Signal
-        "x-scheme-handler/sgnl" = [ "signal-desktop.desktop" ];
-        "x-scheme-handler/signalcaptcha" = [ "signal-desktop.desktop" ];
-
-        # Web browser
-        "application/x-extension-htm" = [ "chromium-browser.desktop" ];
-        "application/x-extension-html" = [ "chromium-browser.desktop" ];
-        "application/x-extension-shtml" = [ "chromium-browser.desktop" ];
-        "application/x-extension-xht" = [ "chromium-browser.desktop" ];
-        "application/x-extension-xhtml" = [ "chromium-browser.desktop" ];
-        "application/xhtml+xml" = [ "chromium-browser.desktop" ];
-        "text/html" = [ "chromium-browser.desktop" ];
-        "x-scheme-handler/about" = [ "chromium-browser.desktop" ];
-        "x-scheme-handler/chrome" = [ "chromium-browser.desktop" ];
-        "x-scheme-handler/ftp" = [ "chromium-browser.desktop" ];
-        "x-scheme-handler/http" = [ "chromium-browser.desktop" ];
-        "x-scheme-handler/https" = [ "chromium-browser.desktop" ];
-        "x-scheme-handler/unknown" = [ "chromium-browser.desktop" ];
-      };
     };
   };
 
