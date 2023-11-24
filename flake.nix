@@ -19,38 +19,31 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-stable.follows = "nixpkgs";
     };
-
-    # Pinning chromium to 116.0.5845.187
-    chromium-pin.url =
-      "github:nixos/nixpkgs/f2ea252d23ebc9a5336bf6a61e0644921f64e67c";
   };
 
-  outputs = { nixpkgs, home-manager, hyprland, sops-nix, chromium-pin, ... }:
+  outputs = { self, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      pinnedChromium = chromium-pin.legacyPackages.${system};
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
     in {
       # Standalone NixOS conf
       nixosConfigurations = {
         inherit system;
-        nixos-fw = nixpkgs.lib.nixosSystem {
+        nixos-fw = inputs.nixpkgs.lib.nixosSystem {
           modules = [ ./hardware/nixos-fw.nix ./system/nixos-fw.nix ];
         };
       };
-
       homeConfigurations = {
-        "guillaume@nixos-fw" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            hyprland.homeManagerModules.default
-            sops-nix.homeManagerModules.sops
-            ./home/home.nix
-          ];
-          extraSpecialArgs = { inherit pinnedChromium; };
-        };
+        "guillaume@nixos-fw" =
+          inputs.home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
+            modules = [
+              inputs.hyprland.homeManagerModules.default
+              inputs.sops-nix.homeManagerModules.sops
+              ./home/home.nix
+            ];
+          };
       };
-
       devShells.${system}.default =
         pkgs.mkShell { packages = with pkgs; [ age ssh-to-age sops ]; };
     };

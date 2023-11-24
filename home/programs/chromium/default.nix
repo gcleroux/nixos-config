@@ -1,7 +1,6 @@
-{ pinnedChromium, ... }: {
+{
   programs.chromium = {
     enable = true;
-    package = pinnedChromium.chromium;
     extensions = [
       { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock origin
       { id = "bmnlcjabgnpnenekpadlanbbkooimhnj"; } # honey
