@@ -48,7 +48,7 @@ in {
 
       decoration {
           rounding = 10
-          blur = yes
+          blur = no
           blur_size = 3
           blur_passes = 1
           blur_new_optimizations = on
@@ -82,6 +82,11 @@ in {
       gestures {
           workspace_swipe = on
           workspace_swipe_fingers = 4
+      }
+
+      misc {
+          disable_hyprland_logo = yes
+          disable_splash_rendering = yes
       }
     '';
   };
