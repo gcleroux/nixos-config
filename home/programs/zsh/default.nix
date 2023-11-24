@@ -5,6 +5,7 @@
 
   programs.zsh = {
     enable = true;
+    initExtra = builtins.readFile ./nnn_zsh_cd.sh;
     enableAutosuggestions = true;
     enableCompletion = true;
     shellAliases = {
