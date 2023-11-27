@@ -7,7 +7,16 @@
       ignored = "!git ls-files -v | grep '^[[:lower:]]'";
     };
     extraConfig = {
-      core = { whitespace = "trailing-space,space-before-tab"; };
+      core = {
+        editor = "nvim";
+        whitespace = "trailing-space,space-before-tab";
+      };
+      credential = {
+        "https://github.com" = { username = "gcleroux"; };
+        helper = "cache";
+      };
+      init = { defaultBranch = "main"; };
+      remote.origin = { prune = true; };
 
       url = { "https://github.com/" = { insteadOf = [ "gh:" "github:" ]; }; };
 
