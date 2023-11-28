@@ -11,6 +11,7 @@ in [
   ./chromium
   ./direnv
   ./git
+  ./mpv
   ./neovim
   ./nnn
   ./starship

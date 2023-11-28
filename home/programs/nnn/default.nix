@@ -2,6 +2,13 @@
   programs.nnn = {
     enable = true;
     package = pkgs.nnn.override { withNerdIcons = true; };
+    extraPackages = with pkgs; [
+      autojump
+      libsForQt5.kdeconnect-kde
+      renameutils
+      rsync
+      xdragon
+    ];
     bookmarks = {
       d = "~/Downloads";
       p = "~/Projects";
@@ -9,7 +16,8 @@
       s = "~/School";
     };
     plugins.mappings = {
-      a = "autojump";
+      j = "autojump";
+      d = "dragdrop";
       c = "chksum";
       k = "kdeconnect";
       r = "renamer";

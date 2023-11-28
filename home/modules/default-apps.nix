@@ -216,7 +216,7 @@
     // (lib.genAttrs images (_: [ "imv.desktop" ]))
     // (lib.genAttrs urls (_: [ "chromium-browser.desktop" ]))
     // (lib.genAttrs documents (_: [ "org.pwmt.zathura.desktop" ]))
-    // (lib.genAttrs audioVideo (_: [ "vlc.desktop" ])) // (lib.genAttrs [
+    // (lib.genAttrs audioVideo (_: [ "mpv.desktop" ])) // (lib.genAttrs [
       "x-scheme-handler/sgnl"
       "x-scheme-handler/signalcaptcha"
     ] (_: [ "signal-desktop.desktop" ]));

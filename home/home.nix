@@ -38,6 +38,7 @@ in {
     XDG_STATE_HOME = "$HOME/.local/state";
 
     BROWSER = "chromium-browser";
+    TERMINAL = "alacritty";
   };
 
   # Installed packages
@@ -47,7 +48,6 @@ in {
     btop
     bottom
     caprine-bin
-    firefox
     gh
     gimp
     go
