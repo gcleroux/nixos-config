@@ -33,6 +33,7 @@
         "x-scheme-handler/https"
         "x-scheme-handler/about"
         "x-scheme-handler/unknown"
+        "application/octet-stream"
       ];
       documents = [
         "application/vnd.comicbook-rar"
