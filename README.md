@@ -9,16 +9,20 @@ My NixOS configuration for customized reproducible builds.
 ### Hyprland
 
 - [ ] Move hyprland config into nix
-- [ ] Fix workspace on waybar
-- [x] Install a background manager
 - [ ] Configure workspaces on external monitors
-- [x] Customize waybar widgets
-- [x] Customize mako color scheme
-- [ ] Add low power mako notification
-- [ ] Add sound to mako notification
-- [x] Look into kanshi to manage monitors
 - [ ] Add a power menu to rofi
-- [x] Investigate waybar sleep issue (maybe use a swayidle command after wake-up)
+- [ ] Two finger swipe for previous/next
+- [ ] Cycle wallpapers with swww
+
+### Mako
+
+- [ ] Add on-click actions to some apps notifications (see `man 5 mako:invoke-action`)
+- [ ] Add sound to notifications
+- [ ] Add low power mako notification
+
+### Neovim
+
+- [ ] Move config into nix? Maybe even make a flake?
 
 ### NixOS
 
@@ -26,5 +30,4 @@ My NixOS configuration for customized reproducible builds.
 
 ### Repo
 
-- [ ] Refactoring the repo (Home-manager part done)
 - [ ] Moving apps into home

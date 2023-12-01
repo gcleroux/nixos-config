@@ -32,7 +32,7 @@ in {
 
   programs.hyprland = {
     enable = true;
-    nvidiaPatches = false;
+    enableNvidiaPatches = false;
     xwayland.enable = true;
   };
 
@@ -209,11 +209,11 @@ in {
   };
 
   # Installed packages
+  # TODO: Clean these packages, some are out of place
   environment.systemPackages = with pkgs; [
     auto-cpufreq
     btrbk
     clinfo
-    copyq
     coreutils
     dolphin-emu
     gcc
@@ -230,10 +230,7 @@ in {
     pciutils
     pipewire
     powerstat
-    python311
-    python311Packages.pip
     rtkit
-    teamviewer
     usbutils
     unzip
     virt-manager
@@ -274,7 +271,7 @@ in {
 
   # Installing fonts
   fonts = {
-    fonts = with pkgs; [
+    packages = with pkgs; [
       # Nerd fonts
       (nerdfonts.override { fonts = [ "Cousine" "Hack" "FiraCode" "Noto" ]; })
 

@@ -48,10 +48,13 @@ in {
 
       decoration {
           rounding = 10
-          blur = no
-          blur_size = 3
-          blur_passes = 1
-          blur_new_optimizations = on
+
+          blur {
+            enabled = false
+            size = 3
+            passes = 1
+            new_optimizations = true
+          }
 
           drop_shadow = yes
           shadow_range = 4
