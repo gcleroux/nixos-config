@@ -6,77 +6,87 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  # Kernel config
-  boot.kernelPackages = pkgs.linuxPackages_zen;
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.kernelParams = [ "mem_sleep_default=deep" ];
-  boot.extraModulePackages = [ ];
-  boot.extraModprobeConfig = "options kvm_intel nested=1";
+  boot = {
+    loader = {
+      # Use the systemd-boot EFI boot loader.
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    # Kernel config
+    kernelPackages = pkgs.linuxPackages_zen;
+    kernelModules = [ "kvm-intel" ];
+    kernelParams = [ "mem_sleep_default=deep" ];
+    extraModulePackages = [ ];
+    extraModprobeConfig = "options kvm_intel nested=1";
 
-  boot.initrd.availableKernelModules =
-    [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.initrd.luks.devices."root".device =
-    "/dev/disk/by-uuid/dbed6eea-7331-4610-b531-4f78b063fb1a";
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-label/boot";
-    fsType = "vfat";
+    initrd = {
+      availableKernelModules =
+        [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
+      kernelModules = [ ];
+      luks.devices."root".device =
+        "/dev/disk/by-uuid/dbed6eea-7331-4610-b531-4f78b063fb1a";
+    };
   };
 
-  fileSystems."/" = {
-    device = "/dev/mapper/root";
-    fsType = "btrfs";
-    options = [ "subvol=@" "compress=zstd" "noatime" ];
+  fileSystems = {
+    "/boot" = {
+      device = "/dev/disk/by-label/boot";
+      fsType = "vfat";
+    };
+    "/" = {
+      device = "/dev/mapper/root";
+      fsType = "btrfs";
+      options = [ "subvol=@" "compress=zstd" "noatime" ];
+    };
+    "/home" = {
+      device = "/dev/mapper/root";
+      fsType = "btrfs";
+      options = [ "subvol=@home" "compress=zstd" "noatime" ];
+    };
+    "/nix" = {
+      device = "/dev/mapper/root";
+      fsType = "btrfs";
+      options = [ "subvol=@nix" "compress=zstd" "noatime" ];
+    };
+    "/persist" = {
+      device = "/dev/mapper/root";
+      fsType = "btrfs";
+      options = [ "subvol=@persist" "compress=zstd" "noatime" ];
+    };
+    "/var/log" = {
+      device = "/dev/mapper/root";
+      fsType = "btrfs";
+      options = [ "subvol=@log" "compress=zstd" "noatime" ];
+    };
+    "/.snapshots" = {
+      device = "/dev/mapper/root";
+      fsType = "btrfs";
+      options = [ "subvol=@snapshots" "compress=zstd" "noatime" ];
+    };
   };
-
-  fileSystems."/home" = {
-    device = "/dev/mapper/root";
-    fsType = "btrfs";
-    options = [ "subvol=@home" "compress=zstd" "noatime" ];
-  };
-
-  fileSystems."/nix" = {
-    device = "/dev/mapper/root";
-    fsType = "btrfs";
-    options = [ "subvol=@nix" "compress=zstd" "noatime" ];
-  };
-
-  fileSystems."/persist" = {
-    device = "/dev/mapper/root";
-    fsType = "btrfs";
-    options = [ "subvol=@persist" "compress=zstd" "noatime" ];
-  };
-
-  fileSystems."/var/log" = {
-    device = "/dev/mapper/root";
-    fsType = "btrfs";
-    options = [ "subvol=@log" "compress=zstd" "noatime" ];
-  };
-
-  fileSystems."/.snapshots" = {
-    device = "/dev/mapper/root";
-    fsType = "btrfs";
-    options = [ "subvol=@snapshots" "compress=zstd" "noatime" ];
-  };
-
   swapDevices = [ ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+  hardware = {
+    bluetooth.enable = true;
+
+    cpu.intel.updateMicrocode =
+      lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+    # GPU hardware acceleration
+    opengl = {
+      enable = true;
+      extraPackages = with pkgs; [
+        intel-compute-runtime
+        intel-media-driver
+        libvdpau-va-gl
+      ];
+    };
+    logitech.wireless.enable = true;
+    logitech.wireless.enableGraphical = true;
+  };
+
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp91s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp170s0.useDHCP = lib.mkDefault true;
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
-  hardware.cpu.intel.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
-
 }

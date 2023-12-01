@@ -5,19 +5,16 @@
 { config, pkgs, ... }:
 let username = "guillaume";
 in {
-  # Nix package manager options
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
 
-  # Enabling hyprland cache server
   nix.settings = {
+    # Nix package manager options
+    experimental-features = [ "nix-command" "flakes" ];
+    # Enabling hyprland cache server
     substituters = [ "https://hyprland.cachix.org" ];
     trusted-public-keys =
       [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
   };
-
-  nixpkgs.config.allowUnfree = true;
-  # Needed for current webcord build
-  nixpkgs.config.permittedInsecurePackages = [ "electron-24.8.6" ];
 
   # User config
   users.users.${username} = {
@@ -25,53 +22,67 @@ in {
     extraGroups = [ "wheel" "input" "docker" "libvirtd" "qemu-libvirtd" ];
     shell = pkgs.zsh;
   };
-  programs.zsh = {
-    enable = true;
-    syntaxHighlighting.enable = true;
+
+  programs = {
+    dconf.enable = true;
+    file-roller.enable = true;
+
+    hyprland = {
+      enable = true;
+      enableNvidiaPatches = false;
+      xwayland.enable = true;
+    };
+
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
+    };
+
+    zsh = {
+      enable = true;
+      syntaxHighlighting.enable = true;
+    };
   };
-
-  programs.hyprland = {
-    enable = true;
-    enableNvidiaPatches = false;
-    xwayland.enable = true;
-  };
-
-  programs.thunar = {
-    enable = true;
-    plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
-  };
-  programs.file-roller.enable = true;
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
-  services.tumbler.enable = true; # Thumbnail support for images
-
-  # This will prevent laptop from going to sleep when turning off screens
-  services.logind.lidSwitchExternalPower = "ignore";
-
-  # Extra rule for Goldleaf
-  services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", GROUP="wheel"
-  '';
-
-  programs.dconf.enable = true;
-
-  networking = {
-    hostName = "nixos-fw"; # Define your hostname.
-    networkmanager.enable =
-      true; # Easiest to use and most distros use this by default.
-    firewall.enable = false;
-  };
-
-  # Set your time zone.
-  time.timeZone = "America/Toronto";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_CA.UTF-8";
 
   services = {
+    auto-cpufreq.enable = true;
+    blueman.enable = true;
     dbus.enable = true;
+    flatpak.enable = true;
     gnome.gnome-keyring.enable = true;
+    mullvad-vpn.enable = true;
+    openssh.enable = true;
 
-    # Enable the X11 windowing system.
+    # This will prevent laptop from going to sleep when turning off screens
+    logind.lidSwitchExternalPower = "ignore";
+
+    # Pipewire settings
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      jack.enable = true;
+    };
+
+    # Printing settings
+    printing.enable = true;
+    avahi = {
+      enable = true;
+      nssmdns = true;
+      # for a WiFi printer
+      openFirewall = true;
+    };
+
+    # Thunar services
+    gvfs.enable = true; # Mount, trash, and other functionalities
+    tumbler.enable = true; # Thumbnail support for images
+
+    # Extra rule for Goldleaf
+    udev.extraRules = ''
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", GROUP="wheel"
+    '';
+
     xserver = {
       enable = true;
 
@@ -87,71 +98,46 @@ in {
       };
     };
 
-    blueman.enable = true;
-
-    # Pipewire config
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      jack.enable = true;
-    };
-
-    # Enabling flatpak
-    flatpak.enable = true;
-
-    # Enable printing
-    printing.enable = true;
-    avahi.enable = true;
-    avahi.nssmdns = true;
-    # for a WiFi printer
-    avahi.openFirewall = true;
-
-    # Launching systemd services
-    openssh.enable = true;
-    auto-cpufreq.enable = true;
-    mullvad-vpn.enable = true;
-    teamviewer.enable = true;
-
     # Backup tool setup for the /home directory
     btrbk = {
       extraPackages = with pkgs; [ btrfs-progs mbuffer openssh ];
-      instances.daily = {
-        onCalendar = "daily";
-        settings = {
-          snapshot_preserve = "14d";
-          snapshot_preserve_min = "7d";
-          volume = {
-            "/" = {
-              subvolume = { "home" = { snapshot_create = "always"; }; };
-              snapshot_dir = "/.snapshots/daily";
+      instances = {
+        daily = {
+          onCalendar = "daily";
+          settings = {
+            snapshot_preserve = "14d";
+            snapshot_preserve_min = "7d";
+            volume = {
+              "/" = {
+                subvolume = { "home" = { snapshot_create = "always"; }; };
+                snapshot_dir = "/.snapshots/daily";
+              };
             };
           };
         };
-      };
-      instances.weekly = {
-        onCalendar = "weekly";
-        settings = {
-          snapshot_preserve = "5w";
-          snapshot_preserve_min = "3w";
-          volume = {
-            "/" = {
-              subvolume = { "home" = { snapshot_create = "always"; }; };
-              snapshot_dir = "/.snapshots/weekly";
+        weekly = {
+          onCalendar = "weekly";
+          settings = {
+            snapshot_preserve = "5w";
+            snapshot_preserve_min = "3w";
+            volume = {
+              "/" = {
+                subvolume = { "home" = { snapshot_create = "always"; }; };
+                snapshot_dir = "/.snapshots/weekly";
+              };
             };
           };
         };
-      };
-      instances.monthly = {
-        onCalendar = "monthly";
-        settings = {
-          snapshot_preserve = "3m";
-          snapshot_preserve_min = "2m";
-          volume = {
-            "/" = {
-              subvolume = { "home" = { snapshot_create = "always"; }; };
-              snapshot_dir = "/.snapshots/monthly";
+        monthly = {
+          onCalendar = "monthly";
+          settings = {
+            snapshot_preserve = "3m";
+            snapshot_preserve_min = "2m";
+            volume = {
+              "/" = {
+                subvolume = { "home" = { snapshot_create = "always"; }; };
+                snapshot_dir = "/.snapshots/monthly";
+              };
             };
           };
         };
@@ -159,31 +145,26 @@ in {
     };
   };
 
+  networking = {
+    hostName = "nixos-fw"; # Define your hostname.
+    networkmanager.enable =
+      true; # Easiest to use and most distros use this by default.
+    firewall.enable = false;
+  };
+
+  # Set your time zone.
+  time.timeZone = "America/Toronto";
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_CA.UTF-8";
+
   sound.enable = true;
+
   # This allows screensharing on wlr compositors using pipewire
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     wlr.enable = true;
-  };
-
-  # Hardware config
-  hardware = {
-    bluetooth.enable = true;
-
-    # GPU hardware acceleration
-    opengl = {
-      enable = true;
-
-      extraPackages = with pkgs; [
-        intel-compute-runtime
-        intel-media-driver
-        libvdpau-va-gl
-      ];
-    };
-
-    logitech.wireless.enable = true;
-    logitech.wireless.enableGraphical = true;
   };
 
   virtualisation = {
@@ -208,65 +189,67 @@ in {
     };
   };
 
-  # Installed packages
-  # TODO: Clean these packages, some are out of place
-  environment.systemPackages = with pkgs; [
-    auto-cpufreq
-    btrbk
-    clinfo
-    coreutils
-    dolphin-emu
-    gcc
-    gdb
-    git
-    glxinfo
-    gromit-mpx
-    imagemagick
-    libguestfs
-    libsForQt5.kdeconnect-kde
-    mesa
-    openconnect
-    openvpn
-    pciutils
-    pipewire
-    powerstat
-    rtkit
-    usbutils
-    unzip
-    virt-manager
-    wacomtablet
-    wget
+  environment = {
+    # Installed packages
+    # TODO: Clean these packages, some are out of place
+    systemPackages = with pkgs; [
+      auto-cpufreq
+      btrbk
+      clinfo
+      coreutils
+      dolphin-emu
+      gcc
+      gdb
+      git
+      glxinfo
+      gromit-mpx
+      imagemagick
+      libguestfs
+      libsForQt5.kdeconnect-kde
+      mesa
+      openconnect
+      openvpn
+      pciutils
+      pipewire
+      powerstat
+      rtkit
+      usbutils
+      unzip
+      virt-manager
+      wacomtablet
+      wget
 
-    # Hyprland pkgs
-    home-manager
-    brightnessctl
-    cliphist
-    glib
-    grim
-    imv
-    libnotify
-    libsForQt5.polkit-kde-agent
-    libsForQt5.qt5.qtwayland
-    networkmanagerapplet
-    #pavucontrol
-    playerctl
-    qt6.qtwayland
-    rofi-wayland
-    slurp
-    wdisplays
-    webcord
-    wl-clipboard
-    xdg-utils
-  ];
+      # Hyprland pkgs
+      home-manager
+      brightnessctl
+      cliphist
+      glib
+      grim
+      imv
+      libnotify
+      libsForQt5.polkit-kde-agent
+      libsForQt5.qt5.qtwayland
+      networkmanagerapplet
+      #pavucontrol
+      playerctl
+      qt6.qtwayland
+      rofi-wayland
+      slurp
+      wdisplays
+      webcord
+      wl-clipboard
+      xdg-utils
+    ];
 
-  # Get completion for system packages
-  environment.pathsToLink = [ "/share/zsh" ];
+    # Get completion for system packages
+    pathsToLink = [ "/share/zsh" ];
 
-  environment.sessionVariables = { NIXOS_OZONE_WL = "1"; };
+    sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
-  environment.etc = {
-    "wireplumber/bluetooth.lua.d/50-bluez-config.lua".text =
-      "	bluez_monitor.properties = {\n		[\"with-logind\"] = false,\n	}\n";
+    etc = {
+      "wireplumber/bluetooth.lua.d/50-bluez-config.lua".text =
+        "	bluez_monitor.properties = {\n		[\"with-logind\"] = false,\n	}\n";
+    };
   };
 
   # Installing fonts
