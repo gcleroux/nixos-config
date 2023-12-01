@@ -17,6 +17,7 @@ in {
     "${scriptsDir}brightness".source = ./scripts/brightness;
     "${scriptsDir}keyboard-layout".source = ./scripts/keyboard-layout;
     "${scriptsDir}volume".source = ./scripts/volume;
+    "${scriptsDir}swww_random".source = ./scripts/swww_random;
   };
 
   wayland.windowManager.hyprland = {

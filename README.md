@@ -12,7 +12,7 @@ My NixOS configuration for customized reproducible builds.
 - [ ] Configure workspaces on external monitors
 - [ ] Add a power menu to rofi
 - [ ] Two finger swipe for previous/next
-- [ ] Cycle wallpapers with swww
+- [x] Cycle wallpapers with swww
 
 ### Mako
 
