@@ -2,7 +2,7 @@
 keys:
   - &gcleroux age1w25xrwp4207snq0nr7ext6slkph3n5zw0u6t358k46p7v9zx0udstxpw5c
 creation_rules:
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: .*\.(yaml|json|env|ini)$
     key_groups:
       - age:
           - *gcleroux
