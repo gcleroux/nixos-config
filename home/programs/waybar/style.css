@@ -1,18 +1,41 @@
+/* Nordfox colorscheme */
+@define-color black    #3b4252;
+@define-color red      #bf616a;
+@define-color green    #a3be8c;
+@define-color yellow   #ebcb8b;
+@define-color blue     #81a1c1;
+@define-color magenta  #b48ead;
+@define-color cyan     #88c0d0;
+@define-color white    #e5e9f0;
+@define-color orange   #c9826b;
+@define-color pink     #bf88bc;
+@define-color comment  #60728a;
+@define-color bg0      #232831; /* Dark bg */
+@define-color bg1      #2e3440; /* Default bg */
+@define-color bg2      #39404f; /* Lighter bg */
+@define-color bg3      #444c5e; /* Lighter bg */
+@define-color bg4      #5a657d; /* Conceal, border fg */
+@define-color fg0      #c7cdd9; /* Lighter fg */
+@define-color fg1      #cdcecf; /* Default fg */
+@define-color fg2      #abb1bb; /* Darker fg */
+@define-color fg3      #7e8188; /* Darker fg */
+@define-color sel0     #3e4a5b; /* */
+@define-color sel1     #4f6074; /* */
+
 /* Global */
-/* TODO: Finish color config https://github.com/i4pg/dotfiles/blob/main/private_dot_config/waybar/mocha.css */
 * {
   font-family: "Cousine Nerd Font";
   font-size: 1.2rem;
   border-radius: 1rem;
   transition-property: background-color;
   transition-duration: 0.5s;
-  background-color: shade(@theme_base_color, 0.9);
+  background-color: shade(@bg1, 0.9);
 }
 
 @keyframes blink_red {
   to {
-    background-color: @error_color;
-    color: @theme_base_color;
+    background-color: @bg1;
+    color: @red;
   }
 }
 
@@ -63,46 +86,45 @@ window > box {
   padding-left: 0.4rem;
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
-  color: @red;
-  /* border: .2px solid transparent; */
+  color: @fg0;
   background: transparent;
 }
 
-#workspaces button.focused {
+#workspaces button.active {
   color: @blue;
 }
 
 #workspaces button:hover {
   /* border: .2px solid transparent; */
-  color: @rosewater;
+  color: @cyan;
 }
 
 /* Tooltip */
 tooltip {
-  background-color: @tooltip_background;
+  background-color: @bg0;
 }
 
 tooltip label {
-  color: @rosewater;
+  color: @blue;
 }
 
 /* battery */
 #battery {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
-  color: @mauve;
+  color: @pink;
 }
 #battery.full {
   color: @green;
 }
 #battery.charging {
-  color: @teal;
+  color: @yellow;
 }
 #battery.discharging {
-  color: @peach;
+  color: @orange;
 }
 #battery.critical:not(.charging) {
-  color: @pink;
+  color: @red;
 }
 #custom-powermenu {
   color: @red;
@@ -114,13 +136,13 @@ tooltip label {
   font-style: italic;
 }
 #mpd.stopped {
-  color: @rosewater;
+  color: @red;
   /* background: transparent; */
 }
 #mpd {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
-  color: @lavender;
+  color: @yellow;
 }
 #custom-launcher {
   color: @yellow;
@@ -128,7 +150,7 @@ tooltip label {
 #memory {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
-  color: @peach;
+  color: @orange;
 }
 #cpu {
   padding-right: 0.4rem;
@@ -138,17 +160,17 @@ tooltip label {
 #clock {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
-  color: @rosewater;
+  color: @fg0;
 }
 #idle_inhibitor {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
-  color: @green;
+  color: @orange;
 }
 #temperature {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
-  color: @sapphire;
+  color: @pink;
 }
 #backlight {
   padding-right: 0.4rem;
@@ -158,14 +180,15 @@ tooltip label {
 #pulseaudio {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
-  color: @mauve; /* not active */
+  color: @blue;
 }
 #disk {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
-  color: @maroon;
+  color: @yellow;
 }
 #language {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
+  color: @green;
 }

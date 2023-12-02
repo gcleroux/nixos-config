@@ -40,16 +40,14 @@
           all-outputs = true;
           format = "{icon}";
           format-icons = {
-            "1" = "一";
-            "2" = "二";
-            "3" = "三";
-            "4" = "四";
-            "5" = "五";
-            "6" = "六";
-            "7" = "七";
-            "8" = "八";
-            "9" = "九";
-            "10" = "十";
+            "1" = "𝍠";
+            "2" = "𝍡";
+            "3" = "𝍢";
+            "4" = "𝍣";
+            "5" = "𝍤";
+            "6" = "𝍥";
+            "7" = "𝍦";
+            "8" = "𝍧";
             "urgent" = "";
             "focused" = "";
             "default" = "";
@@ -102,7 +100,7 @@
           on-click =
             "${pkgs.libsForQt5.merkuro}/bin/merkuro-calendar --platform wayland";
           interval = 1;
-          format = "{:%I:%M %p  %A %b %d}";
+          format = "{:%I:%M %p | %A, %b %d}";
           tooltip = true;
           tooltip-format = "{:%A, %d %B %Y} <tt>{calendar}</tt>";
         };

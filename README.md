@@ -11,6 +11,7 @@ My NixOS configuration for customized reproducible builds.
 - [ ] Move hyprland config into nix
 - [ ] Configure workspaces on external monitors
 - [ ] Switch rofi to wofi
+- [x] Change keyboard layout script/bind since it's fixed now
 - [ ] Add a power menu to rofi
 - [ ] Two finger swipe for previous/next
 - [x] Cycle wallpapers with swww
