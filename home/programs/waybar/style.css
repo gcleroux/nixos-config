@@ -1,74 +1,171 @@
+/* Global */
+/* TODO: Finish color config https://github.com/i4pg/dotfiles/blob/main/private_dot_config/waybar/mocha.css */
 * {
-  font-size: 20px;
-  font-family: monospace;
+  font-family: "Cousine Nerd Font";
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+  background-color: shade(@theme_base_color, 0.9);
 }
 
-window#waybar {
-  background: #2e3440;
-  color: #d8dee9;
+@keyframes blink_red {
+  to {
+    background-color: @error_color;
+    color: @theme_base_color;
+  }
 }
 
-#custom-right-arrow-dark,
-#custom-left-arrow-dark {
-  color: #1a1a1a;
-}
-#custom-right-arrow-light,
-#custom-left-arrow-light {
-  color: #2e3440;
-  background: #1a1a1a;
+.warning,
+.critical,
+.urgent {
+  animation-name: blink_red;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
-#workspaces,
-#clock.1,
-#clock.2,
-#clock.3,
-#pulseaudio,
+#mode,
+#clock,
 #memory,
+#temperature,
 #cpu,
+#mpd,
+#idle_inhibitor,
+#backlight,
+#pulseaudio,
+#network,
 #battery,
+#custom-powermenu,
+#custom-launcher,
+#tray,
 #disk,
-#tray {
-  background: #1a1a1a;
+
+/* Bar */
+window#waybar {
+  background-color: transparent;
+}
+
+window > box {
+  background-color: transparent;
+  margin: 0.3rem;
+  margin-bottom: 0;
+}
+
+/* Workspaces */
+#workspaces:hover {
+  background-color: @green;
 }
 
 #workspaces button {
-  padding: 0 2px;
-  color: #fdf6e3;
-}
-#workspaces button.active {
-  color: #268bd2;
-}
-#workspaces button:hover {
-  box-shadow: inherit;
-  text-shadow: inherit;
-}
-#workspaces button:hover {
-  background: #1a1a1a;
-  border: #1a1a1a;
-  padding: 0 3px;
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  color: @red;
+  /* border: .2px solid transparent; */
+  background: transparent;
 }
 
-#pulseaudio {
-  color: #268bd2;
+#workspaces button.focused {
+  color: @blue;
+}
+
+#workspaces button:hover {
+  /* border: .2px solid transparent; */
+  color: @rosewater;
+}
+
+/* Tooltip */
+tooltip {
+  background-color: @tooltip_background;
+}
+
+tooltip label {
+  color: @rosewater;
+}
+
+/* battery */
+#battery {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @mauve;
+}
+#battery.full {
+  color: @green;
+}
+#battery.charging {
+  color: @teal;
+}
+#battery.discharging {
+  color: @peach;
+}
+#battery.critical:not(.charging) {
+  color: @pink;
+}
+#custom-powermenu {
+  color: @red;
+}
+
+/* mpd */
+#mpd.paused {
+  color: @pink;
+  font-style: italic;
+}
+#mpd.stopped {
+  color: @rosewater;
+  /* background: transparent; */
+}
+#mpd {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @lavender;
+}
+#custom-launcher {
+  color: @yellow;
 }
 #memory {
-  color: #2aa198;
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @peach;
 }
 #cpu {
-  color: #6c71c4;
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @blue;
 }
-#battery {
-  color: #859900;
+#clock {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @rosewater;
+}
+#idle_inhibitor {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @green;
+}
+#temperature {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @sapphire;
+}
+#backlight {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @green;
+}
+#pulseaudio {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @mauve; /* not active */
 }
 #disk {
-  color: #b58900;
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @maroon;
 }
-
-#clock,
-#pulseaudio,
-#memory,
-#cpu,
-#battery,
-#disk {
-  padding: 0 10px;
+#language {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
 }

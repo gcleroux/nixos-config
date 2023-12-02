@@ -12,112 +12,153 @@
         layer = "top";
         position = "top";
 
-        modules-left = [ "hyprland/workspaces" "custom/right-arrow-dark" ];
-        modules-center = [
-          "custom/left-arrow-dark"
-          "clock#1"
-          "custom/left-arrow-light"
-          "custom/left-arrow-dark"
-          "clock#2"
-          "custom/right-arrow-dark"
-          "custom/right-arrow-light"
-          "clock#3"
-          "custom/right-arrow-dark"
-        ];
-        modules-right = [
-          "custom/left-arrow-dark"
+        modules-left = [
+          # "custom/launcher"
+          "hyprland/workspaces"
+          "temperature"
           "pulseaudio"
-          "custom/left-arrow-light"
-          "custom/left-arrow-dark"
-          "memory"
-          "custom/left-arrow-light"
-          "custom/left-arrow-dark"
-          "cpu"
-          "custom/left-arrow-light"
-          "custom/left-arrow-dark"
-          "battery"
-          "custom/left-arrow-light"
-          # "custom/left-arrow-dark"
-          # "disk"
-          # "custom/left-arrow-light"
-          "custom/left-arrow-dark"
-          "tray"
+          "idle_inhibitor"
+          "mpd"
+          # "custom/cava-internal"
         ];
 
-        "custom/left-arrow-dark" = {
-          format = "";
-          tooltip = false;
-        };
-        "custom/left-arrow-light" = {
-          format = "";
-          tooltip = false;
-        };
-        "custom/right-arrow-dark" = {
-          format = "";
-          tooltip = false;
-        };
-        "custom/right-arrow-light" = {
-          format = "";
-          tooltip = false;
-        };
+        modules-center = [ "custom/weather" "clock" ];
+
+        modules-right = [
+          "backlight"
+          "disk"
+          "memory"
+          "cpu"
+          "battery"
+          "hyprland/language"
+          "tray"
+          # "custom/powermenu"
+        ];
 
         "hyprland/workspaces" = {
           active-only = false;
-          format = "{id}";
+          all-outputs = true;
+          format = "{icon}";
+          format-icons = {
+            "1" = "一";
+            "2" = "二";
+            "3" = "三";
+            "4" = "四";
+            "5" = "五";
+            "6" = "六";
+            "7" = "七";
+            "8" = "八";
+            "9" = "九";
+            "10" = "十";
+            "urgent" = "";
+            "focused" = "";
+            "default" = "";
+          };
         };
 
-        "clock#1" = {
-          format = "{:%a}";
+        idle_inhibitor = {
+          format = "{icon}";
+          format-icons = {
+            activated = "󰈈";
+            deactivated = "󰈉";
+          };
           tooltip = false;
         };
-        "clock#2" = {
-          format = "{:%H:%M}";
-          tooltip = false;
-        };
-        "clock#3" = {
-          format = "{:%m-%d}";
-          tooltip = false;
-        };
-        "pulseaudio" = {
+
+        pulseaudio = {
           format = "{icon} {volume:3}%";
-          format-bluetooth = "{icon}  {volume}%";
-          format-muted = "󰝟 MUTE";
+          format-bluetooth = " {volume}%";
+          format-muted = "󰝟 Muted";
           format-icons = {
             headphones = "";
-            default = [ "" "" ];
+            default = [ "" "" "" ];
           };
           on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+          tooltip = false;
         };
-        "memory" = {
-          interval = 5;
-          format = "RAM {}%";
+
+        mpd = {
+          max-length = 25;
+          format = "<span foreground='#bb9af7'></span> {title}";
+          format-paused = " {title}";
+          format-stopped = "<span foreground='#bb9af7'></span>";
+          format-disconnected = "";
+          on-click = "${pkgs.mpc-cli}/bin/mpc --quiet toggle";
+          on-click-right =
+            "${pkgs.alacritty}/bin/alacritty --command ${pkgs.ncmpcpp}/bin/ncmpcpp";
+          on-scroll-up = "${pkgs.mpc-cli}/bin/mpc --quiet prev";
+          on-scroll-down = "${pkgs.mpc-cli}/bin/mpc --quiet next";
+          smooth-scrolling-threshold = 5;
+          tooltip-format =
+            "{title} - {artist} ({elapsedTime:%M:%S}/{totalTime:%H:%M:%S})";
         };
-        "cpu" = {
-          interval = 5;
-          format = "CPU {usage:2}%";
+        temperature = {
+          hwmon-path = "/sys/class/hwmon/hwmon4/temp2_input";
+          critical-threshold = 80;
+          tooltip = false;
+          format = " {temperatureC}°C";
         };
-        "battery" = {
+        clock = {
+          on-click = "${pkgs.libsForQt5.merkuro}/bin/merkuro-calendar &";
+          interval = 1;
+          format = "{:%I:%M %p  %A %b %d}";
+          tooltip = true;
+          tooltip-format = "{:%A, %d %B %Y} <tt>{calendar}</tt>";
+        };
+        backlight = {
+          device = "intel_backlight";
+          format = "{icon} {percent}%";
+          format-icons = [ "󱩏" "󱩑" "󱩓" "󱩕" "󰛨" ];
+        };
+        memory = {
+          on-click =
+            "${pkgs.alacritty}/bin/alacritty --command ${pkgs.bottom}/bin/btm";
           interval = 5;
+          format = " {percentage:2}%";
+          states = { "warning" = 90; };
+        };
+        cpu = {
+          interval = 5;
+          format = " {usage:2}%";
+        };
+        battery = {
+          interval = 10;
           states = {
             "good" = 95;
             "warning" = 25;
             "critical" = 15;
           };
-          format = "{icon}  {capacity}%";
-          format-charging = " {capacity}%";
-          format-icons = [ "" "" "" "" "" ];
+          format = "{icon} {capacity}%";
+          format-charging = "󱊦 {capacity}%";
+          format-icons = [ "󰂎" "󱊡" "󱊢" "󱊣" ];
+          tooltip = true;
         };
-        "disk" = {
-          interval = 5;
-          format = "Disk {percentage_used:2}%";
+        disk = {
+          interval = 30;
+          format = " {used}";
           path = "/";
+          tooltip = true;
+          tooltip-format = "{used}/{total} => {path} {percentage_used}%";
         };
-        "tray" = {
+        tray = {
           icon-size = 20;
           spacing = 5;
         };
+        "hyprland/language" = { format = "󰌌 {short}"; };
       };
     };
     style = ./style.css;
   };
 }
+
+# "custom/launcher": {
+#   "format": "",
+#   "on-click": "wofi --show drun -I -a",
+#   "tooltip-format": "sudo pacman -Q linux",
+#   "tooltip": false,
+# },
+# "custom/powermenu": {
+#   "format": "",
+#   "on-click": "~/.config/rofi/powermenu.sh",
+#   "tooltip": false
+# },
