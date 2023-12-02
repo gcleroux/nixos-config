@@ -12,6 +12,7 @@ in [
   ./direnv
   ./git
   ./mpv
+  ./ncmpcpp
   ./neovim
   ./nnn
   ./starship
