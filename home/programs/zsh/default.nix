@@ -25,7 +25,8 @@
       # TODO: This path should be tracked somewhere
       nixconf = "cd ~/.nix/nixos-config && nvim .";
       nixup = "sudo nixos-rebuild switch --flake ~/.nix/nixos-config";
-      hmup = "home-manager switch --flake ~/.nix/nixos-config";
+      # Need impure since the config depends on secrets with sops-nix
+      hmup = "home-manager switch --impure --flake ~/.nix/nixos-config";
       ns = "nix-shell -p";
       search = "nix search nixpkgs";
 

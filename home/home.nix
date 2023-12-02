@@ -8,12 +8,8 @@ in {
     ++ [ ./modules/default-apps.nix ];
 
   sops = {
-    defaultSopsFile = ../secrets/secrets.yaml;
-    defaultSopsFormat = "yaml";
-
     # This will automatically import SSH keys as age keys
     age.sshKeyPaths = [ "/home/guillaume/.ssh/id_ed25519" ];
-
     # TODO: Fix this uid to make it cleaner
     defaultSymlinkPath = "/run/user/1000/secrets";
     defaultSecretsMountPoint = "/run/user/1000/secrets.d";

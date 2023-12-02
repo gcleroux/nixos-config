@@ -22,11 +22,8 @@
 
     };
     userName = "Guillaume Cléroux";
-
-    # This is kind of a hack, sops-nix uses complete files instead of values so
-    # we link a secret formatted for git include
-    includes = [{ inherit (config.sops.secrets.email) path; }];
+    userEmail = builtins.readFile "${config.sops.secrets.github_email.path}";
   };
 
-  sops.secrets.email = { };
+  sops.secrets.github_email.sopsFile = ./secrets.yaml;
 }
