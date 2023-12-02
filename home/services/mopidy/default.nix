@@ -1,15 +1,24 @@
 { pkgs, config, lib, ... }: {
   services.mopidy = {
     enable = true;
-    extensionPackages = with pkgs; [ mopidy-spotify mopidy-mpd mopidy-mpris ];
+    extensionPackages = with pkgs; [
+      mopidy-local
+      mopidy-spotify
+      mopidy-mpd
+      mopidy-mpris
+    ];
     settings = {
-      file = {
-        follow_symlinks = true;
+      local = {
+        enabled = true;
+        media_dir = "${config.home.homeDirectory}/Music";
+        scan_follow_symlinks = true;
         excluded_file_extensions = [ ".html" ".zip" ".jpg" ".jpeg" ".png" ];
       };
-
-      mpd.hostname = "::";
-
+      mpd = {
+        enabled = true;
+        hostname = "127.0.0.1";
+        port = "6600";
+      };
       spotify = {
         enabled = true;
         username =
@@ -20,6 +29,8 @@
           builtins.readFile "${config.sops.secrets.spotify_client_id.path}";
         client_secret =
           builtins.readFile "${config.sops.secrets.spotify_client_secret.path}";
+        allow_cache = true;
+        cache_size = 0; # Unlimited
       };
     };
   };
