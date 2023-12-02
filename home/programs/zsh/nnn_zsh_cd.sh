@@ -9,7 +9,7 @@ n() {
 
     # Automatic cd on quit. Remove "export" for cd on quit only with ^G
     export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    command nnn "-de$@"
+    command nnn "-deo$@"
 
     [ ! -f "$NNN_TMPFILE" ] || {
         . "$NNN_TMPFILE"

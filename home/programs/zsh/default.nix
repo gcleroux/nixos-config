@@ -17,13 +17,13 @@
 
       lg = "lazygit";
       v = "nvim";
-      nnn = "nnn -de";
+      nnn = "nnn -deo";
 
       gc = "git clone";
       gs = "git status";
 
       # TODO: This path should be tracked somewhere
-      nixconf = "cd ~/.nix/nixos-config && nvim .";
+      nixconf = "cd ~/.nix/nixos-config && nvim";
       nixup = "sudo nixos-rebuild switch --flake ~/.nix/nixos-config";
       # Need impure since the config depends on secrets with sops-nix
       hmup = "home-manager switch --impure --flake ~/.nix/nixos-config";
