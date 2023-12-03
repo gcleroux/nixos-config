@@ -202,7 +202,6 @@ in {
       gdb
       git
       glxinfo
-      gromit-mpx
       imagemagick
       libguestfs
       libsForQt5.kdeconnect-kde

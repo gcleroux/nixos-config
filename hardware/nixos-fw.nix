@@ -83,6 +83,7 @@
         libvdpau-va-gl
       ];
     };
+    opentabletdriver.enable = true;
     logitech.wireless.enable = true;
     logitech.wireless.enableGraphical = true;
   };
