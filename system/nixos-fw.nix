@@ -62,7 +62,6 @@ in {
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      jack.enable = true;
     };
 
     # Printing settings
@@ -157,8 +156,6 @@ in {
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
-
-  sound.enable = true;
 
   # This allows screensharing on wlr compositors using pipewire
   xdg.portal = {
