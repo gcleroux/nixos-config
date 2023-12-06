@@ -3,9 +3,18 @@
     enable = true;
     defaultEditor = true;
 
-    plugins = with pkgs.vimPlugins; [ nvim-treesitter.withAllGrammars ];
+    plugins = with pkgs.vimPlugins; [
+      nvim-treesitter.withAllGrammars
+      nvim-treesitter-textobjects
+      markdown-preview-nvim
+      vim-markdown-toc
+      go-nvim
+    ];
 
     extraPackages = with pkgs; [
+      # Debugger
+      delve
+
       # Installing tools
       cargo
       luajitPackages.luarocks
@@ -15,6 +24,11 @@
       # Tools packages (Comes with a bunch of stuff)
       clang-tools
       gotools
+      reftools
+      ginkgo
+      richgo
+      gotestsum
+      govulncheck
 
       # LSP packages
       docker-compose-language-service
@@ -48,15 +62,19 @@
       # Formatters
       black
       cbfmt
+      gofumpt
       isort
       nixfmt
       nodePackages.prettier
       shfmt
       stylua
+      golines
 
       # Code actions
       gomodifytags
+      gotests
       impl
+      iferr
     ];
   };
 }
