@@ -4,8 +4,8 @@ in {
   # Applying custom overlays
   nixpkgs.overlays = import ./overlays args;
 
-  imports = builtins.concatMap import [ ./programs ./services ./themes ./wm ]
-    ++ [ ./modules/default-apps.nix ];
+  imports =
+    builtins.concatMap import [ ./programs ./services ./themes ./wm ./modules ];
 
   sops = {
     # This will automatically import SSH keys as age keys
