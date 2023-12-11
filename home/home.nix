@@ -42,7 +42,6 @@ in {
     bitwarden
     bitwarden-cli
     btop
-    bottom
     caprine-bin
     gh
     gimp
@@ -60,7 +59,6 @@ in {
     obs-studio
     pavucontrol
     qbittorrent
-    ripgrep
     signal-desktop
     swww
     thunderbird-bin

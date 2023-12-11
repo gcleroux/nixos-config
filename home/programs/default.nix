@@ -4,6 +4,8 @@ let
       enable = true;
       enableAliases = true;
     };
+    programs.imv.enable = true;
+    programs.ripgrep.enable = true;
   };
 in [
   ./alacritty

@@ -221,7 +221,6 @@ in {
       cliphist
       glib
       grim
-      imv
       libnotify
       libsForQt5.polkit-kde-agent
       libsForQt5.qt5.qtwayland

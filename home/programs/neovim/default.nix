@@ -18,7 +18,7 @@
       require("plugins")
 
       -- Set up the colorscheme (comes before ui)
-      require("themes.onenord")
+      require("themes.nordfox")
 
       -- Set up the UI
       require("ui")
@@ -30,7 +30,7 @@
       require("lsp")
 
       require("chatgpt").setup({
-        api_key_cmd = "cat ${config.sops.secrets.chatgpt_key.path}"
+        api_key_cmd = "${pkgs.coreutils}/bin/cat ${config.sops.secrets.chatgpt_key.path}"
       })
     '';
 
