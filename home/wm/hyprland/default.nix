@@ -23,7 +23,6 @@ in {
   wayland.windowManager.hyprland = {
     enable = true;
     package = null; # Avoid duplicates with system wide Hyprland
-    enableNvidiaPatches = false;
     systemdIntegration = true;
     xwayland.enable = true;
 
