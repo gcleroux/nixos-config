@@ -87,14 +87,12 @@
     ];
 
     extraPackages = with pkgs; [
+      # Telescope tools
+      ripgrep
+      fd
+
       # Debugger
       delve
-
-      # Installing tools
-      cargo
-      luajitPackages.luarocks
-      nodePackages.npm
-      nodejs-slim_20
 
       # Tools packages (Comes with a bunch of stuff)
       clang-tools
@@ -104,6 +102,7 @@
       richgo
       gotestsum
       govulncheck
+      mockgen
 
       # LSP packages
       docker-compose-language-service
