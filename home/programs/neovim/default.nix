@@ -1,7 +1,12 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }: {
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    extraLuaConfig = ''
+      require("chatgpt").setup({
+        api_key_cmd = "cat ${config.sops.secrets.chatgpt_key.path}"
+      })
+    '';
 
     plugins = with pkgs.vimPlugins; [
       nvim-treesitter.withAllGrammars
@@ -9,6 +14,7 @@
       markdown-preview-nvim
       vim-markdown-toc
       go-nvim
+      ChatGPT-nvim
     ];
 
     extraPackages = with pkgs; [
@@ -77,4 +83,6 @@
       iferr
     ];
   };
+
+  sops.secrets.chatgpt_key.sopsFile = ./secrets.yaml;
 }
