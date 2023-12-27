@@ -5,4 +5,4 @@ let
       components = [ "pkcs11" "secrets" "ssh" ];
     };
   };
-in [ ./gpg-agent ./kanshi ./mako ./mopidy ./swayidle more ]
+in [ ./gpg-agent ./gromit-mpx ./kanshi ./mako ./mopidy ./swayidle more ]

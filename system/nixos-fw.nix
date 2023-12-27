@@ -81,6 +81,7 @@ in {
     udev.extraRules = ''
       SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", GROUP="wheel"
     '';
+    udev.packages = [ pkgs.bazecor ];
 
     xserver = {
       enable = true;
@@ -146,8 +147,7 @@ in {
 
   networking = {
     hostName = "nixos-fw"; # Define your hostname.
-    networkmanager.enable =
-      true; # Easiest to use and most distros use this by default.
+    networkmanager.enable = true;
     firewall.enable = false;
   };
 

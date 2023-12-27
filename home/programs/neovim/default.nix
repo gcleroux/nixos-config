@@ -35,55 +35,74 @@
     '';
 
     plugins = with pkgs.vimPlugins; [
-      popup-nvim
-      plenary-nvim
-      nvim-autopairs
-      nvim-web-devicons
-      bufferline-nvim
-      vim-bbye
-      rainbow-delimiters-nvim
-      neogen
-      nightfox-nvim
-      onenord-nvim
-      gitsigns-nvim
-      lazygit-nvim
-      suda-vim
-      luasnip
-      friendly-snippets
-      nvim-cmp
-      cmp-buffer
-      cmp-path
-      cmp-cmdline
-      cmp-nvim-lsp
-      cmp-emoji
-      cmp_luasnip
-      cmp-dap
+      # LSP plugins
+      go-nvim
       lsp-zero-nvim
-      null-ls-nvim
+      # null-ls-nvim
+      nvim-lint
+      conform-nvim
+      actions-preview-nvim
       nvim-lspconfig
-      SchemaStore-nvim
+
+      # CMP plugins
+      cmp-buffer
+      cmp-cmdline
+      cmp-dap
+      cmp-emoji
+      cmp-nvim-lsp
+      cmp-path
+      cmp_luasnip
+      friendly-snippets
+      luasnip
+      nvim-cmp
+
+      # Debugging plugins
       nvim-dap
       nvim-dap-ui
       nvim-dap-virtual-text
-      telescope-nvim
-      telescope-media-files-nvim
-      nvim-neoclip-lua
-      FTerm-nvim
-      tmux-nvim
-      lualine-nvim
-      nnn-vim
-      nvim-surround
+
+      # Utils plugins
+      SchemaStore-nvim
       comment-nvim
-      nvim-cursorline
       flash-nvim
+      neogen
+      nvim-autopairs
+      nvim-cursorline
+      nvim-surround
       nvim-ufo
+      nvim-web-devicons
+      plenary-nvim
+      popup-nvim
+      rainbow-delimiters-nvim
+      suda-vim
+      tmux-nvim
+      vim-bbye
+      vim-markdown-toc
+
+      # Themes plugins
+      nightfox-nvim
+      onenord-nvim
+
+      # UI plugins
+      ChatGPT-nvim
+      FTerm-nvim
+      bufferline-nvim
+      gitsigns-nvim
+      lazygit-nvim
+      lualine-nvim
+      markdown-preview-nvim
+      nnn-vim
       octo-nvim
+      trouble-nvim
+
+      # Telescope plugins
+      nvim-neoclip-lua
+      telescope-media-files-nvim
+      telescope-nvim
+
+      # TreeSitter plugins
       nvim-treesitter.withAllGrammars
       nvim-treesitter-textobjects
-      markdown-preview-nvim
-      vim-markdown-toc
-      go-nvim
-      ChatGPT-nvim
     ];
 
     extraPackages = with pkgs; [
@@ -121,16 +140,19 @@
 
       # Linters
       codespell
-      cpplint
-      deadnix
+      cppcheck
+      # cpplint
+      # deadnix
       golangci-lint
       hadolint
       luajitPackages.luacheck
       nodePackages.markdownlint-cli
-      pylint
-      python311Packages.flake8
+      # pylint
+      # python311Packages.flake8
+      ruff
       shellcheck
       statix
+      vale
       yamllint
 
       # Formatters

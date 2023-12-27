@@ -22,6 +22,8 @@ require("ui.telescope")
 -- TODO: Fix errors when closing neoclip
 -- require("ui.neoclip")
 
+-- TODO: Add trouble.nvim config
+
 -- Cursor behaviour in buffer
 require("ui.nvim-cursorline")
 
