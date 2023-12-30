@@ -43,6 +43,7 @@ in {
     bitwarden
     bitwarden-cli
     btop
+    calibre
     caprine-bin
     gh
     gimp
