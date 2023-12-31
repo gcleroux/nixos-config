@@ -140,28 +140,23 @@
 
       # Linters
       codespell
-      cppcheck
-      # cpplint
-      # deadnix
+      cpplint
+      eslint_d
       golangci-lint
       hadolint
       luajitPackages.luacheck
-      nodePackages.markdownlint-cli
-      # pylint
-      # python311Packages.flake8
+      markdownlint-cli
+      proselint
       ruff
       shellcheck
       statix
-      vale
       yamllint
 
       # Formatters
-      black
       cbfmt
       gofumpt
-      isort
       nixfmt
-      nodePackages.prettier
+      prettierd
       shfmt
       stylua
       golines

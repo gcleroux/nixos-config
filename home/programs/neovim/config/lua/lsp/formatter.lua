@@ -6,24 +6,28 @@ end
 
 -- TODO: Configure ruff to sort imports + install prettierd
 conform.setup({
+    formatters = {
+        clang_format = {
+            prepend_args = { "-style", "google" },
+        },
+    },
     formatters_by_ft = {
         -- Conform will run multiple formatters sequentially
         -- Use a sub-list to run only the first available formatter
         c = { "clang_format" },
         cpp = { "clang_format" },
-        csharp = { "clang_format" },
-        css = { { "prettierd", "prettier" } },
+        css = { "prettierd" },
         cuda = { "clang_format" },
-        html = { { "prettierd", "prettier" } },
-        javascript = { { "prettierd", "prettier" } },
-        json = { { "prettierd", "prettier" } },
+        html = { "prettierd" },
+        javascript = { "prettierd" },
+        json = { "prettierd" },
         lua = { "stylua" },
-        markdown = { "prettier", "cbfmt" },
+        markdown = { "prettierd" },
         nix = { "nixfmt" },
         python = { "ruff_fix", "ruff_format" },
         sh = { "shfmt" },
-        typescript = { { "prettierd", "prettier" } },
-        yaml = { { "prettierd", "prettier" } },
+        typescript = { "prettierd" },
+        yaml = { "prettierd" },
     },
     format_on_save = {
         timeout_ms = 1000,

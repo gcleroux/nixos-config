@@ -6,15 +6,17 @@ end
 
 -- TODO: Add all linters
 lint.linters_by_ft = {
-    c = { "cppcheck" },
-    cpp = { "cppcheck" },
+    c = { "clangtidy", "cpplint" },
+    cpp = { "clangtidy", "cpplint" },
     dockerfile = { "hadolint" },
     go = { "golangcilint" },
+    javascript = { "eslint_d" },
     lua = { "luacheck" },
-    markdown = { "markdownlint" },
+    markdown = { "markdownlint", "proselint" },
     nix = { "statix" },
     python = { "ruff" },
     sh = { "shellcheck" },
+    typescript = { "eslint_d" },
     yaml = { "yamllint" },
 }
 
