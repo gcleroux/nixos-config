@@ -4,20 +4,21 @@ if not lint_status_ok then
     return
 end
 
--- TODO: Add all linters
 lint.linters_by_ft = {
     c = { "clangtidy", "cpplint" },
     cpp = { "clangtidy", "cpplint" },
     dockerfile = { "hadolint" },
     go = { "golangcilint" },
     javascript = { "eslint_d" },
+    json = { "jsonlint" },
     lua = { "luacheck" },
     markdown = { "markdownlint", "proselint" },
     nix = { "statix" },
+    proto = { "buf_lint" },
     python = { "ruff" },
-    sh = { "shellcheck" },
+    sh = { "shellcheck", "dotenv_linter" },
     typescript = { "eslint_d" },
-    yaml = { "yamllint" },
+    yaml = { "yamllint", "actionlint" },
 }
 
 -- use for codespell for all except bib and css
@@ -27,7 +28,6 @@ for ft, _ in pairs(lint.linters_by_ft) do
     end
 end
 
--- TODO: Fix autocmd events to run linters on open file
 -- Trigger linter automatically
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
     callback = function()

@@ -4,7 +4,6 @@ if not conform_status_ok then
     return
 end
 
--- TODO: Configure ruff to sort imports + install prettierd
 conform.setup({
     formatters = {
         clang_format = {
@@ -12,8 +11,6 @@ conform.setup({
         },
     },
     formatters_by_ft = {
-        -- Conform will run multiple formatters sequentially
-        -- Use a sub-list to run only the first available formatter
         c = { "clang_format" },
         cpp = { "clang_format" },
         css = { "prettierd" },
@@ -22,9 +19,10 @@ conform.setup({
         javascript = { "prettierd" },
         json = { "prettierd" },
         lua = { "stylua" },
-        markdown = { "prettierd" },
+        markdown = { "markdownlint", "prettierd" },
         nix = { "nixfmt" },
-        python = { "ruff_fix", "ruff_format" },
+        proto = { "buf" },
+        python = { "ruff_fix", "ruff_format", "isort" },
         sh = { "shfmt" },
         typescript = { "prettierd" },
         yaml = { "prettierd" },

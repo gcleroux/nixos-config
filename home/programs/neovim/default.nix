@@ -131,6 +131,7 @@
       nil
       nodePackages.bash-language-server
       nodePackages.dockerfile-language-server-nodejs
+      nodePackages.typescript-language-server
       nodePackages.vscode-html-languageserver-bin
       nodePackages.vscode-json-languageserver-bin
       nodePackages.yaml-language-server
@@ -139,13 +140,17 @@
       taplo
 
       # Linters
+      actionlint
+      buf
       codespell
       cpplint
+      dotenv-linter
       eslint_d
       golangci-lint
       hadolint
       luajitPackages.luacheck
       markdownlint-cli
+      nodePackages.jsonlint
       proselint
       ruff
       shellcheck
@@ -155,6 +160,7 @@
       # Formatters
       cbfmt
       gofumpt
+      isort
       nixfmt
       prettierd
       shfmt

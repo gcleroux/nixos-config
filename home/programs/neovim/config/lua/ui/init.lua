@@ -28,4 +28,4 @@ require("ui.telescope")
 require("ui.nvim-cursorline")
 
 -- Folding scope in buffer
-require("ui.nvim-ufo")
+-- require("ui.nvim-ufo")

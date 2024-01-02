@@ -9,6 +9,12 @@ if not luasnip_status_ok then
     return
 end
 
+local lsp_zero_status_ok, lsp_zero = pcall(require, "lsp-zero")
+if not lsp_zero_status_ok then
+    vim.notify("Plugin lsp-zero is missing")
+    return
+end
+
 local kind_icons = {
     Text = "",
     Method = "󰆧",
@@ -37,12 +43,6 @@ local kind_icons = {
     TypeParameter = "󰅲",
 }
 
-local has_words_before = function()
-    unpack = unpack or table.unpack -- Makes it compliant with Lua version >= 5.2
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
 cmp.setup({
     enabled = function()
         return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
@@ -53,40 +53,9 @@ cmp.setup({
         end,
     },
     mapping = {
-        ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-                luasnip.expand_or_jump()
-            elseif has_words_before() then
-                cmp.complete()
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
-
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
-
-        ["<CR>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                local entry = cmp.get_selected_entry()
-                if not entry then
-                    cmp.abort()
-                else
-                    cmp.confirm({ select = false })
-                end
-            else
-                fallback()
-            end
-        end, { "i", "s" }),           -- If cmp not visible, fallback to Enter
+        ["<Tab>"] = lsp_zero.cmp_action().luasnip_supertab(),
+        ["<S-Tab>"] = lsp_zero.cmp_action().luasnip_shift_supertab(),
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
 
         ["<C-a>"] = cmp.mapping.complete(), -- Every cmp entry
         ["<C-e>"] = cmp.mapping.abort(),

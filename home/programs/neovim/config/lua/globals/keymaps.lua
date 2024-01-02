@@ -51,19 +51,6 @@ keymap("t", "<C-\\>", "<cmd>NnnExplorer %:p:h<CR>")
 -- Generate docstring
 keymap("n", "<leader>doc", ":Neogen<CR>")
 
--- LSP keymaps
-keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
-keymap("n", "gd", "<cmd>lua require'telescope.builtin'.lsp_definitions()<CR>")
-keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-keymap("n", "gi", "<cmd>lua require'telescope.builtin'lsp_implementations()<CR>")
-keymap("n", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-keymap("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
-keymap("n", "gr", "<cmd>lua require'telescope.builtin'.lsp_references()<CR>")
-keymap("n", "<leader>dg", "<cmd>lua vim.diagnostic.open_float()<CR>")
-keymap("n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>')
-keymap("n", "gl", '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({ border = "rounded" })<CR>')
-keymap("n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>')
-
 -- Debugger keymaps
 keymap("n", "<F5>", "<cmd>lua require'dap'.continue()<CR>")
 keymap("n", "<F10>", "<cmd>lua require'dap'.step_over()<CR>")

@@ -4,28 +4,6 @@ if not status_ok then
 end
 
 configs.setup({
-    -- ensure_installed = {
-    --     "bash",
-    --     "c",
-    --     "cpp",
-    --     "dockerfile",
-    --     "go",
-    --     "html",
-    --     "java",
-    --     "json",
-    --     "julia",
-    --     "lua",
-    --     "make",
-    --     "markdown",
-    --     "markdown_inline",
-    --     "nix",
-    --     "python",
-    --     "rst",
-    --     "sql",
-    --     "terraform",
-    --     "toml",
-    --     "yaml",
-    -- },                    -- list of languages
     sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
     ignore_install = { "" }, -- List of parsers to ignore installing
     autopairs = {
