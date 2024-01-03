@@ -22,6 +22,7 @@
       k = "kdeconnect";
       r = "renamer";
       R = "rsynccp";
+      n = "nmount";
     };
     plugins.src = pkgs.nnn.src + "/plugins";
   };
