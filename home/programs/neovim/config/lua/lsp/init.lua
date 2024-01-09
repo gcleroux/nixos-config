@@ -3,8 +3,8 @@
 
 -- Formatters and linters
 -- require("lsp.null-ls") -- Must be loaded after mason-null-ls
-require("lsp.linter")
-require("lsp.formatter")
+require("lsp.nvim-lint")
+require("lsp.conform")
 require("lsp.code-actions")
 -- TODO: Add hover
 

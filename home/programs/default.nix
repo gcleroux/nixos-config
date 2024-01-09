@@ -10,7 +10,7 @@ let
 in [
   ./alacritty
   ./bat
-  ./chromium
+  # ./chromium
   ./direnv
   ./git
   ./mpv
