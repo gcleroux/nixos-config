@@ -5,4 +5,5 @@ let
       components = [ "pkcs11" "secrets" "ssh" ];
     };
   };
-in [ ./gpg-agent ./gromit-mpx ./kanshi ./mako ./mopidy ./swayidle more ]
+  #TODO: Fix gromit-mpx
+in [ ./gpg-agent ./kanshi ./mako ./mopidy ./swayidle more ]

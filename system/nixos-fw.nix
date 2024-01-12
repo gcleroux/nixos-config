@@ -99,6 +99,7 @@ in {
     };
 
     # Backup tool setup for the /home directory
+    #TODO: Exclude ~/Downloads from backup
     btrbk = {
       extraPackages = with pkgs; [ btrfs-progs mbuffer openssh ];
       instances = {
@@ -188,50 +189,44 @@ in {
 
   environment = {
     # Installed packages
-    # TODO: Clean these packages, some are out of place
     systemPackages = with pkgs; [
       auto-cpufreq
+      brightnessctl
       btrbk
       clinfo
+      cliphist
       coreutils
       dolphin-emu
       gcc
       gdb
       git
+      glib
       glxinfo
+      grim
+      home-manager
       imagemagick
       libguestfs
+      libnotify
       libsForQt5.kdeconnect-kde
+      libsForQt5.polkit-kde-agent
+      libsForQt5.qt5.qtwayland
       mesa
+      networkmanagerapplet
       openconnect
       openvpn
       pciutils
       pipewire
+      playerctl
       powerstat
+      qt6.qtwayland
       rtkit
-      usbutils
+      slurp
       unzip
+      usbutils
       virt-manager
       wacomtablet
-      wget
-
-      # Hyprland pkgs
-      home-manager
-      brightnessctl
-      cliphist
-      glib
-      grim
-      libnotify
-      libsForQt5.polkit-kde-agent
-      libsForQt5.qt5.qtwayland
-      networkmanagerapplet
-      #pavucontrol
-      playerctl
-      qt6.qtwayland
-      rofi-wayland
-      slurp
       wdisplays
-      webcord
+      wget
       wl-clipboard
       xdg-utils
     ];

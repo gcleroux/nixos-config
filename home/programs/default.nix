@@ -22,6 +22,7 @@ in [
   ./swaylock
   ./tmux
   ./waybar
+  ./wofi
   ./zsh
   more
 ]

@@ -1,0 +1,1 @@
+{ programs.wofi = { enable = true; }; }

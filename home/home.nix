@@ -67,6 +67,7 @@ in {
     trashy
     vivaldi
     vlc
+    webcord
     zathura
   ];
 
