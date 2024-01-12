@@ -39,7 +39,6 @@ in {
 
   # Installed packages
   home.packages = with pkgs; [
-    bazecor
     bitwarden
     bitwarden-cli
     btop
