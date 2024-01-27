@@ -18,7 +18,6 @@
           "temperature"
           "pulseaudio"
           "idle_inhibitor"
-          "mpd"
           # "custom/cava-internal"
         ];
 
@@ -75,21 +74,6 @@
           tooltip = false;
         };
 
-        mpd = {
-          max-length = 25;
-          format = "<span foreground='#bb9af7'></span> {title}";
-          format-paused = " {title}";
-          format-stopped = "<span foreground='#bb9af7'></span>";
-          format-disconnected = "";
-          on-click = "${pkgs.mpc-cli}/bin/mpc --quiet toggle";
-          on-click-right =
-            "${pkgs.alacritty}/bin/alacritty --command ${pkgs.ncmpcpp}/bin/ncmpcpp";
-          on-scroll-up = "${pkgs.mpc-cli}/bin/mpc --quiet prev";
-          on-scroll-down = "${pkgs.mpc-cli}/bin/mpc --quiet next";
-          smooth-scrolling-threshold = 5;
-          tooltip-format =
-            "{title} - {artist} ({elapsedTime:%M:%S}/{totalTime:%H:%M:%S})";
-        };
         temperature = {
           hwmon-path = "/sys/class/hwmon/hwmon4/temp2_input";
           critical-threshold = 80;

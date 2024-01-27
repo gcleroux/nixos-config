@@ -61,6 +61,7 @@ in {
     qbittorrent
     rclone
     signal-desktop
+    spotify-player
     swww
     thunderbird-bin
     trashy

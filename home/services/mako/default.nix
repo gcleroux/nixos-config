@@ -18,6 +18,9 @@
       layer=overlay
       anchor=center
       default-timeout=1000
+
+      [app-name=spotify_player]
+      default-timeout=2000
     '';
 
   };
