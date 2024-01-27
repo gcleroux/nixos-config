@@ -5,7 +5,12 @@
 
   programs.zsh = {
     enable = true;
-    initExtra = builtins.readFile ./nnn_zsh_cd.sh;
+    initExtra = ''
+      # Sourcing trashy here is a bit of a hack, but it works for completions
+      source <(trashy completions zsh)
+
+      ${builtins.readFile ./nnn_zsh_cd.sh}
+    '';
     enableAutosuggestions = true;
     enableCompletion = true;
     shellAliases = {

@@ -64,7 +64,7 @@ in {
     spotify-player
     swww
     thunderbird-bin
-    trashy
+    trashy-zsh-fix
     vivaldi
     vlc
     webcord
