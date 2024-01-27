@@ -12,7 +12,7 @@ fterm.setup({
     },
 })
 
-local btop = fterm:new({
+local bottom = fterm:new({
     ft = "btm", -- You can also override the default filetype, if you want
     cmd = "btm",
     dimensions = {
@@ -21,7 +21,7 @@ local btop = fterm:new({
     },
 })
 
--- Use this to toggle btop in a floating terminal
+-- Use this to toggle bottom in a floating terminal
 vim.keymap.set("n", "<A-b>", function()
-    btop:toggle()
+    bottom:toggle()
 end)

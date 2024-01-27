@@ -11,6 +11,7 @@ in [
   ./alacritty
   ./bat
   ./bazecor
+  ./bottom
   ./chromium
   ./direnv
   ./git
