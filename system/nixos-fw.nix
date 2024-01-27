@@ -161,7 +161,10 @@ in {
   # This allows screensharing on wlr compositors using pipewire
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
     wlr.enable = true;
   };
 
