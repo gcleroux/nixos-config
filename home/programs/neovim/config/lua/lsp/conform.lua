@@ -9,12 +9,16 @@ conform.setup({
         clang_format = {
             prepend_args = { "-style", "google" },
         },
+        ["goimports-reviser"] = {
+            prepend_args = { "-rm-unused", "-set-alias" },
+        },
     },
     formatters_by_ft = {
         c = { "clang_format" },
         cpp = { "clang_format" },
         css = { "prettierd" },
         cuda = { "clang_format" },
+        go = { "gimports-reviser", "gofumpt", "golines" },
         html = { "prettierd" },
         javascript = { "prettierd" },
         json = { "prettierd" },

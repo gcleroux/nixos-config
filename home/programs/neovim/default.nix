@@ -166,6 +166,7 @@
       shfmt
       stylua
       golines
+      goimports-reviser
 
       # Code actions
       gomodifytags

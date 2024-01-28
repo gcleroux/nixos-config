@@ -106,9 +106,12 @@ lspconfig.clangd.setup({
 })
 lspconfig.docker_compose_language_service.setup({})
 lspconfig.dockerls.setup({})
-
--- TODO: Set up go LSP/formatting
-lspconfig.gopls.setup({})
+lspconfig.gopls.setup({
+    on_init = function(client)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentFormattingRangeProvider = false
+    end,
+})
 lspconfig.jedi_language_server.setup({})
 lspconfig.marksman.setup({})
 lspconfig.nil_ls.setup({
