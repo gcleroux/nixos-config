@@ -10,13 +10,13 @@ comment.setup({
     sticky = true,
     ---LHS of toggle mappings in NORMAL mode
     toggler = {
-        ---Line-comment toggle keymap
-        line = "<leader>/",
+        ---Line-comment toggle keymap <C-/>
+        line = "<C-_>",
     },
     ---LHS of operator-pending mappings in NORMAL and VISUAL mode
     opleader = {
-        ---Line-comment toggle keymap
-        line = "<leader>/",
+        ---Line-comment toggle keymap <C-/>
+        line = "<C-_>",
     },
     ---Enable keybindings
     ---NOTE: If given `false` then the plugin won't create any mappings

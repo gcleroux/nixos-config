@@ -47,6 +47,7 @@ keymap("n", "<leader>t", "<cmd>Telescope live_grep<cr>")
 -- Toggle file tree (%:p:h opens at current buffer location)
 keymap("n", "<C-\\>", "<cmd>NnnExplorer %:p:h<CR>")
 keymap("t", "<C-\\>", "<cmd>NnnExplorer %:p:h<CR>")
+keymap("n", "<leader>n", "<cmd>NnnPicker<CR>")
 
 -- Generate docstring
 keymap("n", "<leader>doc", ":Neogen<CR>")
@@ -61,16 +62,6 @@ keymap("n", "<leader>B", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Bre
 keymap("n", "<leader>lp", ",<cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
 keymap("n", "<leader>dbg", "<cmd>lua require'dap'.repl.open()<CR>")
 keymap("n", "<leader>rl", "<cmd>lua require'dap'.run_last()<CR>")
-
--- Terminal keymaps
-keymap("n", "<C-t>", '<CMD>lua require("FTerm").toggle()<CR>')
--- Adding <ESC> at the end of closing FTerm.
--- nnn interferes with fterm and if NnnExplorer is open while closing, closing the terminal will switch
--- to insert mode
-keymap("t", "<C-t>", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR><ESC>')
-
--- LazyGit
-keymap("n", "<leader>gg", ":LazyGit<CR>")
 
 -- Gitsigns
 keymap("n", "<leader>hr", ":Gitsigns reset_hunk<CR>")

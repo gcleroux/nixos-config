@@ -13,7 +13,8 @@ require("ui.web-devicons")
 require("ui.nnn")
 
 -- Terminal
-require("ui.fterm")
+-- require("ui.fterm")
+require("ui.toggleterm")
 
 -- Telescope
 require("ui.telescope")
@@ -21,8 +22,6 @@ require("ui.telescope")
 -- Telescope integration for clipboard management
 -- TODO: Fix errors when closing neoclip
 -- require("ui.neoclip")
-
--- TODO: Add trouble.nvim config
 
 -- Cursor behaviour in buffer
 require("ui.nvim-cursorline")

@@ -85,10 +85,11 @@
 
       # UI plugins
       ChatGPT-nvim
-      FTerm-nvim
+      toggleterm-nvim
+      # FTerm-nvim
       bufferline-nvim
       gitsigns-nvim
-      lazygit-nvim
+      # lazygit-nvim
       lualine-nvim
       markdown-preview-nvim
       nnn-vim

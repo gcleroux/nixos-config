@@ -17,14 +17,28 @@ local function cd_selected_dir(lines)
     vim.api.nvim_command("cd " .. vim.fn.shellescape(dir))
 end
 
+-- Exit Neovim if NnnExplorer is the only window remaining in the only tab.
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    pattern = "*",
+    command = "if tabpagenr('$') == 1 && winnr('$') == 1 && &filetype ==# 'nnn' | quit! | endif",
+})
+
+-- Close the tab if NnnExplorer is the only window remaining in it.
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    pattern = "*",
+    command = "if winnr('$') == 1 && &filetype ==# 'nnn' | quit! | endif",
+})
+
 nnn.setup({
     command = "nnn -o",
+    explorer_layout = { left = "~25%" },
     set_default_mappings = 0,
     replace_netrw = "1",
     action = {
         ["<C-t>"] = "tab split",
         ["<C-h>"] = "split",
         ["<C-v>"] = "vsplit",
+        ["<C-w>"] = "wincmd j",
         ["<C-y>"] = copy_to_clipboard,
         ["<C-c>"] = cd_selected_dir,
     },
