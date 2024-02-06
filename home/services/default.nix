@@ -6,4 +6,5 @@ let
     };
   };
   #TODO: Fix gromit-mpx
-in [ ./gpg-agent ./kanshi ./mako ./swayidle more ]
+  # Removed kanshi
+in [ ./gpg-agent ./mako ./swayidle more ]

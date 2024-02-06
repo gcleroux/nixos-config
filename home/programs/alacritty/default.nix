@@ -5,7 +5,7 @@
       env.TERM = "xterm-256color";
       font = {
         normal.family = "Cousine Nerd Font Mono";
-        size = 18.0;
+        size = 16.0;
       };
       cursor.style = "Beam";
 

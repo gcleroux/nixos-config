@@ -22,8 +22,7 @@ in {
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = null; # Avoid duplicates with system wide Hyprland
-    systemdIntegration = true;
+    systemd.enable = true;
     xwayland.enable = true;
 
     extraConfig = ''

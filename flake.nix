@@ -13,7 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:hyprwm/Hyprland";
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -37,11 +36,8 @@
         "guillaume@nixos-fw" =
           inputs.home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
-            modules = [
-              inputs.hyprland.homeManagerModules.default
-              inputs.sops-nix.homeManagerModules.sops
-              ./home/home.nix
-            ];
+            modules =
+              [ inputs.sops-nix.homeManagerModules.sops ./home/home.nix ];
           };
       };
       devShells.${system}.default =
