@@ -29,6 +29,11 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
     command = "if winnr('$') == 1 && &filetype ==# 'nnn' | quit! | endif",
 })
 
+-- https://github.com/mcchrish/nnn.vim?tab=readme-ov-file#troubleshooting
+-- Fix for nnn :wqa [E948: Job still running]
+vim.cmd([[command Z w | qa]])
+vim.cmd([[cabbrev wqa Z]])
+
 nnn.setup({
     command = "nnn -o",
     explorer_layout = { left = "~25%" },
