@@ -15,6 +15,7 @@ in [
   ./chromium
   ./direnv
   ./git
+  ./lazygit
   ./mpv
   ./neovim
   ./nnn

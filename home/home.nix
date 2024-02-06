@@ -51,7 +51,6 @@ in {
     kalendar
     killall
     krita
-    lazygit
     libreoffice-qt
     moonlight-qt
     mullvad-vpn
