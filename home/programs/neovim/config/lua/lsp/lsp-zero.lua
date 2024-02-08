@@ -10,9 +10,8 @@ if not lspconfig_status_ok then
     return
 end
 
+local opts = { buffer = bufnr, remap = false }
 lsp_zero.on_attach(function(client, bufnr)
-    local opts = { buffer = bufnr, remap = false }
-
     vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
     vim.keymap.set("n", "gd", "<cmd>lua require'telescope.builtin'.lsp_definitions()<CR>", opts)
     vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
@@ -20,11 +19,12 @@ lsp_zero.on_attach(function(client, bufnr)
     vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     vim.keymap.set("n", "gr", "<cmd>lua require'telescope.builtin'.lsp_references()<CR>", opts)
-    vim.keymap.set("n", "<leader>dg", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
-    vim.keymap.set("n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
-    vim.keymap.set("n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
 end)
+
+-- Diagnostics is not tied to LSP, it's handled by nvim-lint instead
+vim.keymap.set("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+vim.keymap.set("n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
+vim.keymap.set("n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
 
 lsp_zero.set_sign_icons({
     error = "✘",

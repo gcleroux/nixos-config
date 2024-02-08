@@ -16,7 +16,8 @@ lint.linters_by_ft = {
     nix = { "statix" },
     proto = { "buf_lint" },
     python = { "ruff" },
-    sh = { "shellcheck", "dotenv_linter" },
+    sh = { "shellcheck" },
+    env = { "dotenv_linter" },
     typescript = { "eslint_d" },
     yaml = { "yamllint", "actionlint" },
 }

@@ -3,3 +3,6 @@ require("globals.options")
 
 -- Keymaps options
 require("globals.keymaps")
+
+-- Custom filetypes
+require("globals.filetype")
