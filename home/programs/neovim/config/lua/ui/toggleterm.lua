@@ -57,6 +57,28 @@ local bottom = terminal:new({
     end,
 })
 
+local k9s = terminal:new({
+    cmd = "k9s",
+    direction = "float",
+    float_opts = {
+        border = "double",
+        width = function()
+            return math.floor(vim.o.columns * 0.9)
+        end,
+        height = function()
+            return math.floor(vim.o.lines * 0.9)
+        end,
+    },
+    -- function to run on opening the terminal
+    on_open = function(term)
+        vim.cmd("startinsert!")
+    end,
+    -- function to run on closing the terminal
+    on_close = function(term)
+        vim.cmd("startinsert!")
+    end,
+})
+
 function _lazygit_toggle()
     lazygit:toggle()
 end
@@ -65,5 +87,10 @@ function _bottom_toggle()
     bottom:toggle()
 end
 
+function _k9s_toggle()
+    k9s:toggle()
+end
+
 vim.api.nvim_set_keymap("n", "<leader>gg", "<cmd>lua _lazygit_toggle()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>mm", "<cmd>lua _bottom_toggle()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>kk", "<cmd>lua _k9s_toggle()<CR>", { noremap = true, silent = true })

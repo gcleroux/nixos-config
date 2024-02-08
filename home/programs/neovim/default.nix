@@ -111,6 +111,11 @@
       ripgrep
       fd
 
+      # Toggleterm tools
+      bottom
+      k9s
+      lazygit
+
       # Debugger
       delve
 
