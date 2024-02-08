@@ -6,6 +6,12 @@
   programs.zsh = {
     enable = true;
     initExtra = ''
+      export KUBECONFIG=$(find ~/.kube \
+        -type d \( -name cache -o -name http-cache \) -prune -o \
+        -type f -name config -print | \
+        awk -v ORS=':' '{print}' | \
+        sed 's/:$//')
+
       # Sourcing trashy here is a bit of a hack, but it works for completions
       source <(trashy completions zsh)
 
@@ -26,6 +32,8 @@
 
       gc = "git clone";
       gs = "git status";
+
+      k = "kubectl";
 
       # TODO: This path should be tracked somewhere
       nixconf = "cd ~/.nix/nixos-config && nvim";

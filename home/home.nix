@@ -48,9 +48,12 @@ in {
     go
     hey
     httpie
+    jq
     kalendar
     killall
     krita
+    kubectl
+    kubectx
     libreoffice-qt
     moonlight-qt
     mullvad-vpn

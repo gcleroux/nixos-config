@@ -14,6 +14,7 @@ in [
   ./bottom
   ./chromium
   ./direnv
+  ./fzf
   ./git
   ./lazygit
   ./mpv
