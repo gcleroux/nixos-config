@@ -53,7 +53,7 @@ in {
     killall
     krita
     kubectl
-    kubectx
+    kubie
     libreoffice-qt
     moonlight-qt
     mullvad-vpn

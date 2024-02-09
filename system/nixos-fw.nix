@@ -15,7 +15,8 @@ in {
   # User config
   users.users.${username} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "input" "docker" "libvirtd" "qemu-libvirtd" ];
+    extraGroups =
+      [ "wheel" "input" "docker" "libvirtd" "qemu-libvirtd" "networkmanager" ];
     shell = pkgs.zsh;
   };
 
