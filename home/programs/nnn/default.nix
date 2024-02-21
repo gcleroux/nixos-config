@@ -14,6 +14,7 @@
       p = "~/Projects";
       P = "~/Pinax/Git";
       s = "~/School";
+      m = "/run/media/guillaume/";
     };
     plugins.mappings = {
       j = "autojump";
@@ -22,7 +23,8 @@
       k = "kdeconnect";
       r = "renamer";
       R = "rsynccp";
-      n = "nmount";
+      m = "nmount";
+      s = "suedit";
     };
     plugins.src = pkgs.nnn.src + "/plugins";
   };
