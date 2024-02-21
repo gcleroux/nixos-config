@@ -75,7 +75,7 @@
         };
 
         temperature = {
-          hwmon-path = "/sys/class/hwmon/hwmon4/temp2_input";
+          hwmon-path = "/sys/class/hwmon/hwmon5/temp2_input";
           critical-threshold = 80;
           tooltip = false;
           format = " {temperatureC}°C";
