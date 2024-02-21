@@ -1,23 +1,24 @@
 let
-  configDir = "hypr/config.d/";
-  scriptsDir = "hypr/scripts/";
+  configDir = "hypr/config.d";
+  scriptsDir = "hypr/scripts";
 in {
   # TODO: Find a cleaner way to manage config
   xdg.configFile = {
     # Config files
-    "${configDir}autostart.conf".source = ./config.d/autostart.conf;
-    "${configDir}env.conf".source = ./config.d/env.conf;
-    "${configDir}input.conf".source = ./config.d/input.conf;
-    "${configDir}keybinds.conf".source = ./config.d/keybinds.conf;
-    "${configDir}monitors.conf".source = ./config.d/monitors.conf;
-    "${configDir}window-rules.conf".source = ./config.d/window-rules.conf;
+    "${configDir}/autostart.conf".source = ./config.d/autostart.conf;
+    "${configDir}/env.conf".source = ./config.d/env.conf;
+    "${configDir}/input.conf".source = ./config.d/input.conf;
+    "${configDir}/keybinds.conf".source = ./config.d/keybinds.conf;
+    "${configDir}/monitors.conf".source = ./config.d/monitors.conf;
+    "${configDir}/window-rules.conf".source = ./config.d/window-rules.conf;
 
     # Scripts files
-    "${scriptsDir}airplane-mode".source = ./scripts/airplane-mode;
-    "${scriptsDir}brightness".source = ./scripts/brightness;
-    "${scriptsDir}keyboard-layout".source = ./scripts/keyboard-layout;
-    "${scriptsDir}volume".source = ./scripts/volume;
-    "${scriptsDir}swww_random".source = ./scripts/swww_random;
+    "${scriptsDir}/airplane-mode".source = ./scripts/airplane-mode;
+    "${scriptsDir}/brightness".source = ./scripts/brightness;
+    "${scriptsDir}/keyboard-layout".source = ./scripts/keyboard-layout;
+    "${scriptsDir}/volume".source = ./scripts/volume;
+    "${scriptsDir}/emoji".source = ./scripts/emoji;
+    "${scriptsDir}/swww_random".source = ./scripts/swww_random;
   };
 
   wayland.windowManager.hyprland = {

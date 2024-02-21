@@ -33,7 +33,7 @@ in {
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
 
-    BROWSER = "vivaldi";
+    BROWSER = "chromium-browser";
     TERMINAL = "alacritty";
   };
 
@@ -70,6 +70,7 @@ in {
     vivaldi
     vlc
     webcord
+    wlr-randr
     zathura
   ];
 
