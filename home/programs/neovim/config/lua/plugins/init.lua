@@ -22,5 +22,7 @@ require("plugins.neogen")
 -- Wrap text in quotes, parentheses, etc.
 require("plugins.nvim-surround")
 
+require("plugins.chatgpt")
+
 -- Copilot config
 -- require("plugins.copilot")

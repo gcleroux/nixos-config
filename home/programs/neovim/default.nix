@@ -28,10 +28,6 @@
 
       -- Set up LSP (Should be loaded last)
       require("lsp")
-
-      require("chatgpt").setup({
-        api_key_cmd = "${pkgs.coreutils}/bin/cat ${config.sops.secrets.chatgpt_key.path}"
-      })
     '';
 
     plugins = with pkgs.vimPlugins; [
