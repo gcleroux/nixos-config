@@ -41,13 +41,11 @@ in {
   home.packages = with pkgs; [
     bitwarden
     bitwarden-cli
-    calibre
     caprine-bin
     gh
     gimp
     go
     hey
-    httpie
     jq
     kalendar
     killall
@@ -68,7 +66,6 @@ in {
     thunderbird-bin
     trashy-zsh-fix
     vivaldi
-    vlc
     webcord
     wlr-randr
     zathura

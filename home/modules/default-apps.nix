@@ -215,7 +215,7 @@
       ];
     in (lib.genAttrs code (_: [ "nvim.desktop" ]))
     // (lib.genAttrs images (_: [ "imv.desktop" ]))
-    // (lib.genAttrs urls (_: [ "vivaldi-stable.desktop" ]))
+    // (lib.genAttrs urls (_: [ "chromium-browser.desktop" ]))
     // (lib.genAttrs documents (_: [ "org.pwmt.zathura.desktop" ]))
     // (lib.genAttrs audioVideo (_: [ "mpv.desktop" ])) // (lib.genAttrs [
       "x-scheme-handler/sgnl"
