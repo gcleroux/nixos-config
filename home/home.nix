@@ -2,7 +2,7 @@
 let username = "guillaume";
 in {
   # Applying custom overlays
-  nixpkgs.overlays = import ./overlays args;
+  nixpkgs.overlays = import ../overlays args;
 
   imports =
     builtins.concatMap import [ ./programs ./services ./themes ./wm ./modules ];
@@ -61,7 +61,7 @@ in {
     qbittorrent
     rclone
     signal-desktop
-    spotify-player
+    unstable.spotify-player
     swww
     thunderbird-bin
     trashy-zsh-fix
@@ -92,4 +92,7 @@ in {
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # Nicely reload system units when changing configs
+  systemd.user.startServices = "sd-switch";
 }

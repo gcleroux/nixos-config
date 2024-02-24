@@ -4,6 +4,7 @@
   inputs = {
     # Which version of NixOS packages to use
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
       # Which version of Home-manager to use
@@ -13,6 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # TODO: Switch to agenix
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,6 +38,7 @@
         "guillaume@nixos-fw" =
           inputs.home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
+            extraSpecialArgs = { inherit inputs; };
             modules =
               [ inputs.sops-nix.homeManagerModules.sops ./home/home.nix ];
           };
