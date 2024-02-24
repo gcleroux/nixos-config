@@ -1,18 +1,19 @@
 # Works as an alias inside .zshrc
-# Using `n` will enable cd on quit, using `nnn` will not
 n() {
-    # Block nesting of nnn in subshells
-    [ "${NNNLVL:-0}" -eq 0 ] || {
-        echo "nnn is already running"
-        return
-    }
+	# Block nesting of nnn in subshells
+	[ "${NNNLVL:-0}" -eq 0 ] || {
+		echo "nnn is already running"
+		return
+	}
 
-    # Automatic cd on quit. Remove "export" for cd on quit only with ^G
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    command nnn "-deo$@"
+	# Manual cd on quit with ^G. Add "export" for automatic cd on quit
+	export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
 
-    [ ! -f "$NNN_TMPFILE" ] || {
-        . "$NNN_TMPFILE"
-        rm -f "$NNN_TMPFILE" >/dev/null
-    }
+	# This allows to alias nnn to n without infinite recursion
+	command nnn "-deo$@"
+
+	[ ! -f "$NNN_TMPFILE" ] || {
+		. "$NNN_TMPFILE"
+		rm -f "$NNN_TMPFILE" >/dev/null
+	}
 }
