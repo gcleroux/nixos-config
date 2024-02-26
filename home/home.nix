@@ -34,7 +34,7 @@ in {
     XDG_STATE_HOME = "$HOME/.local/state";
 
     BROWSER = "chromium-browser";
-    TERMINAL = "alacritty";
+    TERMINAL = "foot";
   };
 
   # Installed packages

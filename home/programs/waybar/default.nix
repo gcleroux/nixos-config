@@ -75,7 +75,7 @@
         };
 
         temperature = {
-          hwmon-path = "/sys/class/hwmon/hwmon5/temp2_input";
+          hwmon-path = "/sys/class/thermal/thermal_zone5/temp";
           critical-threshold = 80;
           tooltip = false;
           format = " {temperatureC}°C";
@@ -94,8 +94,7 @@
           format-icons = [ "󱩏" "󱩑" "󱩓" "󱩕" "󰛨" ];
         };
         memory = {
-          on-click =
-            "${pkgs.alacritty}/bin/alacritty --command ${pkgs.bottom}/bin/btm";
+          on-click = "${pkgs.foot}/bin/foot --command ${pkgs.bottom}/bin/btm";
           interval = 5;
           format = " {percentage:2}%";
           states = { "warning" = 90; };
