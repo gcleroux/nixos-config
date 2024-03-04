@@ -45,6 +45,7 @@ in {
   imports = [ ../modules/greeter.nix ];
 
   services = {
+    auto-cpufreq.enable = true;
     blueman.enable = true;
     dbus.enable = true;
     # fprintd.enable = true;
@@ -192,7 +193,6 @@ in {
   environment = {
     # Installed packages
     systemPackages = with pkgs; [
-      auto-cpufreq
       brightnessctl
       btrbk
       clinfo
