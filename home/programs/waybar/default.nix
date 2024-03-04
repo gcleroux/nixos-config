@@ -94,7 +94,7 @@
           format-icons = [ "󱩏" "󱩑" "󱩓" "󱩕" "󰛨" ];
         };
         memory = {
-          on-click = "${pkgs.foot}/bin/foot --command ${pkgs.bottom}/bin/btm";
+          on-click = "${pkgs.foot}/bin/foot ${pkgs.bottom}/bin/btm";
           interval = 5;
           format = " {percentage:2}%";
           states = { "warning" = 90; };
