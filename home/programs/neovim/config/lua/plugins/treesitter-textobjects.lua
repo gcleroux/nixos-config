@@ -11,10 +11,10 @@ if not ts_repeat_move_status_ok then
 end
 
 -- Making jumps repeatable with f,F,t,T
-vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
+--vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
+--vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
+--vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
+--vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 
 ts_txtobj.setup({
     textobjects = {

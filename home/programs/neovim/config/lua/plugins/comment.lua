@@ -11,12 +11,12 @@ comment.setup({
     ---LHS of toggle mappings in NORMAL mode
     toggler = {
         ---Line-comment toggle keymap <C-/>
-        line = "<C-_>",
+        line = "<C-/>",
     },
     ---LHS of operator-pending mappings in NORMAL and VISUAL mode
     opleader = {
         ---Line-comment toggle keymap <C-/>
-        line = "<C-_>",
+        line = "<C-/>",
     },
     ---Enable keybindings
     ---NOTE: If given `false` then the plugin won't create any mappings

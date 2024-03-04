@@ -8,6 +8,16 @@ local terminal = require("toggleterm.terminal").Terminal
 
 toggleterm.setup({
     open_mapping = [[<c-t>]],
+    direction = "float",
+    float_opts = {
+        border = "single",
+        width = function()
+            return math.floor(vim.o.columns * 0.9)
+        end,
+        height = function()
+            return math.floor(vim.o.lines * 0.9)
+        end,
+    },
 })
 
 local lazygit = terminal:new({
@@ -15,7 +25,7 @@ local lazygit = terminal:new({
     dir = "git_dir",
     direction = "float",
     float_opts = {
-        border = "double",
+        border = "single",
         width = function()
             return math.floor(vim.o.columns * 0.9)
         end,
@@ -38,7 +48,7 @@ local bottom = terminal:new({
     cmd = "btm",
     direction = "float",
     float_opts = {
-        border = "double",
+        border = "single",
         width = function()
             return math.floor(vim.o.columns * 0.9)
         end,
@@ -61,7 +71,7 @@ local k9s = terminal:new({
     cmd = "k9s",
     direction = "float",
     float_opts = {
-        border = "double",
+        border = "single",
         width = function()
             return math.floor(vim.o.columns * 0.9)
         end,
