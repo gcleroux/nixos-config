@@ -17,7 +17,7 @@
     # Kernel config
     kernelPackages = pkgs.linuxPackages_zen;
     kernelModules = [ "kvm-intel" ];
-    kernelParams = [ "mem_sleep_default=deep" ];
+    kernelParams = [ "mem_sleep_default=deep" "quiet" "splash" ];
     extraModulePackages = [ ];
     extraModprobeConfig = "options kvm_intel nested=1";
 
@@ -89,5 +89,9 @@
   };
 
   networking.useDHCP = lib.mkDefault true;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = lib.mkDefault "powersave";
+  };
 }

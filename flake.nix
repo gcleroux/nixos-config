@@ -3,12 +3,11 @@
 
   inputs = {
     # Which version of NixOS packages to use
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
       # Which version of Home-manager to use
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager";
 
       # We want to use the same set of nixpkgs as our system.
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,6 +30,7 @@
       nixosConfigurations = {
         inherit system;
         nixos-fw = inputs.nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
           modules = [ ./hardware/nixos-fw.nix ./system/nixos-fw.nix ];
         };
       };

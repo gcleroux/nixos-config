@@ -1,5 +1,5 @@
 { config, pkgs, ... }: {
-  home.packages = [ pkgs.unstable.bazecor ];
+  home.packages = [ pkgs.bazecor ];
   xdg.desktopEntries.Bazecor = {
     name = "Bazecor";
     exec =

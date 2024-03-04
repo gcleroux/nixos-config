@@ -3,9 +3,11 @@
 # and in the NixOS manual (accessible by running `nixos-help`).
 
 { config, pkgs, ... }:
+{ inputs, config, pkgs, ... }@args:
 let username = "guillaume";
 in {
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = import ../overlays args;
 
   nix.settings = {
     # Nix package manager options
@@ -26,10 +28,8 @@ in {
 
     hyprland = {
       enable = true;
-      enableNvidiaPatches = false;
       xwayland.enable = true;
     };
-
     thunar = {
       enable = true;
       plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
@@ -42,10 +42,11 @@ in {
   };
 
   services = {
-    auto-cpufreq.enable = true;
     blueman.enable = true;
     dbus.enable = true;
+    # fprintd.enable = true;
     flatpak.enable = true;
+    fwupd.enable = true;
     gnome.gnome-keyring.enable = true;
     mullvad-vpn.enable = true;
     openssh.enable = true;
@@ -59,13 +60,21 @@ in {
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
+      wireplumber.configPackages = [
+        (pkgs.writeTextDir
+          "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
+            bluez_monitor.properties = {
+                ["with-logind"] = false,
+            }
+          '')
+      ];
     };
 
     # Printing settings
     printing.enable = true;
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
       # for a WiFi printer
       openFirewall = true;
     };
@@ -98,7 +107,6 @@ in {
     # Backup tool setup for the /home directory
     #TODO: Exclude ~/Downloads from backup
     btrbk = {
-      extraPackages = with pkgs; [ btrfs-progs mbuffer openssh ];
       instances = {
         daily = {
           onCalendar = "daily";
@@ -158,10 +166,8 @@ in {
   # This allows screensharing on wlr compositors using pipewire
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-    ];
+    xdgOpenUsePortal = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
     wlr.enable = true;
   };
 
@@ -236,10 +242,6 @@ in {
 
     sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
-    etc = {
-      "wireplumber/bluetooth.lua.d/50-bluez-config.lua".text =
-        "	bluez_monitor.properties = {\n		[\"with-logind\"] = false,\n	}\n";
-    };
   };
 
   # Installing fonts
@@ -257,6 +259,8 @@ in {
       noto-fonts-extra
     ];
   };
+
+  systemd.extraConfig = "DefaultTimeoutStopSec=10s";
 
   system.stateVersion = "23.05";
 }

@@ -61,7 +61,7 @@ in {
     qbittorrent
     rclone
     signal-desktop
-    unstable.spotify-player
+    spotify-player
     swww
     thunderbird-bin
     trashy-zsh-fix
@@ -69,6 +69,7 @@ in {
     webcord
     wlr-randr
     zathura
+
   ];
 
   # TODO: Find a place for this config
