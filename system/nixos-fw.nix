@@ -2,7 +2,6 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ config, pkgs, ... }:
 { inputs, config, pkgs, ... }@args:
 let username = "guillaume";
 in {
@@ -40,6 +39,9 @@ in {
       syntaxHighlighting.enable = true;
     };
   };
+
+  #TODO: Refactor config into modules like this for cleaner repo
+  imports = [ ../modules/greeter.nix ];
 
   services = {
     blueman.enable = true;
@@ -95,13 +97,6 @@ in {
       # Libinput gestures
       libinput.enable = true;
       libinput.touchpad.tapping = true;
-
-      displayManager = {
-        lightdm.enable = true;
-        defaultSession = "hyprland";
-        autoLogin.enable = true;
-        autoLogin.user = "${username}";
-      };
     };
 
     # Backup tool setup for the /home directory
@@ -235,6 +230,7 @@ in {
       wget
       wl-clipboard
       xdg-utils
+      vesktop
     ];
 
     # Get completion for system packages
