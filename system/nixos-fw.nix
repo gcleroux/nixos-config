@@ -29,6 +29,7 @@ in {
       enable = true;
       xwayland.enable = true;
     };
+    steam.enable = true;
     thunar = {
       enable = true;
       plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
@@ -230,6 +231,9 @@ in {
       wget
       wl-clipboard
       xdg-utils
+
+      lutris
+      protonup-qt
       vesktop
     ];
 
