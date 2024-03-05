@@ -23,6 +23,13 @@ in {
     allowUnfreePredicate = _: true;
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals =
+      [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+    configPackages = [ pkgs.hyprland ];
+  };
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "${username}";

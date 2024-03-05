@@ -92,6 +92,7 @@ in {
       SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", GROUP="wheel"
     '';
     udev.packages = [ pkgs.bazecor ];
+    upower.enable = true;
 
     xserver = {
       enable = true;
@@ -159,14 +160,6 @@ in {
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
-
-  # This allows screensharing on wlr compositors using pipewire
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-    wlr.enable = true;
-  };
 
   virtualisation = {
     # Enable docker
