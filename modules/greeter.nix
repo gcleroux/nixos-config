@@ -13,15 +13,17 @@ in {
   services.greetd = {
     enable = true;
     restart = false;
-    settings = {
-      default_session = {
+    settings = rec {
+      initial_session = {
         command = ''
           ${
             lib.makeBinPath [ pkgs.greetd.tuigreet ]
           }/tuigreet --remember --asterisks --time \
             --cmd ${lib.getExe runner}
         '';
+        user = "guillaume";
       };
+      default_session = initial_session;
     };
   };
 }
