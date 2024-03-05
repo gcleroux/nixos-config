@@ -10,7 +10,6 @@ let
 in [
   ./alacritty
   ./bat
-  ./bazecor
   ./bottom
   ./chromium
   ./direnv

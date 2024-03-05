@@ -46,6 +46,7 @@ in {
 
   # Installed packages
   home.packages = with pkgs; [
+    bazecor
     bitwarden
     bitwarden-cli
     caprine-bin
@@ -72,11 +73,9 @@ in {
     swww
     thunderbird-bin
     trashy-zsh-fix
-    vivaldi
-    webcord
+    vesktop
     wlr-randr
     zathura
-
   ];
 
   # TODO: Find a place for this config

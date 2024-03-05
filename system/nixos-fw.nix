@@ -24,6 +24,7 @@ in {
   programs = {
     dconf.enable = true;
     file-roller.enable = true;
+    quark-goldleaf.enable = true;
 
     hyprland = {
       enable = true;
@@ -86,12 +87,6 @@ in {
     # Thunar services
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
-
-    # Extra rule for Goldleaf
-    udev.extraRules = ''
-      SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", GROUP="wheel"
-    '';
-    udev.packages = [ pkgs.bazecor ];
     upower.enable = true;
 
     xserver = {
@@ -205,6 +200,7 @@ in {
       libsForQt5.kdeconnect-kde
       libsForQt5.polkit-kde-agent
       libsForQt5.qt5.qtwayland
+      lutris
       mesa
       networkmanagerapplet
       openconnect
@@ -213,6 +209,7 @@ in {
       pipewire
       playerctl
       powerstat
+      protonup-qt
       qt6.qtwayland
       rtkit
       slurp
@@ -224,10 +221,6 @@ in {
       wget
       wl-clipboard
       xdg-utils
-
-      lutris
-      protonup-qt
-      vesktop
     ];
 
     # Get completion for system packages
