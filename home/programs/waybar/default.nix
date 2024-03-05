@@ -3,7 +3,8 @@
   programs.waybar = {
     enable = true;
     systemd = {
-      enable = true;
+      enable =
+        false; # System tray is broken when using service file, switching to autostart
       target = "hyprland-session.target";
     };
 
