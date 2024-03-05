@@ -2,7 +2,7 @@
 let
   notify = ''
     ${pkgs.libnotify}/bin/notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -c "overlay" "Locking system in 1 minute"'';
-  lock = "${pkgs.swaylock}/bin/swaylock";
+  lock = "${pkgs.swaylock}/bin/swaylock -f";
   dpmsOff = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
   dpmsOn = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
   # Only sleep when battery is discharing, this will NOT prevent sleep while plugged in with dpms off.
@@ -33,9 +33,5 @@ in {
         command = sleep;
       }
     ];
-    events = [{
-      event = "before-sleep";
-      command = lock;
-    }];
   };
 }
