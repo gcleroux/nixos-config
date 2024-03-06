@@ -89,6 +89,8 @@ in {
       misc {
           disable_hyprland_logo = yes
           disable_splash_rendering = yes
+          allow_session_lock_restore = yes
+          disable_autoreload = yes
       }
     '';
   };

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # Edit below to control the images transition
-export SWWW_TRANSITION=none
+export SWWW_TRANSITION=outer
+export SWWW_TRANSITION_POS=0.9,0.9
 # export SWWW_TRANSITION_STEP=255
 # export SWWW_TRANSITION_FPS=10
 # export SWWW_TRANSITION_ANGLE=30
@@ -11,7 +12,7 @@ export SWWW_TRANSITION=none
 INTERVAL=300
 
 while true; do
-    LAST_IMG="$(swww query | awk -F'image: ' '{print $2}')"
-    swww img "$(find "$1" -type f -not -wholename "$LAST_IMG" | shuf -n 1)"
-    sleep $INTERVAL
+	LAST_IMG="$(swww query | awk -F'image: ' '{print $2}')"
+	swww img "$(find "$1" -type f -not -wholename "$LAST_IMG" | shuf -n 1)"
+	sleep $INTERVAL
 done

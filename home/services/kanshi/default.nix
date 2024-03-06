@@ -15,10 +15,6 @@
       docked = {
         outputs = [
           {
-            criteria = "eDP-1";
-            status = "disable";
-          }
-          {
             criteria = "DP-4";
             mode = "3840x2160@60Hz";
             position = "0,0";
@@ -29,6 +25,10 @@
             mode = "3840x2160@60Hz";
             position = "2304,0";
             scale = 1.666667;
+          }
+          {
+            criteria = "eDP-1";
+            status = "disable";
           }
         ];
       };
