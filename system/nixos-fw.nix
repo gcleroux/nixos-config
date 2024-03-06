@@ -213,6 +213,7 @@ in {
       qt6.qtwayland
       rtkit
       slurp
+      tpm2-tss
       unzip
       usbutils
       virt-manager
