@@ -5,7 +5,7 @@ if not chatgpt_status_ok then
 end
 
 chatgpt.setup({
-    api_key_cmd = "cat /run/user/1000/secrets/chatgpt_key",
+    api_key_cmd = "cat /run/user/1000/secrets/chatgpt_api_key",
     yank_register = "+",
     edit_with_instructions = {
         diff = false,

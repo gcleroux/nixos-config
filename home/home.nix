@@ -1,4 +1,4 @@
-{ config, pkgs, ... }@args:
+{ inputs, config, pkgs, ... }@args:
 let username = "guillaume";
 in {
   # Applying custom overlays
@@ -11,9 +11,13 @@ in {
     # This will automatically import SSH keys as age keys
     age.sshKeyPaths = [ "/home/guillaume/.ssh/id_ed25519" ];
     # TODO: Fix this uid to make it cleaner
-    defaultSymlinkPath = "/run/user/1000/secrets";
-    defaultSecretsMountPoint = "/run/user/1000/secrets.d";
+    defaultSymlinkPath = "$XDG_RUNTIME_DIR/secrets";
+    defaultSecretsMountPoint = "$XDG_RUNTIME_DIR/secrets.d";
   };
+  # Generate secrets at activation time
+  home.activation.setupEtc = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    /run/current-system/sw/bin/systemctl start --user sops-nix
+  '';
 
   nixpkgs.config = {
     # Disable if you don't want unfree packages
@@ -55,6 +59,7 @@ in {
     go
     hey
     jq
+    k9s
     kalendar
     killall
     krita

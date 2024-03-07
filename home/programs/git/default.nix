@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ config, pkgs, ... }: {
   programs.git = {
     enable = true;
     aliases = {
@@ -6,6 +6,9 @@
       unignore = "update-index --no-skip-worktree";
       ignored = "!git ls-files -v | grep '^[[:lower:]]'";
     };
+    userName = "Guillaume Cléroux";
+    userEmail = "73357644+gcleroux@users.noreply.github.com";
+
     extraConfig = {
       core = {
         editor = "nvim";
@@ -23,11 +26,6 @@
         "https://github.com/" = { insteadOf = [ "gh:" "github:" ]; };
         "https://codeberg.org/" = { insteadOf = [ "cb:" "codeberg:" ]; };
       };
-
     };
-    userName = "Guillaume Cléroux";
-    userEmail = builtins.readFile "${config.sops.secrets.github_email.path}";
   };
-
-  sops.secrets.github_email.sopsFile = ./secrets.yaml;
 }

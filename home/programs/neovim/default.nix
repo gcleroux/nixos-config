@@ -178,5 +178,5 @@
     ];
   };
 
-  sops.secrets.chatgpt_key.sopsFile = ./secrets.yaml;
+  sops.secrets.chatgpt_api_key.sopsFile = ./secrets.yaml;
 }
