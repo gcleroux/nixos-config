@@ -1,6 +1,9 @@
 -- Global config options
 require("globals.options")
 
+-- Custom vim commands
+require("globals.commands")
+
 -- Keymaps options
 require("globals.keymaps")
 
