@@ -44,7 +44,7 @@ in {
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_STATE_HOME = "$HOME/.local/state";
 
-    BROWSER = "chromium-browser";
+    BROWSER = "brave";
     TERMINAL = "foot";
   };
 
@@ -53,6 +53,7 @@ in {
     bazecor
     bitwarden
     bitwarden-cli
+    brave
     caprine-bin
     gh
     gimp
