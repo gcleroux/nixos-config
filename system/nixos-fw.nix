@@ -30,6 +30,7 @@ in {
       enable = true;
       xwayland.enable = true;
     };
+    seahorse.enable = true;
     steam.enable = true;
     thunar = {
       enable = true;
@@ -74,6 +75,8 @@ in {
           '')
       ];
     };
+
+    udev.packages = with pkgs; [ bazecor ];
 
     # Printing settings
     printing.enable = true;
@@ -171,11 +174,7 @@ in {
     polkit.enable = true;
 
     # This makes swaylock work to unlock session
-    pam.services.swaylock = {
-      text = ''
-        auth include login
-      '';
-    };
+    pam.services.swaylock = { };
   };
 
   environment = {

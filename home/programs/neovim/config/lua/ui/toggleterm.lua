@@ -12,10 +12,10 @@ toggleterm.setup({
     float_opts = {
         border = "single",
         width = function()
-            return math.floor(vim.o.columns * 0.9)
+            return math.floor(vim.o.columns * 0.85)
         end,
         height = function()
-            return math.floor(vim.o.lines * 0.9)
+            return math.floor(vim.o.lines * 0.85)
         end,
     },
 })
@@ -27,10 +27,10 @@ local lazygit = terminal:new({
     float_opts = {
         border = "single",
         width = function()
-            return math.floor(vim.o.columns * 0.9)
+            return math.floor(vim.o.columns * 0.85)
         end,
         height = function()
-            return math.floor(vim.o.lines * 0.9)
+            return math.floor(vim.o.lines * 0.85)
         end,
     },
     -- function to run on opening the terminal
@@ -50,10 +50,10 @@ local bottom = terminal:new({
     float_opts = {
         border = "single",
         width = function()
-            return math.floor(vim.o.columns * 0.9)
+            return math.floor(vim.o.columns * 0.85)
         end,
         height = function()
-            return math.floor(vim.o.lines * 0.9)
+            return math.floor(vim.o.lines * 0.85)
         end,
     },
     -- function to run on opening the terminal
@@ -73,10 +73,10 @@ local k9s = terminal:new({
     float_opts = {
         border = "single",
         width = function()
-            return math.floor(vim.o.columns * 0.9)
+            return math.floor(vim.o.columns * 0.85)
         end,
         height = function()
-            return math.floor(vim.o.lines * 0.9)
+            return math.floor(vim.o.lines * 0.85)
         end,
     },
     -- function to run on opening the terminal

@@ -29,7 +29,7 @@
           "memory"
           "cpu"
           "battery"
-          "hyprland/language"
+          # "hyprland/language"
           "tray"
           # "custom/powermenu"
         ];
