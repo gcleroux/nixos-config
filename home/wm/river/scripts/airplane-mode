@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Using a sleep makes the notification consistent
+sleep 0.5
+
+if [[ "$(nmcli r wifi)" == "enabled" ]]; then
+    notify-send -h string:x-canonical-private-synchronous:sys-notify \
+        -c "overlay" "Airplane mode: off"
+else
+    notify-send -h string:x-canonical-private-synchronous:sys-notify \
+        -c "overlay" "Airplane mode: on"
+fi

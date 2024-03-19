@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, username, ... }: {
   services.greetd = {
     enable = true;
     restart = false;
@@ -8,9 +8,9 @@
           ${
             lib.makeBinPath [ pkgs.greetd.tuigreet ]
           }/tuigreet --remember --asterisks --time \
-            --cmd "${pkgs.hyprland}/bin/Hyprland &> /dev/null"
+            --cmd "${pkgs.river}/bin/river &> /dev/null"
         '';
-        user = "guillaume";
+        user = username;
       };
       default_session = initial_session;
     };

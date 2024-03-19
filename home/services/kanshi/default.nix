@@ -1,7 +1,7 @@
 {
   services.kanshi = {
     enable = true;
-    systemdTarget = "hyprland-session.target";
+    systemdTarget = "river-session.target";
     profiles = {
       laptop = {
         outputs = [{

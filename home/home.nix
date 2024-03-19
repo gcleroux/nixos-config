@@ -1,6 +1,4 @@
-{ inputs, config, pkgs, ... }@args:
-let username = "guillaume";
-in {
+{ inputs, config, pkgs, username, ... }@args: {
   # Applying custom overlays
   nixpkgs.overlays = import ../overlays args;
 
@@ -11,8 +9,8 @@ in {
     # This will automatically import SSH keys as age keys
     age.sshKeyPaths = [ "/home/guillaume/.ssh/id_ed25519" ];
     # TODO: Fix this uid to make it cleaner
-    defaultSymlinkPath = "$XDG_RUNTIME_DIR/secrets";
-    defaultSecretsMountPoint = "$XDG_RUNTIME_DIR/secrets.d";
+    # defaultSymlinkPath = "$XDG_RUNTIME_DIR/secrets";
+    # defaultSecretsMountPoint = "$XDG_RUNTIME_DIR/secrets.d";
   };
   # Generate secrets at activation time
   home.activation.setupEtc = config.lib.dag.entryAfter [ "writeBoundary" ] ''
@@ -27,22 +25,24 @@ in {
     allowUnfreePredicate = _: true;
   };
 
-  xdg.portal = {
-    enable = true;
-    extraPortals =
-      [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
-    configPackages = [ pkgs.hyprland ];
-  };
+  # xdg.portal = {
+  #   enable = true;
+  #   extraPortals = with pkgs; [ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
+  #   config.river.default = [ "wlr" "gtk" ];
+  #
+  #   # [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+  #   # configPackages = [ pkgs.xdg-desktop-portal-wlr ];
+  # };
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
   home.sessionVariables = {
-    XDG_CACHE_HOME = "$HOME/.cache";
-    XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME = "$HOME/.local/share";
-    XDG_STATE_HOME = "$HOME/.local/state";
+    #   XDG_CACHE_HOME = "$HOME/.cache";
+    #   XDG_CONFIG_HOME = "$HOME/.config";
+    #   XDG_DATA_HOME = "$HOME/.local/share";
+    #   XDG_STATE_HOME = "$HOME/.local/state";
 
     BROWSER = "brave";
     TERMINAL = "foot";

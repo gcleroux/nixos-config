@@ -4,7 +4,7 @@
     enable = true;
     systemd = {
       enable = true;
-      target = "hyprland-session.target";
+      target = "river-session.target";
     };
 
     settings = {
@@ -14,10 +14,13 @@
 
         modules-left = [
           # "custom/launcher"
-          "hyprland/workspaces"
+          "river/tags"
           "temperature"
           "pulseaudio"
           "idle_inhibitor"
+          # "river/mode"
+          # "river/window"
+
           # "custom/cava-internal"
         ];
 
@@ -33,24 +36,16 @@
           "tray"
           # "custom/powermenu"
         ];
+        "river/mode" = { format = "mode: {}"; };
+        "river/window" = { format = "mode: {}"; };
 
-        "hyprland/workspaces" = {
-          active-only = false;
-          all-outputs = true;
-          format = "{icon}";
-          format-icons = {
-            "1" = "𝍠";
-            "2" = "𝍡";
-            "3" = "𝍢";
-            "4" = "𝍣";
-            "5" = "𝍤";
-            "6" = "𝍥";
-            "7" = "𝍦";
-            "8" = "𝍧";
-            "urgent" = "";
-            "focused" = "";
-            "default" = "";
-          };
+        "river/tags" = {
+          num-tags = 5;
+          tag-labels = [ "𝍠" "𝍡" "𝍢" "𝍣" "𝍤" "𝍥" "𝍦" "𝍧" ];
+          # "urgent" = "";
+          # "focused" = "";
+          # "default" = "";
+          # };
         };
 
         idle_inhibitor = {

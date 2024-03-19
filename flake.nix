@@ -13,16 +13,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # TODO: Switch to agenix
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
   };
 
   outputs = { self, ... }@inputs:
     let
+      username = "guillaume";
       system = "x86_64-linux";
       pkgs = inputs.nixpkgs.legacyPackages.${system};
     in {
@@ -30,20 +29,18 @@
       nixosConfigurations = {
         inherit system;
         nixos-fw = inputs.nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs username; };
           modules = [ ./hardware/nixos-fw.nix ./system/nixos-fw.nix ];
         };
       };
-      homeConfigurations = {
-        "guillaume@nixos-fw" =
-          inputs.home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            extraSpecialArgs = { inherit inputs; };
-            modules =
-              [ inputs.sops-nix.homeManagerModules.sops ./home/home.nix ];
-          };
-      };
+      homeConfigurations.${username} =
+        inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = { inherit inputs username; };
+          modules = [ inputs.sops-nix.homeManagerModules.sops ./home/home.nix ];
+        };
       devShells.${system}.default =
         pkgs.mkShell { packages = with pkgs; [ age ssh-to-age sops ]; };
+
     };
 }

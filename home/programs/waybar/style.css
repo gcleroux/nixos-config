@@ -25,7 +25,7 @@
 /* Global */
 * {
   font-family: "Cousine Nerd Font";
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   /* transition-property: background-color; */
   /* transition-duration: 0.5s; */
   background-color: @bg1;
@@ -91,6 +91,31 @@ window > box {
 }
 
 #workspaces button:hover {
+  /* border: .2px solid transparent; */
+  color: @cyan;
+}
+
+/* River tags */
+#tags:hover {
+  background-color: @green;
+}
+
+#tags button {
+  padding-right: 0.1rem;
+  padding-left: 0.1rem;
+  color: @fg3;
+  background: @bg1;
+}
+
+#tags button.occupied {
+  color: @fg0;
+}
+
+#tags button.focused {
+  color: @blue;
+}
+
+#tags button:hover {
   /* border: .2px solid transparent; */
   color: @cyan;
 }

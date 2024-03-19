@@ -3,8 +3,8 @@ let
   notify = ''
     ${pkgs.libnotify}/bin/notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -c "overlay" "Locking system in 1 minute"'';
   lock = "${pkgs.swaylock}/bin/swaylock";
-  dpmsOff = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
-  dpmsOn = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+  # dpmsOff = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+  # dpmsOn = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
   # Only sleep when battery is discharing, this will NOT prevent sleep while plugged in with dpms off.
   # To do this, you need logind lidSwitchExternalPower=ignore since it is not considered docked when
   # the displays are off.
@@ -13,7 +13,7 @@ let
 in {
   services.swayidle = {
     enable = true;
-    systemdTarget = "hyprland-session.target";
+    systemdTarget = "river-session.target";
     timeouts = [
       {
         timeout = 240;
@@ -23,11 +23,11 @@ in {
         timeout = 300;
         command = lock;
       }
-      {
-        timeout = 360;
-        command = dpmsOff;
-        resumeCommand = dpmsOn;
-      }
+      # {
+      #   timeout = 360;
+      #   command = dpmsOff;
+      #   resumeCommand = dpmsOn;
+      # }
       {
         timeout = 900;
         command = sleep;

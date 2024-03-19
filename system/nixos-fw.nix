@@ -2,9 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ inputs, config, pkgs, ... }@args:
-let username = "guillaume";
-in {
+{ inputs, config, pkgs, username, ... }@args: {
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = import ../overlays args;
 
@@ -21,15 +19,24 @@ in {
     shell = pkgs.zsh;
   };
 
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    config.common.default = [ "wlr" "gtk" ];
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+  };
+
   programs = {
     dconf.enable = true;
     file-roller.enable = true;
     quark-goldleaf.enable = true;
 
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-    };
+    # hyprland = {
+    #   enable = true;
+    #   xwayland.enable = true;
+    # };
+    river.enable = true;
+
     seahorse.enable = true;
     steam.enable = true;
     thunar = {
