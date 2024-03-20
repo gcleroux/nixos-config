@@ -5,11 +5,7 @@ let
   lock = "${pkgs.swaylock}/bin/swaylock";
   # dpmsOff = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
   # dpmsOn = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
-  # Only sleep when battery is discharing, this will NOT prevent sleep while plugged in with dpms off.
-  # To do this, you need logind lidSwitchExternalPower=ignore since it is not considered docked when
-  # the displays are off.
-  sleep = ''
-    [ "$(${pkgs.bat}/bin/bat -p /sys/class/power_supply/BAT1/status)" = "Discharging" ] && ${pkgs.systemd}/bin/systemctl suspend'';
+  sleep = "${pkgs.systemd}/bin/systemctl suspend";
 in {
   services.swayidle = {
     enable = true;
@@ -29,7 +25,7 @@ in {
       #   resumeCommand = dpmsOn;
       # }
       {
-        timeout = 900;
+        timeout = 600;
         command = sleep;
       }
     ];

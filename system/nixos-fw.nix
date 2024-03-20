@@ -65,7 +65,7 @@
     openssh.enable = true;
 
     # This will prevent laptop from going to sleep when turning off screens
-    logind.lidSwitchExternalPower = "ignore";
+    # logind.lidSwitchExternalPower = "ignore";
 
     # Pipewire settings
     pipewire = {
