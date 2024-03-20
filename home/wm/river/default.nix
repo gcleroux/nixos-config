@@ -1,8 +1,6 @@
 let scripts = "river/scripts";
 in {
   xdg.configFile = {
-    "river/autostart".source = ./autostart;
-
     # Scripts files
     "${scripts}/airplane-mode".source = ./scripts/airplane-mode;
     "${scripts}/brightness".source = ./scripts/brightness;
@@ -31,7 +29,12 @@ in {
       # documentation.
 
       # Autostart programs
-      ./autostart
+      # ==================
+      riverctl spawn "swww init"
+      riverctl spawn "${scripts}/swww_random $HOME/Pictures/Wallpapers"
+      riverctl spawn "nm-applet --indicator"
+      riverctl spawn "spotify_player -d"
+      riverctl spawn "signal-desktop --start-in-tray"
 
       riverctl map normal Super Return spawn foot
       riverctl map normal Control Space spawn "wofi --allow-images --show drun"
@@ -80,10 +83,10 @@ in {
       riverctl map normal Super+Alt L send-layout-cmd rivertile "main-count -1"
 
       # Super+Alt+{H,J,K,L} to move views
-      riverctl map normal Alt H move left 100
-      riverctl map normal Alt J move down 100
-      riverctl map normal Alt K move up 100
-      riverctl map normal Alt L move right 100
+      # riverctl map normal Alt H move left 100
+      # riverctl map normal Alt J move down 100
+      # riverctl map normal Alt K move up 100
+      # riverctl map normal Alt L move right 100
 
       # Super+Alt+Control+{H,J,K,L} to snap views to screen edges
       riverctl map normal Alt+Shift H snap left
@@ -200,7 +203,7 @@ in {
       riverctl set-repeat 50 300
 
       # Set keyboard layout
-      riverctl keyboard-layout -variant ",,multix" -options "shift:both_capslock,caps:escape,grp:ctrls_toggle" eu,us,ca
+      riverctl keyboard-layout -variant ",,multix" -options "shift:both_capslock,caps:escape,grp:alt_space_toggle" eu,us,ca
 
       # Set touchpad by grabbing the event
       for pad in $(riverctl list-inputs | grep -i touchpad); do
