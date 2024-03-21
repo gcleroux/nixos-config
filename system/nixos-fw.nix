@@ -29,6 +29,7 @@
   programs = {
     dconf.enable = true;
     file-roller.enable = true;
+    kdeconnect.enable = true;
     quark-goldleaf.enable = true;
 
     # hyprland = {
@@ -51,7 +52,7 @@
   };
 
   #TODO: Refactor config into modules like this for cleaner repo
-  imports = [ ../modules/greeter.nix ];
+  imports = [ ../modules/greeter.nix ../modules/polkit-gnome.nix ];
 
   services = {
     auto-cpufreq.enable = true;
@@ -61,6 +62,8 @@
     flatpak.enable = true;
     fwupd.enable = true;
     gnome.gnome-keyring.enable = true;
+
+    # keyd = { enable = true; };
     mullvad-vpn.enable = true;
     openssh.enable = true;
 
@@ -203,9 +206,6 @@
       imagemagick
       libguestfs
       libnotify
-      libsForQt5.kdeconnect-kde
-      libsForQt5.polkit-kde-agent
-      libsForQt5.qt5.qtwayland
       lutris
       mesa
       networkmanagerapplet
@@ -216,7 +216,6 @@
       playerctl
       powerstat
       protonup-qt
-      qt6.qtwayland
       rtkit
       slurp
       tpm2-tss
