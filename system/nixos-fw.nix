@@ -223,7 +223,6 @@
       unzip
       usbutils
       virt-manager
-      wacomtablet
       wdisplays
       wget
       wl-clipboard
