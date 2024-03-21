@@ -30,7 +30,8 @@ in {
 
       # Autostart programs
       # ==================
-      riverctl spawn "swww init && ${scripts}/swww_random ~/Pictures/Wallpapers"
+      # riverctl spawn "swww init; sleep 2 && ${scripts}/swww_random ~/Pictures/Wallpapers"
+      riverctl spawn "wbg ~/Pictures/Wallpapers/murky_peaks.jpg"
       riverctl spawn "nm-applet --indicator"
       riverctl spawn "spotify_player -d"
       riverctl spawn "signal-desktop --start-in-tray"
@@ -178,7 +179,7 @@ in {
 
       # Set background and border color
       riverctl border-width 3
-      riverctl background-color 0x232831
+      # riverctl background-color 0x000000
       riverctl border-color-focused 0x81a1c1
       riverctl border-color-unfocused 0x595959
 
@@ -215,6 +216,7 @@ in {
 
       # Cursor config
       riverctl focus-follows-cursor normal
+      riverctl hide-cursor timeout 10000
 
       # Set the default layout generator to be rivertile and start it.
       # River will send the process group of the init executable SIGTERM on exit.

@@ -77,10 +77,11 @@
     rclone
     signal-desktop
     spotify-player
-    swww
+    # swww
     thunderbird-bin
     trashy-zsh-fix
     vesktop
+    wbg
     wlr-randr
     zathura
   ];

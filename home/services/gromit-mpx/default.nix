@@ -1,6 +1,6 @@
 {
   services.gromit-mpx = {
-    enable = true;
+    enable = false; # TODO: Gromit-mpx and river aren't playing well together
     hotKey = "F9";
     undoKey = "F10";
 
