@@ -7,7 +7,7 @@ n() {
 	}
 
 	# Manual cd on quit with ^G. Add "export" for automatic cd on quit
-	export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+	NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
 
 	# This allows to alias nnn to n without infinite recursion
 	command nnn "-deo$@"
