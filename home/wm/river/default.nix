@@ -30,8 +30,7 @@ in {
 
       # Autostart programs
       # ==================
-      riverctl spawn "swww init"
-      riverctl spawn "${scripts}/swww_random $HOME/Pictures/Wallpapers"
+      riverctl spawn "swww init && ${scripts}/swww_random ~/Pictures/Wallpapers"
       riverctl spawn "nm-applet --indicator"
       riverctl spawn "spotify_player -d"
       riverctl spawn "signal-desktop --start-in-tray"

@@ -96,6 +96,7 @@
       nvim-neoclip-lua
       telescope-media-files-nvim
       telescope-nvim
+      fzf-lua
 
       # TreeSitter plugins
       nvim-treesitter.withAllGrammars

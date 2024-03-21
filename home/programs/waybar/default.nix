@@ -70,7 +70,8 @@
         };
 
         temperature = {
-          hwmon-path = "/sys/class/thermal/thermal_zone5/temp";
+          hwmon-path =
+            "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input";
           critical-threshold = 80;
           tooltip = false;
           format = " {temperatureC}°C";

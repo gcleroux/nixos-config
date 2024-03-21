@@ -36,7 +36,7 @@
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "${username}";
+  home.username = username;
   home.homeDirectory = "/home/${username}";
   home.sessionVariables = {
     #   XDG_CACHE_HOME = "$HOME/.cache";
@@ -55,6 +55,7 @@
     bitwarden-cli
     brave
     caprine-bin
+    fd
     gh
     gimp
     go
