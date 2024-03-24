@@ -16,9 +16,20 @@
     };
     # Kernel config
     kernelPackages = pkgs.linuxPackages_zen;
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [ "kvm-intel" "ddcci_backlight" ];
     kernelParams = [ "mem_sleep_default=deep" "quiet" "splash" ];
-    extraModulePackages = [ ];
+    extraModulePackages = with config.boot.kernelPackages;
+      [
+        (ddcci-driver.overrideAttrs (old: {
+          patches = [
+            (pkgs.fetchpatch {
+              url =
+                "https://gitlab.com/Sweenu/ddcci-driver-linux/-/commit/7f851f5fb8fbcd7b3a93aaedff90b27124e17a7e.patch";
+              hash = "sha256-Y1ktYaJTd9DtT/mwDqtjt/YasW9cVm0wI43wsQhl7Bg=";
+            })
+          ];
+        }))
+      ];
     extraModprobeConfig = "options kvm_intel nested=1";
 
     initrd = {
@@ -86,14 +97,10 @@
     };
     opentabletdriver.enable = true;
     opentabletdriver.daemon.enable = true;
+    i2c.enable = true;
     logitech.wireless.enable = true;
     logitech.wireless.enableGraphical = true;
   };
 
   networking.useDHCP = lib.mkDefault true;
-
-  powerManagement = {
-    enable = true;
-    cpuFreqGovernor = lib.mkDefault "powersave";
-  };
 }

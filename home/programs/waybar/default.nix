@@ -27,7 +27,7 @@
         modules-center = [ "custom/weather" "clock" ];
 
         modules-right = [
-          "backlight"
+          "custom/brightness"
           "disk"
           "memory"
           "cpu"
@@ -84,10 +84,18 @@
           tooltip = true;
           tooltip-format = "{:%A, %d %B %Y} <tt>{calendar}</tt>";
         };
-        backlight = {
-          device = "intel_backlight";
-          format = "{icon} {percent}%";
+        "custom/brightness" = {
+          interval = 5;
+          format = "{icon} {}%";
           format-icons = [ "󱩏" "󱩑" "󱩓" "󱩕" "󰛨" ];
+          exec = pkgs.writeShellScript "brightness" ''
+            # Get the brightness percentage of the display as an int
+            ${pkgs.brightnessctl}/bin/brightnessctl -m | \
+            ${pkgs.busybox}/bin/cut -d, -f4 | \
+            ${pkgs.busybox}/bin/tr -d '%' | \
+            ${pkgs.jq}/bin/jq -cR --unbuffered '{"text": ., "percentage": tonumber}'
+          '';
+          return-type = "json";
         };
         memory = {
           on-click = "${pkgs.foot}/bin/foot ${pkgs.bottom}/bin/btm";
@@ -112,7 +120,7 @@
           tooltip = true;
         };
         disk = {
-          interval = 30;
+          interval = 1800;
           format = " {used}";
           path = "/";
           tooltip = true;

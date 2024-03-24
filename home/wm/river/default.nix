@@ -1,15 +1,4 @@
-let scripts = "river/scripts";
-in {
-  xdg.configFile = {
-    # Scripts files
-    "${scripts}/airplane-mode".source = ./scripts/airplane-mode;
-    "${scripts}/brightness".source = ./scripts/brightness;
-    "${scripts}/keyboard-layout".source = ./scripts/keyboard-layout;
-    "${scripts}/volume".source = ./scripts/volume;
-    "${scripts}/emoji".source = ./scripts/emoji;
-    "${scripts}/swww_random".source = ./scripts/swww_random;
-  };
-
+{ pkgs, ... }: {
   wayland.windowManager.river = {
     enable = true;
     systemd.enable = true;
@@ -30,15 +19,24 @@ in {
 
       # Autostart programs
       # ==================
-      # riverctl spawn "swww init; sleep 2 && ${scripts}/swww_random ~/Pictures/Wallpapers"
+      # riverctl spawn "swww init; sleep 2 && ${pkgs.custom-scripts}/bin/swww_random ~/Pictures/Wallpapers"
+      riverctl spawn "way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1"
       riverctl spawn "wbg ~/Pictures/Wallpapers/murky_peaks.jpg"
       riverctl spawn "nm-applet --indicator"
       riverctl spawn "spotify_player -d"
       riverctl spawn "signal-desktop --start-in-tray"
 
+      # Using swayidle here since ddcutil breaks with a home-manager service
+      riverctl spawn '${pkgs.swayidle}/bin/swayidle -w \
+                     timeout 240 "${pkgs.libnotify}/bin/notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -c overlay Locking system in 1 minute" \
+                     timeout 300 "${pkgs.swaylock}/bin/swaylock" \
+                     timeout 600 "${pkgs.custom-scripts}/bin/brightness --dpms-off" \
+                          resume "${pkgs.custom-scripts}/bin/brightness --dpms-on" \
+                     before-sleep "${pkgs.swaylock}/bin/swaylock"'
+
       riverctl map normal Super Return spawn foot
       riverctl map normal Control Space spawn "wofi --allow-images --show drun"
-      riverctl map normal Control Semicolon spawn $scripts/emoji # CTRL+;
+      riverctl map normal Control Semicolon spawn ${pkgs.custom-scripts}/bin/emoji # CTRL+;
       riverctl map normal Super B spawn brave
       riverctl map normal Super D spawn vesktop
       riverctl map normal Super F spawn thunar
@@ -157,14 +155,14 @@ in {
       # not have a modifier
       for mode in normal locked; do
       	# Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
-      	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "$scripts/volume --inc-output"
-      	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "$scripts/volume --dec-output"
-      	riverctl map $mode None XF86AudioMute spawn "$scripts/volume --toggle-output"
+      	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "${pkgs.custom-scripts}/bin/volume --inc-output"
+      	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "${pkgs.custom-scripts}/bin/volume --dec-output"
+      	riverctl map $mode None XF86AudioMute spawn "${pkgs.custom-scripts}/bin/volume --toggle-output"
 
       	# Input volume control
-      	riverctl map -repeat $mode Shift XF86AudioRaiseVolume spawn "$scripts/volume --inc-input"
-      	riverctl map -repeat $mode Shift XF86AudioLowerVolume spawn "$scripts/volume --dec-input"
-      	riverctl map $mode Shift XF86AudioMute spawn "$scripts/volume --toggle-input"
+      	riverctl map -repeat $mode Shift XF86AudioRaiseVolume spawn "${pkgs.custom-scripts}/bin/volume --inc-input"
+      	riverctl map -repeat $mode Shift XF86AudioLowerVolume spawn "${pkgs.custom-scripts}/bin/volume --dec-input"
+      	riverctl map $mode Shift XF86AudioMute spawn "${pkgs.custom-scripts}/bin/volume --toggle-input"
 
       	# Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
       	riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
@@ -173,8 +171,8 @@ in {
       	riverctl map $mode None XF86AudioNext spawn 'playerctl next'
 
       	# Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
-      	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "$scripts/brightness --inc"
-      	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "$scripts/brightness --dec"
+      	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "${pkgs.custom-scripts}/bin/brightness --inc"
+      	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "${pkgs.custom-scripts}/bin/brightness --dec"
       done
 
       # Set background and border color

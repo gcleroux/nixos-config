@@ -1,6 +1,6 @@
 {
   services.kanshi = {
-    enable = true;
+    enable = false;
     systemdTarget = "river-session.target";
     profiles = {
       laptop = {
@@ -15,13 +15,13 @@
       docked = {
         outputs = [
           {
-            criteria = "DP-4";
+            criteria = "Dell Inc. DELL S2721QS FQ0FM43";
             mode = "3840x2160@60Hz";
             position = "0,0";
             scale = 1.666667;
           }
           {
-            criteria = "DP-3";
+            criteria = "Dell Inc. DELL S2721QS 7Q1FM43";
             mode = "3840x2160@60Hz";
             position = "2304,0";
             scale = 1.666667;

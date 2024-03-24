@@ -193,7 +193,7 @@ tooltip label {
   padding-left: 0.4rem;
   color: @pink;
 }
-#backlight {
+#custom-brightness {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
   color: @green;

@@ -14,8 +14,15 @@
   # User config
   users.users.${username} = {
     isNormalUser = true;
-    extraGroups =
-      [ "wheel" "input" "docker" "libvirtd" "qemu-libvirtd" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "input"
+      "video"
+      "docker"
+      "libvirtd"
+      "qemu-libvirtd"
+      "networkmanager"
+    ];
     shell = pkgs.zsh;
   };
 
@@ -31,11 +38,6 @@
     file-roller.enable = true;
     kdeconnect.enable = true;
     quark-goldleaf.enable = true;
-
-    # hyprland = {
-    #   enable = true;
-    #   xwayland.enable = true;
-    # };
     river.enable = true;
 
     seahorse.enable = true;
@@ -55,7 +57,19 @@
   imports = [ ../modules/greeter.nix ../modules/polkit-gnome.nix ];
 
   services = {
-    auto-cpufreq.enable = true;
+    auto-cpufreq = {
+      enable = true;
+      settings = {
+        battery = {
+          governor = "powersave";
+          turbo = "never";
+        };
+        charger = {
+          governor = "performance";
+          turbo = "auto";
+        };
+      };
+    };
     blueman.enable = true;
     dbus.enable = true;
     # fprintd.enable = true;
@@ -226,6 +240,8 @@
       wget
       wl-clipboard
       xdg-utils
+
+      ddcutil
     ];
 
     # Get completion for system packages

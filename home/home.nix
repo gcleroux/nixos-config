@@ -3,7 +3,7 @@
   nixpkgs.overlays = import ../overlays args;
 
   imports =
-    builtins.concatMap import [ ./programs ./services ./themes ./wm ./modules ];
+    builtins.concatMap import [ ./modules ./programs ./services ./themes ./wm ];
 
   sops = {
     # This will automatically import SSH keys as age keys
@@ -78,10 +78,12 @@
     signal-desktop
     spotify-player
     # swww
+    swayidle
     thunderbird-bin
     trashy-zsh-fix
     vesktop
     wbg
+    way-displays
     wlr-randr
     zathura
   ];
