@@ -11,7 +11,7 @@
 
       ${builtins.readFile ./nnn_zsh_cd.sh}
     '';
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
     shellAliases = {
       # Bat aliases
