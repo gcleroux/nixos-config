@@ -6,12 +6,12 @@ end
 
 go.setup({
     go = "go",
-    goimport = "goimports-reviser",
-    fillstruct = "fillstruct",
-    gofmt = "gofumpt",
-    gopls_remote_auto = false,
-    max_line_len = 100,
-    tag_options = "json=omitempty",
+    -- goimport = "goimports-reviser",
+    -- fillstruct = "fillstruct",
+    -- gofmt = "golines",
+    -- gopls_remote_auto = false,
+    -- max_line_len = 100,
+    -- tag_options = "json=omitempty",
     trouble = true,
 
     lsp_document_formatting = false,
