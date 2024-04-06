@@ -2,6 +2,41 @@
   xdg.mimeApps = {
     enable = true;
     defaultApplications = let
+      archive = [
+        "application/x-tar"
+        "application/x-compressed-tar"
+        "application/x-bzip-compressed-tar"
+        "application/x-tarz"
+        "application/x-xz-compressed-tar"
+        "application/x-lzma-compressed-tar"
+        "application/x-lzip-compressed-tar"
+        "application/x-tzo"
+        "application/x-lrzip-compressed-tar"
+        "application/x-lz4-compressed-tar"
+        "application/x-zstd-compressed-tar"
+        "application/x-cd-image"
+        "application/x-bcpio"
+        "application/x-cpio"
+        "application/x-cpio-compressed"
+        "application/x-sv4cpio"
+        "application/x-sv4crc"
+        "application/x-source-rpm"
+        "application/vnd.ms-cab-compressed"
+        "application/x-xar"
+        "application/x-iso9660-appimage"
+        "application/x-archive"
+        "application/vnd.rar"
+        "application/x-rar"
+        "application/x-7z-compressed"
+        "application/zip"
+        "application/x-compress"
+        "application/gzip"
+        "application/x-bzip"
+        "application/x-lzma"
+        "application/x-xz"
+        "application/zstd"
+        "application/x-lha"
+      ];
       # take from the respective mimetype files
       images = [
         "image/bmp"
@@ -33,7 +68,6 @@
         "x-scheme-handler/https"
         "x-scheme-handler/about"
         "x-scheme-handler/unknown"
-        "application/octet-stream"
       ];
       documents = [
         "application/vnd.comicbook-rar"
@@ -213,13 +247,14 @@
         "text/x-c"
         "text/x-c++"
       ];
-    in (lib.genAttrs code (_: [ "nvim.desktop" ]))
+      files = [ "inode/directory" ];
+
+    in (lib.genAttrs archive (_: [ "org.gnome.FileRoller.desktop" ])
+      // lib.genAttrs code (_: [ "nvim.desktop" ]))
     // (lib.genAttrs images (_: [ "imv.desktop" ]))
-    // (lib.genAttrs urls (_: [ "brave-browser.desktop" ]))
+    // (lib.genAttrs urls (_: [ "chromium-browser.desktop" ]))
     // (lib.genAttrs documents (_: [ "org.pwmt.zathura.desktop" ]))
-    // (lib.genAttrs audioVideo (_: [ "mpv.desktop" ])) // (lib.genAttrs [
-      "x-scheme-handler/sgnl"
-      "x-scheme-handler/signalcaptcha"
-    ] (_: [ "signal-desktop.desktop" ]));
+    // (lib.genAttrs audioVideo (_: [ "mpv.desktop" ]))
+    // (lib.genAttrs files (_: [ "nnn.desktop" ]));
   };
 }

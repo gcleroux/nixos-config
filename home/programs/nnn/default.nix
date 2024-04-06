@@ -2,13 +2,7 @@
   programs.nnn = {
     enable = true;
     package = pkgs.nnn.override { withNerdIcons = true; };
-    extraPackages = with pkgs; [
-      autojump
-      libsForQt5.kdeconnect-kde
-      renameutils
-      rsync
-      xdragon
-    ];
+    extraPackages = with pkgs; [ autojump renameutils rsync xdragon ];
     bookmarks = {
       d = "~/Downloads";
       p = "~/Projects";
@@ -24,6 +18,7 @@
       r = "renamer";
       R = "rsynccp";
       m = "nmount";
+      n = "nuke";
       s = "suedit";
     };
     plugins.src = pkgs.nnn.src + "/plugins";

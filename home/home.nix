@@ -44,7 +44,7 @@
     #   XDG_DATA_HOME = "$HOME/.local/share";
     #   XDG_STATE_HOME = "$HOME/.local/state";
 
-    BROWSER = "brave";
+    BROWSER = "chromium-browser";
     TERMINAL = "foot";
   };
 
@@ -73,7 +73,6 @@
     neofetch
     obs-studio
     pavucontrol
-    qbittorrent
     rclone
     signal-desktop
     spotify-player
@@ -81,6 +80,7 @@
     swayidle
     thunderbird-bin
     trashy-zsh-fix
+    transmission_4-gtk
     vesktop
     wbg
     way-displays

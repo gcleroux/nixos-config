@@ -36,7 +36,7 @@
   programs = {
     dconf.enable = true;
     file-roller.enable = true;
-    kdeconnect.enable = true;
+    # kdeconnect.enable = true;
     quark-goldleaf.enable = true;
     river.enable = true;
 
@@ -225,6 +225,7 @@
       networkmanagerapplet
       openconnect
       openvpn
+      p7zip
       pciutils
       pipewire
       playerctl

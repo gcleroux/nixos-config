@@ -40,6 +40,7 @@
         "/dev/disk/by-uuid/dbed6eea-7331-4610-b531-4f78b063fb1a";
       systemd.enable = true;
     };
+    tmp.cleanOnBoot = true;
   };
 
   fileSystems = {
