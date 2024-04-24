@@ -9,8 +9,8 @@
     # This will automatically import SSH keys as age keys
     age.sshKeyPaths = [ "/home/guillaume/.ssh/id_ed25519" ];
     # TODO: Fix this uid to make it cleaner
-    # defaultSymlinkPath = "$XDG_RUNTIME_DIR/secrets";
-    # defaultSecretsMountPoint = "$XDG_RUNTIME_DIR/secrets.d";
+    defaultSymlinkPath = "/run/user/1000/secrets";
+    defaultSecretsMountPoint = "/run/user/1000/secrets.d";
   };
   # Generate secrets at activation time
   home.activation.setupEtc = config.lib.dag.entryAfter [ "writeBoundary" ] ''
