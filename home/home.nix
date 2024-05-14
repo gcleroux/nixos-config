@@ -69,6 +69,7 @@
     brave
     caprine-bin
     fd
+    fluxcd
     gh
     gimp
     go
@@ -79,6 +80,7 @@
     killall
     krita
     kubectl
+    kubernetes-helm
     kubie
     libreoffice-qt
     moonlight-qt
@@ -90,7 +92,6 @@
     rclone
     signal-desktop
     spotify-player
-    # swww
     swayidle
     thunderbird-bin
     trashy-zsh-fix
