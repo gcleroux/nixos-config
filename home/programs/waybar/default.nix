@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   programs.waybar = {
     enable = true;
@@ -24,7 +25,10 @@
           # "custom/cava-internal"
         ];
 
-        modules-center = [ "custom/weather" "clock" ];
+        modules-center = [
+          "custom/weather"
+          "clock"
+        ];
 
         modules-right = [
           "custom/brightness"
@@ -36,12 +40,25 @@
           "tray"
           # "custom/powermenu"
         ];
-        "river/mode" = { format = "mode: {}"; };
-        "river/window" = { format = "mode: {}"; };
+        "river/mode" = {
+          format = "mode: {}";
+        };
+        "river/window" = {
+          format = "mode: {}";
+        };
 
         "river/tags" = {
           num-tags = 5;
-          tag-labels = [ "𝍠" "𝍡" "𝍢" "𝍣" "𝍤" "𝍥" "𝍦" "𝍧" ];
+          tag-labels = [
+            "𝍠"
+            "𝍡"
+            "𝍢"
+            "𝍣"
+            "𝍤"
+            "𝍥"
+            "𝍦"
+            "𝍧"
+          ];
           # "urgent" = "";
           # "focused" = "";
           # "default" = "";
@@ -63,22 +80,24 @@
           format-muted = "󰝟 Muted";
           format-icons = {
             headphones = "";
-            default = [ "" "" "" ];
+            default = [
+              ""
+              ""
+              ""
+            ];
           };
           on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
           tooltip = false;
         };
 
         temperature = {
-          hwmon-path =
-            "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input";
+          hwmon-path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input";
           critical-threshold = 80;
           tooltip = false;
           format = " {temperatureC}°C";
         };
         clock = {
-          on-click =
-            "${pkgs.libsForQt5.merkuro}/bin/merkuro-calendar --platform wayland";
+          on-click = "${pkgs.libsForQt5.merkuro}/bin/merkuro-calendar --platform wayland";
           interval = 1;
           format = "{:%I:%M %p | %A, %b %d}";
           tooltip = true;
@@ -87,7 +106,13 @@
         "custom/brightness" = {
           interval = 5;
           format = "{icon} {}%";
-          format-icons = [ "󱩏" "󱩑" "󱩓" "󱩕" "󰛨" ];
+          format-icons = [
+            "󱩏"
+            "󱩑"
+            "󱩓"
+            "󱩕"
+            "󰛨"
+          ];
           exec = pkgs.writeShellScript "brightness" ''
             # Get the brightness percentage of the display as an int
             ${pkgs.brightnessctl}/bin/brightnessctl -m | \
@@ -101,7 +126,9 @@
           on-click = "${pkgs.foot}/bin/foot ${pkgs.bottom}/bin/btm";
           interval = 5;
           format = " {percentage:2}%";
-          states = { "warning" = 90; };
+          states = {
+            "warning" = 90;
+          };
         };
         cpu = {
           interval = 5;
@@ -116,7 +143,12 @@
           };
           format = "{icon} {capacity}%";
           format-charging = "󱊦 {capacity}%";
-          format-icons = [ "󰂎" "󱊡" "󱊢" "󱊣" ];
+          format-icons = [
+            "󰂎"
+            "󱊡"
+            "󱊢"
+            "󱊣"
+          ];
           tooltip = true;
         };
         disk = {
@@ -130,7 +162,9 @@
           icon-size = 20;
           spacing = 5;
         };
-        "hyprland/language" = { format = "󰌌 {short}"; };
+        "hyprland/language" = {
+          format = "󰌌 {short}";
+        };
       };
     };
     style = ./style.css;

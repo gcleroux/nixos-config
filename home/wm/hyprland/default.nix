@@ -1,7 +1,8 @@
 let
   configDir = "hypr/config.d";
   scriptsDir = "hypr/scripts";
-in {
+in
+{
   # TODO: Find a cleaner way to manage config
   xdg.configFile = {
     # Config files

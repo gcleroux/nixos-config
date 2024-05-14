@@ -1,1 +1,4 @@
-[ ./default-apps.nix ./desktop-entries.nix ]
+[
+  ./default-apps.nix
+  ./desktop-entries.nix
+]

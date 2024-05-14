@@ -1,8 +1,14 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.nnn = {
     enable = true;
     package = pkgs.nnn.override { withNerdIcons = true; };
-    extraPackages = with pkgs; [ autojump renameutils rsync xdragon ];
+    extraPackages = with pkgs; [
+      autojump
+      renameutils
+      rsync
+      xdragon
+    ];
     bookmarks = {
       d = "~/Downloads";
       p = "~/Projects";

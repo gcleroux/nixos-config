@@ -1,9 +1,12 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   wayland.windowManager.river = {
     enable = true;
     systemd.enable = true;
     xwayland.enable = true;
-    extraSessionVariables = { XCURSOR_SIZE = 24; };
+    extraSessionVariables = {
+      XCURSOR_SIZE = 24;
+    };
     extraConfig = ''
       #!/usr/bin/env sh
 

@@ -1,5 +1,7 @@
 {
-  xdg.configFile = { "swaylock/swaylock.png".source = ./swaylock.png; };
+  xdg.configFile = {
+    "swaylock/swaylock.png".source = ./swaylock.png;
+  };
 
   programs.swaylock = {
     enable = true;
@@ -24,6 +26,5 @@
       layout-text-color = "#eceff4";
       line-wrong-color = "#d08770";
     };
-
   };
 }

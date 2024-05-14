@@ -1,9 +1,7 @@
 {
   programs.chromium = {
     enable = true;
-    commandLineArgs = [
-      "--enable-features=TouchpadOverscrollHistoryNavigation,OverlayScrollbar"
-    ];
+    commandLineArgs = [ "--enable-features=TouchpadOverscrollHistoryNavigation,OverlayScrollbar" ];
     extensions = [
       { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock origin
       { id = "bmnlcjabgnpnenekpadlanbbkooimhnj"; } # honey

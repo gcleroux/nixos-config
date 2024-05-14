@@ -19,28 +19,43 @@
     };
   };
 
-  outputs = { self, ... }@inputs:
+  outputs =
+    { self, ... }@inputs:
     let
       username = "guillaume";
       system = "x86_64-linux";
       pkgs = inputs.nixpkgs.legacyPackages.${system};
-    in {
+    in
+    {
       # Standalone NixOS conf
       nixosConfigurations = {
         inherit system;
         nixos-fw = inputs.nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs username; };
-          modules = [ ./hardware/nixos-fw.nix ./system/nixos-fw.nix ];
+          specialArgs = {
+            inherit inputs username;
+          };
+          modules = [
+            ./hardware/nixos-fw.nix
+            ./system/nixos-fw.nix
+          ];
         };
       };
-      homeConfigurations.${username} =
-        inputs.home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = { inherit inputs username; };
-          modules = [ inputs.sops-nix.homeManagerModules.sops ./home/home.nix ];
+      homeConfigurations.${username} = inputs.home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {
+          inherit inputs username;
         };
-      devShells.${system}.default =
-        pkgs.mkShell { packages = with pkgs; [ age ssh-to-age sops ]; };
-
+        modules = [
+          inputs.sops-nix.homeManagerModules.sops
+          ./home/home.nix
+        ];
+      };
+      devShells.${system}.default = pkgs.mkShell {
+        packages = with pkgs; [
+          age
+          ssh-to-age
+          sops
+        ];
+      };
     };
 }

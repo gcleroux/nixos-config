@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   programs.git = {
     enable = true;
     aliases = {
@@ -15,16 +16,34 @@
         whitespace = "trailing-space,space-before-tab";
       };
       credential = {
-        "https://github.com" = { username = "gcleroux"; };
-        "https://codeberg.org" = { username = "gcleroux"; };
+        "https://github.com" = {
+          username = "gcleroux";
+        };
+        "https://codeberg.org" = {
+          username = "gcleroux";
+        };
         helper = "cache";
       };
-      init = { defaultBranch = "main"; };
-      remote.origin = { prune = true; };
+      init = {
+        defaultBranch = "main";
+      };
+      remote.origin = {
+        prune = true;
+      };
 
       url = {
-        "https://github.com/" = { insteadOf = [ "gh:" "github:" ]; };
-        "https://codeberg.org/" = { insteadOf = [ "cb:" "codeberg:" ]; };
+        "https://github.com/" = {
+          insteadOf = [
+            "gh:"
+            "github:"
+          ];
+        };
+        "https://codeberg.org/" = {
+          insteadOf = [
+            "cb:"
+            "codeberg:"
+          ];
+        };
       };
     };
   };

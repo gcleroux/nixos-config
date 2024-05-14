@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 (self: super: {
   custom-scripts = super.stdenv.mkDerivation rec {
     pname = "custom-scripts";
@@ -33,4 +38,3 @@
     '';
   };
 })
-

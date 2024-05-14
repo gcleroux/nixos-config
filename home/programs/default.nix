@@ -4,7 +4,8 @@ let
     programs.imv.enable = true;
     programs.ripgrep.enable = true;
   };
-in [
+in
+[
   ./alacritty
   ./bat
   ./bottom

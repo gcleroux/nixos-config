@@ -1,9 +1,21 @@
-{ inputs, config, pkgs, username, ... }@args: {
+{
+  inputs,
+  config,
+  pkgs,
+  username,
+  ...
+}@args:
+{
   # Applying custom overlays
   nixpkgs.overlays = import ../overlays args;
 
-  imports =
-    builtins.concatMap import [ ./modules ./programs ./services ./themes ./wm ];
+  imports = builtins.concatMap import [
+    ./modules
+    ./programs
+    ./services
+    ./themes
+    ./wm
+  ];
 
   sops = {
     # This will automatically import SSH keys as age keys

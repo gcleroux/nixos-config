@@ -4,13 +4,15 @@
     systemdTarget = "river-session.target";
     profiles = {
       laptop = {
-        outputs = [{
-          criteria = "eDP-1";
-          status = "enable";
-          mode = "2256x1504@60Hz";
-          position = "0,0";
-          scale = 1.566666;
-        }];
+        outputs = [
+          {
+            criteria = "eDP-1";
+            status = "enable";
+            mode = "2256x1504@60Hz";
+            position = "0,0";
+            scale = 1.566666;
+          }
+        ];
       };
       docked = {
         outputs = [

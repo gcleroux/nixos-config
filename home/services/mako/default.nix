@@ -22,6 +22,5 @@
       [app-name=spotify_player]
       default-timeout=2000
     '';
-
   };
 }

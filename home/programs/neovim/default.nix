@@ -1,4 +1,5 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, ... }:
+{
   # TODO: Find a cleaner way to manage config
   xdg.configFile = {
     nvim = {

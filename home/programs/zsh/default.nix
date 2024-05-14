@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   # Required packages for oh-my-zsh plugins
   home.packages = with pkgs; [ autojump ];
@@ -37,8 +38,7 @@
       ns = "nix-shell -p";
       search = "nix search nixpkgs";
 
-      hyprlog =
-        "cat /tmp/hypr/$(ls -snew /tmp/hypr | tail -n 2 | head -n 1)/hyprland.log";
+      hyprlog = "cat /tmp/hypr/$(ls -snew /tmp/hypr | tail -n 2 | head -n 1)/hyprland.log";
     };
     history = {
       size = 10000;

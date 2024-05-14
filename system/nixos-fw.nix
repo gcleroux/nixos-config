@@ -2,13 +2,23 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ inputs, config, pkgs, username, ... }@args: {
+{
+  inputs,
+  config,
+  pkgs,
+  username,
+  ...
+}@args:
+{
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = import ../overlays args;
 
   nix.settings = {
     # Nix package manager options
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   # User config
@@ -29,7 +39,10 @@
   xdg.portal = {
     enable = true;
     wlr.enable = true;
-    config.common.default = [ "wlr" "gtk" ];
+    config.common.default = [
+      "wlr"
+      "gtk"
+    ];
     extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
   };
 
@@ -44,7 +57,10 @@
     steam.enable = true;
     thunar = {
       enable = true;
-      plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
+      plugins = with pkgs.xfce; [
+        thunar-archive-plugin
+        thunar-volman
+      ];
     };
 
     zsh = {
@@ -54,7 +70,10 @@
   };
 
   #TODO: Refactor config into modules like this for cleaner repo
-  imports = [ ../modules/greeter.nix ../modules/polkit-gnome.nix ];
+  imports = [
+    ../modules/greeter.nix
+    ../modules/polkit-gnome.nix
+  ];
 
   services = {
     auto-cpufreq = {
@@ -91,12 +110,11 @@
       alsa.support32Bit = true;
       pulse.enable = true;
       wireplumber.configPackages = [
-        (pkgs.writeTextDir
-          "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
-            bluez_monitor.properties = {
-                ["with-logind"] = false,
-            }
-          '')
+        (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
+          bluez_monitor.properties = {
+              ["with-logind"] = false,
+          }
+        '')
       ];
     };
 
@@ -135,7 +153,11 @@
             snapshot_preserve_min = "7d";
             volume = {
               "/" = {
-                subvolume = { "home" = { snapshot_create = "always"; }; };
+                subvolume = {
+                  "home" = {
+                    snapshot_create = "always";
+                  };
+                };
                 snapshot_dir = "/.snapshots/daily";
               };
             };
@@ -148,7 +170,11 @@
             snapshot_preserve_min = "3w";
             volume = {
               "/" = {
-                subvolume = { "home" = { snapshot_create = "always"; }; };
+                subvolume = {
+                  "home" = {
+                    snapshot_create = "always";
+                  };
+                };
                 snapshot_dir = "/.snapshots/weekly";
               };
             };
@@ -161,7 +187,11 @@
             snapshot_preserve_min = "2m";
             volume = {
               "/" = {
-                subvolume = { "home" = { snapshot_create = "always"; }; };
+                subvolume = {
+                  "home" = {
+                    snapshot_create = "always";
+                  };
+                };
                 snapshot_dir = "/.snapshots/monthly";
               };
             };
@@ -248,15 +278,23 @@
     # Get completion for system packages
     pathsToLink = [ "/share/zsh" ];
 
-    sessionVariables = { NIXOS_OZONE_WL = "1"; };
-
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+    };
   };
 
   # Installing fonts
   fonts = {
     packages = with pkgs; [
       # Nerd fonts
-      (nerdfonts.override { fonts = [ "Cousine" "Hack" "FiraCode" "Noto" ]; })
+      (nerdfonts.override {
+        fonts = [
+          "Cousine"
+          "Hack"
+          "FiraCode"
+          "Noto"
+        ];
+      })
 
       # System fonts
       noto-fonts
