@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
-
 {
   inputs,
   config,
@@ -133,14 +129,7 @@
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
     upower.enable = true;
-
-    xserver = {
-      enable = true;
-
-      # Libinput gestures
-      libinput.enable = true;
-      libinput.touchpad.tapping = true;
-    };
+    libinput.enable = true;
 
     # Backup tool setup for the /home directory
     #TODO: Exclude ~/Downloads from backup

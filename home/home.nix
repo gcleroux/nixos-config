@@ -66,7 +66,6 @@
     bazecor
     bitwarden
     bitwarden-cli
-    brave
     caprine-bin
     fd
     fluxcd
@@ -94,7 +93,6 @@
     spotify-player
     swayidle
     thunderbird-bin
-    trashy-zsh-fix
     transmission_4-gtk
     vesktop
     wbg

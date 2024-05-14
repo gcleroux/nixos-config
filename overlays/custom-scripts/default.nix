@@ -12,22 +12,6 @@
     src = ./scripts;
     phases = "installPhase";
 
-    # buildInputs = with pkgs; [
-    #   bash
-    #   brightnessctl
-    #   coreutils
-    #   ddcutil
-    #   libnotify
-    #   networkmanager
-    #   wireplumber
-    #   wl-clipboard
-    #   wofi
-    # ];
-    # nativeBuildInputs = [ pkgs.makeWrapper ];
-
-    # wrapProgram $out/bin/$script \
-    # --prefix PATH : ${lib.makeBinPath buildInputs}
-
     installPhase = ''
       mkdir -p $out/bin
 
