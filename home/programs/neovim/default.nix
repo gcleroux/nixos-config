@@ -164,7 +164,7 @@
       cbfmt
       gofumpt
       isort
-      nixfmt
+      nixfmt-rfc-style
       prettierd
       shfmt
       stylua
