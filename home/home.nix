@@ -50,6 +50,7 @@
 
   # Installed packages
   home.packages = with pkgs; [
+    age
     bazecor
     bitwarden
     bitwarden-cli
@@ -73,6 +74,7 @@
     neofetch
     obs-studio
     pavucontrol
+    qbittorrent
     rclone
     signal-desktop
     spotify-player
