@@ -59,6 +59,7 @@
     BROWSER = "chromium-browser";
     TERMINAL = "foot";
   };
+  home.sessionPath = [ "$HOME/go/bin" ];
 
   # Installed packages
   home.packages = with pkgs; [
@@ -90,10 +91,10 @@
     qbittorrent
     rclone
     signal-desktop
+    sops
     spotify-player
     swayidle
     thunderbird-bin
-    transmission_4-gtk
     vesktop
     wbg
     way-displays

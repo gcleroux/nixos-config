@@ -228,7 +228,6 @@
       clinfo
       cliphist
       coreutils
-      dolphin-emu
       gcc
       gdb
       git

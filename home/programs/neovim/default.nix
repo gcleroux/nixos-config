@@ -71,7 +71,7 @@
       plenary-nvim
       popup-nvim
       rainbow-delimiters-nvim
-      suda-vim
+      vim-suda
       tmux-nvim
       vim-bbye
       vim-markdown-toc
