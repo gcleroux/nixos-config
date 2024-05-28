@@ -25,8 +25,6 @@
       gc = "git clone";
       gs = "git status";
 
-      k = "kubectl";
-
       # TODO: This path should be tracked somewhere
       nixconf = "cd ~/.nix/nixos-config && nvim";
       nr = "sudo nixos-rebuild --flake ~/.nix/nixos-config";
@@ -34,8 +32,6 @@
       hm = "home-manager --flake ~/.nix/nixos-config";
       ns = "nix-shell -p";
       search = "nix search nixpkgs";
-
-      hyprlog = "cat /tmp/hypr/$(ls -snew /tmp/hypr | tail -n 2 | head -n 1)/hyprland.log";
     };
     history = {
       size = 10000;
@@ -43,7 +39,12 @@
     };
     oh-my-zsh = {
       enable = true;
-      plugins = [ "autojump" ];
+      plugins = [
+        "autojump"
+        "git"
+        "kubectl"
+        "sudo"
+      ];
     };
   };
 }
