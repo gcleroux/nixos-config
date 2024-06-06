@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Laptop backlight device name
-LAPTOP="intel_backlight"
+LAPTOP="amdgpu_bl1"
 
 # Brightness step
 STEP="5%"

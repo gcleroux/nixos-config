@@ -13,7 +13,7 @@
     enableCompletion = true;
     shellAliases = {
       # Bat aliases
-      cat = "bat";
+      cat = "bat -p";
       man = "batman";
       diff = "batdiff";
       grep = "batgrep";

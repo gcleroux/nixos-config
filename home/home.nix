@@ -101,6 +101,11 @@
     way-displays
     wlr-randr
     zathura
+
+    # Trial programs
+    yazi
+    zellij
+    zoxide
   ];
 
   # TODO: Find a place for this config
