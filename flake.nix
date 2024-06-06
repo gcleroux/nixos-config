@@ -35,7 +35,7 @@
             inherit inputs username;
           };
           modules = [
-            ./hardware/intel-framework.nix
+            ./hardware/amd-framework.nix
             ./system/nixos-fw.nix
           ];
         };
