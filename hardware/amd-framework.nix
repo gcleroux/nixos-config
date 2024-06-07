@@ -27,25 +27,14 @@
     };
     # Kernel config
     kernelPackages = pkgs.linuxPackages_zen;
-    kernelModules = [
-      "kvm-amd"
-      "ddcci_backlight"
-    ];
     kernelParams = [
       "mem_sleep_default=deep"
       "quiet"
       "splash"
     ];
-    extraModulePackages = with config.boot.kernelPackages; [
-      (ddcci-driver.overrideAttrs (old: {
-        patches = [
-          (pkgs.fetchpatch {
-            url = "https://gitlab.com/Sweenu/ddcci-driver-linux/-/commit/7f851f5fb8fbcd7b3a93aaedff90b27124e17a7e.patch";
-            hash = "sha256-Y1ktYaJTd9DtT/mwDqtjt/YasW9cVm0wI43wsQhl7Bg=";
-          })
-        ];
-      }))
-    ];
+
+    # TODO: Make the amd options into a module with virtualisation
+    kernelModules = [ "kvm-amd" ];
     extraModprobeConfig = "options kvm_amd nested=1";
 
     initrd = {
@@ -64,8 +53,6 @@
   };
 
   hardware = {
-    bluetooth.enable = true;
-
     cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
     # GPU hardware acceleration
@@ -75,7 +62,6 @@
     };
     opentabletdriver.enable = true;
     opentabletdriver.daemon.enable = true;
-    i2c.enable = true;
     logitech.wireless.enable = true;
     logitech.wireless.enableGraphical = true;
   };
