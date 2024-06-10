@@ -91,7 +91,7 @@
         };
 
         temperature = {
-          hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
+          hwmon-path-abs = "/sys/devices/platform/coretemp.0/hwmon";
           input-filename = "temp1_input";
           critical-threshold = 80;
           tooltip = false;

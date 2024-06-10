@@ -36,16 +36,7 @@
       "quiet"
       "splash"
     ];
-    extraModulePackages = with config.boot.kernelPackages; [
-      (ddcci-driver.overrideAttrs (old: {
-        patches = [
-          (pkgs.fetchpatch {
-            url = "https://gitlab.com/Sweenu/ddcci-driver-linux/-/commit/7f851f5fb8fbcd7b3a93aaedff90b27124e17a7e.patch";
-            hash = "sha256-Y1ktYaJTd9DtT/mwDqtjt/YasW9cVm0wI43wsQhl7Bg=";
-          })
-        ];
-      }))
-    ];
+    extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
     extraModprobeConfig = "options kvm_intel nested=1";
 
     initrd = {

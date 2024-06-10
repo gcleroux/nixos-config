@@ -79,7 +79,6 @@
 
   services = {
     dbus.enable = true;
-    flatpak.enable = true;
     fwupd.enable = true;
     gnome.gnome-keyring.enable = true;
     mullvad-vpn.enable = true;
