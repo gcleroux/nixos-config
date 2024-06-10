@@ -20,7 +20,6 @@ lint.linters_by_ft = {
     env = { "dotenv_linter" },
     typescript = { "eslint_d" },
     -- yaml = { "yamllint", "actionlint" },
-    yaml = { "yamllint" },
 }
 
 -- use for codespell for all except bib and css
