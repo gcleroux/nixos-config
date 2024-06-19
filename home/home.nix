@@ -83,7 +83,8 @@
     kubectl
     kubernetes-helm
     kubie
-    libreoffice-qt
+    libreoffice
+    lswt
     moonlight-qt
     mullvad-vpn
     neofetch
@@ -106,6 +107,7 @@
     yazi
     zellij
     zoxide
+    kubelogin-oidc
   ];
 
   # TODO: Find a place for this config

@@ -189,13 +189,12 @@
 
       # Make all views with an app-id that starts with "float" and title "foo" start floating.
       riverctl rule-add -app-id 'float*' float
-
-      riverctl rule-add -title 'wofi' float
-      riverctl rule-add -title 'nm-connection-editor' float
-      riverctl rule-add -title 'blueman-manager' float
-      riverctl rule-add -title 'imv' float
-      riverctl rule-add -title 'mpv' float
-      riverctl rule-add -title 'pavucontrol' float
+      riverctl rule-add -app-id 'wofi' float
+      riverctl rule-add -app-id 'nm-connection-editor' float
+      riverctl rule-add -app-id '.blueman-manager-wrapped' float
+      riverctl rule-add -app-id 'imv' float
+      riverctl rule-add -app-id 'mpv' float
+      riverctl rule-add -app-id 'pavucontrol' float
 
       # Make all views with app-id "bar" and any title use client-side decorations
       riverctl rule-add -app-id "bar" csd

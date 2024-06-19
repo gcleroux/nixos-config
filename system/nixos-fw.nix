@@ -57,7 +57,6 @@
 
   programs = {
     file-roller.enable = true;
-    # kdeconnect.enable = true;
     quark-goldleaf.enable = true;
     river.enable = true;
 
