@@ -11,6 +11,7 @@ in
   ./bottom
   ./chromium
   ./direnv
+  ./fish
   ./foot
   ./fzf
   ./git

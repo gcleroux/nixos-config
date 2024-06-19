@@ -70,6 +70,7 @@
       ];
     };
 
+    fish.enable = true;
     zsh = {
       enable = true;
       syntaxHighlighting.enable = true;

@@ -4,6 +4,7 @@
     enable = true;
     settings = {
       main = {
+        shell = "${pkgs.fish}/bin/fish";
         term = "foot";
         font = "Cousine Nerd Font Mono:size=16";
         include = pkgs.foot.src + "/themes/nord";
