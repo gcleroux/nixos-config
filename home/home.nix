@@ -81,6 +81,7 @@
     killall
     krita
     kubectl
+    kubelogin-oidc
     kubernetes-helm
     kubie
     libreoffice
@@ -102,12 +103,6 @@
     way-displays
     wlr-randr
     zathura
-
-    # Trial programs
-    yazi
-    zellij
-    zoxide
-    kubelogin-oidc
   ];
 
   # TODO: Find a place for this config

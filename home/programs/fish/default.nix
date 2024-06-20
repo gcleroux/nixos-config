@@ -28,8 +28,10 @@ in
       diff = "batdiff";
       grep = "batgrep";
 
-      lg = "lazygit";
+      f = "yazi";
+      g = "lazygit";
       v = "nvim";
+
       nnn = "nnn -deo";
 
       gc = "git clone";
