@@ -60,7 +60,7 @@
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
     # GPU hardware acceleration
-    opengl = {
+    graphics = {
       enable = true;
       extraPackages = with pkgs; [
         intel-compute-runtime
