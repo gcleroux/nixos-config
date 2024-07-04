@@ -133,15 +133,14 @@
       lua-language-server
       marksman
       nil
-      nodePackages.bash-language-server
-      nodePackages.dockerfile-language-server-nodejs
+      bash-language-server
+      dockerfile-language-server-nodejs
       nodePackages.typescript-language-server
-      nodePackages.vscode-html-languageserver-bin
-      nodePackages.vscode-json-languageserver-bin
-      nodePackages.yaml-language-server
+      yaml-language-server
       python311Packages.jedi-language-server
       quick-lint-js
       taplo
+      vscode-langservers-extracted
 
       # Linters
       actionlint

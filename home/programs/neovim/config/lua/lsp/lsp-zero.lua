@@ -60,22 +60,11 @@ lspconfig.lua_ls.setup({
 })
 
 lspconfig.jsonls.setup({
-    cmd = {
-        "json-languageserver",
-        "--stdio",
-    },
     settings = {
         json = {
             schemas = require("schemastore").json.schemas(),
             validate = { enable = true },
         },
-    },
-})
-
-lspconfig.html.setup({
-    cmd = {
-        "html-languageserver",
-        "--stdio",
     },
 })
 
@@ -133,3 +122,4 @@ lspconfig.nil_ls.setup({
 })
 lspconfig.quick_lint_js.setup({})
 lspconfig.taplo.setup({})
+lspconfig.html.setup({})
