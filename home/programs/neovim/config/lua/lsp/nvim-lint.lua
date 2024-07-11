@@ -5,8 +5,8 @@ if not lint_status_ok then
 end
 
 lint.linters_by_ft = {
-    c = { "clangtidy", "cpplint" },
-    cpp = { "clangtidy", "cpplint" },
+    c = { "clangtidy", "cppcheck" },
+    cpp = { "clangtidy", "cppcheck" },
     dockerfile = { "hadolint" },
     go = { "golangcilint" },
     javascript = { "eslint_d" },

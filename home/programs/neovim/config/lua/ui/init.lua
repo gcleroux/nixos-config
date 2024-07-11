@@ -26,5 +26,7 @@ require("ui.telescope")
 -- Cursor behaviour in buffer
 require("ui.nvim-cursorline")
 
+require("ui.trouble")
+
 -- Folding scope in buffer
 -- require("ui.nvim-ufo")

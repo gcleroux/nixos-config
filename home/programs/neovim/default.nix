@@ -35,7 +35,6 @@
       # LSP plugins
       go-nvim
       lsp-zero-nvim
-      # null-ls-nvim
       nvim-lint
       conform-nvim
       actions-preview-nvim
@@ -83,10 +82,8 @@
       # UI plugins
       ChatGPT-nvim
       toggleterm-nvim
-      # FTerm-nvim
       bufferline-nvim
       gitsigns-nvim
-      # lazygit-nvim
       lualine-nvim
       markdown-preview-nvim
       nnn-vim
@@ -146,7 +143,7 @@
       actionlint
       buf
       codespell
-      cpplint
+      cppcheck
       dotenv-linter
       eslint_d
       golangci-lint
