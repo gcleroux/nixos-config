@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Laptop backlight device name
-LAPTOP="amdgpu_bl1"
+LAPTOP="intel_backlight"
 
 # Brightness step
 STEP="5%"
@@ -11,65 +11,65 @@ EXTERNAL_1="i2c-16"
 EXTERNAL_2="i2c-17"
 
 get_brightness() {
-	brightnessctl --device "$LAPTOP" -m | cut -d, -f4
+    brightnessctl --device "$LAPTOP" -m | cut -d, -f4
 }
 
 notify_user() {
-	notify-send -h string:x-canonical-private-synchronous:sys-notify \
-		-c "overlay" "Brightness: $(get_brightness)"
+    notify-send -h string:x-canonical-private-synchronous:sys-notify \
+        -c "overlay" "Brightness: $(get_brightness)"
 }
 
 inc_laptop() {
-	brightnessctl --device "$LAPTOP" set "$STEP+"
+    brightnessctl --device "$LAPTOP" set "$STEP+"
 }
 
 dec_laptop() {
-	# Dec uses --min-value to prevent laptop screen from going off
-	brightnessctl --device "$LAPTOP" --min-value set "$STEP-"
+    # Dec uses --min-value to prevent laptop screen from going off
+    brightnessctl --device "$LAPTOP" --min-value set "$STEP-"
 }
 
 dpms_off_laptop() {
-	brightnessctl --device "$LAPTOP" --save set 0
+    brightnessctl --device "$LAPTOP" --save set 0
 }
 
 dpms_on_laptop() {
-	brightnessctl --device "$LAPTOP" --restore
+    brightnessctl --device "$LAPTOP" --restore
 }
 
 dpms_off_external() {
-	id=$(echo "$1" | cut -d "-" -f 2)
-	if ddcutil getvcp d6 -b "$id"; then
-		# Use ddcutil to set the display in power saving mode (04)
-		ddcutil setvcp d6 04 -b "$id"
-	fi
+    id=$(echo "$1" | cut -d "-" -f 2)
+    if ddcutil getvcp d6 -b "$id"; then
+        # Use ddcutil to set the display in power saving mode (04)
+        ddcutil setvcp d6 04 -b "$id"
+    fi
 }
 
 dpms_on_external() {
-	id=$(echo "$1" | cut -d "-" -f 2)
-	if ddcutil getvcp d6 -b "$id"; then
-		# Use ddcutil to turn on the display (01)
-		ddcutil setvcp d6 01 -b "$id"
-	fi
+    id=$(echo "$1" | cut -d "-" -f 2)
+    if ddcutil getvcp d6 -b "$id"; then
+        # Use ddcutil to turn on the display (01)
+        ddcutil setvcp d6 01 -b "$id"
+    fi
 }
 
 # Execute accordingly
 case "$1" in
 "--inc")
-	inc_laptop
-	notify_user
-	;;
+    inc_laptop
+    notify_user
+    ;;
 "--dec")
-	dec_laptop
-	notify_user
-	;;
+    dec_laptop
+    notify_user
+    ;;
 "--dpms-off")
-	dpms_off_laptop &
-	dpms_off_external $EXTERNAL_1 &
-	dpms_off_external $EXTERNAL_2 &
-	;;
+    dpms_off_laptop &
+    dpms_off_external $EXTERNAL_1 &
+    dpms_off_external $EXTERNAL_2 &
+    ;;
 "--dpms-on")
-	dpms_on_laptop &
-	dpms_on_external $EXTERNAL_1 &
-	dpms_on_external $EXTERNAL_2 &
-	;;
+    dpms_on_laptop &
+    dpms_on_external $EXTERNAL_1 &
+    dpms_on_external $EXTERNAL_2 &
+    ;;
 esac
