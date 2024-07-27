@@ -16,5 +16,4 @@
       '')
     ];
   };
-  sound.enable = false;
 }

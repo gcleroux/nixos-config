@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   programs.aerc = {
-    # enable = true;
+    enable = true;
     extraBinds = {
       global = {
         "<C-p>" = ":prev-tab<Enter>";
