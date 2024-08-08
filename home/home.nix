@@ -84,6 +84,7 @@
     kubelogin-oidc
     kubernetes-helm
     kubie
+    kustomize
     libreoffice
     lswt
     moonlight-qt
