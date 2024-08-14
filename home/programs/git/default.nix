@@ -2,6 +2,10 @@
 {
   programs.git = {
     enable = true;
+    delta = {
+      enable = true;
+      options.navigate = true;
+    };
     aliases = {
       ignore = "update-index --skip-worktree";
       unignore = "update-index --no-skip-worktree";
@@ -26,6 +30,12 @@
       };
       init = {
         defaultBranch = "main";
+      };
+      merge = {
+        conflictstyle = "diff3";
+      };
+      diff = {
+        colorMoved = "default";
       };
       remote.origin = {
         prune = true;

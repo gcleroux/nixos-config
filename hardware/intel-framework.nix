@@ -27,16 +27,12 @@
     };
     # Kernel config
     kernelPackages = pkgs.linuxPackages_zen;
-    kernelModules = [
-      "kvm-intel"
-      "ddcci_backlight"
-    ];
+    kernelModules = [ "kvm-intel" ];
     kernelParams = [
       "mem_sleep_default=deep"
       "quiet"
       "splash"
     ];
-    extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
     extraModprobeConfig = "options kvm_intel nested=1";
 
     initrd = {
@@ -70,7 +66,6 @@
     };
     opentabletdriver.enable = true;
     opentabletdriver.daemon.enable = true;
-    i2c.enable = true;
     logitech.wireless.enable = true;
     logitech.wireless.enableGraphical = true;
   };
