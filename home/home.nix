@@ -69,6 +69,7 @@
     bitwarden-cli
     caprine-bin
     deploy-rs
+    dig
     fd
     fluxcd
     gh

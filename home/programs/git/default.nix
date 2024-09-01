@@ -34,6 +34,9 @@
       merge = {
         conflictstyle = "diff3";
       };
+      pull = {
+        rebase = true;
+      };
       diff = {
         colorMoved = "default";
       };

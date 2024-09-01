@@ -22,6 +22,7 @@ in
   ./mpv
   ./neovim
   ./nnn
+  ./ssh
   ./starship
   ./swaylock
   ./tmux
