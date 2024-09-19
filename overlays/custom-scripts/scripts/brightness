@@ -7,8 +7,8 @@ LAPTOP="intel_backlight"
 STEP="5%"
 
 # I could save the monitors to a tmp file, this will do in the meantime
-EXTERNAL_1="i2c-16"
-EXTERNAL_2="i2c-17"
+EXTERNAL_1="i2c-15"
+EXTERNAL_2="i2c-16"
 
 get_brightness() {
     brightnessctl --device "$LAPTOP" -m | cut -d, -f4
