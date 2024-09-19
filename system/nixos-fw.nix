@@ -99,6 +99,8 @@
     tumbler.enable = true; # Thumbnail support for images
     upower.enable = true;
     libinput.enable = true;
+
+    hardware.bolt.enable = true;
   };
 
   networking = {
