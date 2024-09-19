@@ -90,7 +90,7 @@ lspconfig.yamlls.setup({
     },
 })
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
     on_init = function(client)
         client.server_capabilities.documentFormattingProvider = false
         client.server_capabilities.documentFormattingRangeProvider = false
