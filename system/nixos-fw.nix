@@ -10,17 +10,18 @@
   #TODO: Refactor config into modules like this for cleaner repo
   imports = [
     # ../modules/backups
-    ../modules/bluetooth
-    ../modules/ddcci
-    ../modules/fonts
-    ../modules/greeter
-    ../modules/pipewire
-    ../modules/polkit
-    ../modules/powersave
-    ../modules/virtualisation
+    ../modules/old/bluetooth
+    ../modules/old/ddcci
+    ../modules/old/fonts
+    ../modules/old/greeter
+    # ../modules/old/pipewire
+    ../modules/old/polkit
+    ../modules/old/powersave
+    ../modules/old/virtualisation
   ] ++ (builtins.attrValues outputs.nixosModules);
 
   host.services.backups.enable = true;
+  host.services.audio.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = import ../overlays args;

@@ -33,6 +33,7 @@ in
       v = "nvim";
 
       nnn = "nnn -deo";
+      vpn = "sudo openvpn ~/Pinax/Auth/VPN/dor-gw1-gcleroux-laptop.ovpn";
 
       gc = "git clone";
       gs = "git status";

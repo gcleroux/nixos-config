@@ -22,19 +22,22 @@
   outputs =
     { self, ... }@inputs:
     let
+      inherit (self) outputs;
+
       username = "guillaume";
       system = "x86_64-linux";
       pkgs = inputs.nixpkgs.legacyPackages.${system};
     in
     {
-      nixosModules = import ./modules;
+      nixosModules = import ./modules/nixos;
+      homeManagerModules = import ./modules/home-manager;
 
       # Standalone NixOS conf
       nixosConfigurations = {
         inherit system;
         nixos-fw = inputs.nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs username;
+            inherit inputs outputs username;
           };
           modules = [
             ./hardware/intel-framework.nix
@@ -45,7 +48,7 @@
       homeConfigurations.${username} = inputs.home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
-          inherit inputs username;
+          inherit inputs outputs username;
         };
         modules = [
           inputs.sops-nix.homeManagerModules.sops

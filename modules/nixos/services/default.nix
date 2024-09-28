@@ -1,8 +1,6 @@
-{ lib, ... }:
-
-with lib;
 {
   imports = [
+    ./audio.nix
     ./backups.nix
   ];
 }
