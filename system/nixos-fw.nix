@@ -3,12 +3,13 @@
   config,
   pkgs,
   username,
+  outputs,
   ...
 }@args:
 {
   #TODO: Refactor config into modules like this for cleaner repo
   imports = [
-    ../modules/backups
+    # ../modules/backups
     ../modules/bluetooth
     ../modules/ddcci
     ../modules/fonts
@@ -17,7 +18,9 @@
     ../modules/polkit
     ../modules/powersave
     ../modules/virtualisation
-  ];
+  ] ++ (builtins.attrValues outputs.nixosModules);
+
+  host.services.backups.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = import ../overlays args;

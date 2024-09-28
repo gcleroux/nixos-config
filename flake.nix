@@ -27,6 +27,8 @@
       pkgs = inputs.nixpkgs.legacyPackages.${system};
     in
     {
+      nixosModules = import ./modules;
+
       # Standalone NixOS conf
       nixosConfigurations = {
         inherit system;
