@@ -86,7 +86,6 @@
       gitsigns-nvim
       lualine-nvim
       markdown-preview-nvim
-      nnn-vim
       octo-nvim
       trouble-nvim
       oil-nvim

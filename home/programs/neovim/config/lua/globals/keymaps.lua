@@ -45,9 +45,9 @@ keymap("n", "<leader>f", "<cmd>Telescope find_files<CR>")
 keymap("n", "<leader>t", "<cmd>Telescope live_grep<cr>")
 
 -- Toggle file tree (%:p:h opens at current buffer location)
-keymap("n", "<C-\\>", "<cmd>NnnExplorer %:p:h<CR>")
-keymap("t", "<C-\\>", "<cmd>NnnExplorer %:p:h<CR>")
-keymap("n", "<leader>n", "<cmd>NnnPicker<CR>")
+-- keymap("n", "<C-\\>", "<cmd>NnnExplorer %:p:h<CR>")
+-- keymap("t", "<C-\\>", "<cmd>NnnExplorer %:p:h<CR>")
+-- keymap("n", "<leader>n", "<cmd>NnnPicker<CR>")
 
 -- Generate docstring
 keymap("n", "<leader>doc", ":Neogen<CR>")
