@@ -89,6 +89,7 @@
       nnn-vim
       octo-nvim
       trouble-nvim
+      oil-nvim
 
       # Telescope plugins
       nvim-neoclip-lua

@@ -10,7 +10,8 @@ require("ui.lualine")
 -- Cool devicons integration
 require("ui.web-devicons")
 
-require("ui.nnn")
+-- require("ui.nnn")
+require("ui.oil")
 
 -- Terminal
 -- require("ui.fterm")
