@@ -10,10 +10,19 @@ end
 --    General keybindings   --
 ------------------------------
 
--- Normal --
--- Better window navigation
-keymap("n", "<leader>q", ":Bdelete<CR>")
-keymap("n", "<leader>Q", ":bufdo bwipeout<CR>")
+-- Close the current buffer
+vim.keymap.set("n", "<leader>q", function()
+    require("bufdelete").bufdelete()
+end)
+
+-- Close every buffer forcibly
+vim.keymap.set("n", "<leader>Q", function()
+    vim.cmd("bufdo lua require('bufdelete').bufwipeout(0, true)")
+end)
+
+-- Navigate buffers
+keymap("n", "<S-l>", ":bnext<CR>")
+keymap("n", "<S-h>", ":bprevious<CR>")
 
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize +2<CR>")
@@ -21,19 +30,15 @@ keymap("n", "<C-Down>", ":resize -2<CR>")
 keymap("n", "<C-Left>", ":vertical resize -2<CR>")
 keymap("n", "<C-Right>", ":vertical resize +2<CR>")
 
--- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>")
-keymap("n", "<S-h>", ":bprevious<CR>")
-
 -- Visual --
 -- Stay in indent mode
 keymap("v", "<S-Tab>", "<gv")
 keymap("v", "<Tab>", ">gv")
 
 -- Move text up and down
+keymap("v", "p", '"_dP')
 keymap("v", "<A-j>", ":m .+1<CR>==")
 keymap("v", "<A-k>", ":m .-2<CR>==")
-keymap("v", "p", '"_dP')
 
 -- Visual Block --
 -- Move text up and down
@@ -43,11 +48,6 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv")
 -- Telescope
 keymap("n", "<leader>f", "<cmd>Telescope find_files<CR>")
 keymap("n", "<leader>t", "<cmd>Telescope live_grep<cr>")
-
--- Toggle file tree (%:p:h opens at current buffer location)
--- keymap("n", "<C-\\>", "<cmd>NnnExplorer %:p:h<CR>")
--- keymap("t", "<C-\\>", "<cmd>NnnExplorer %:p:h<CR>")
--- keymap("n", "<leader>n", "<cmd>NnnPicker<CR>")
 
 -- Generate docstring
 keymap("n", "<leader>doc", ":Neogen<CR>")
@@ -70,7 +70,6 @@ keymap("n", "<leader>hn", ":Gitsigns next_hunk<CR>")
 keymap("n", "<leader>hb", ":Gitsigns prev_hunk<CR>")
 
 -- Pressing backspace in normal mode returns to previous opened file
-keymap("n", "<bs>", ":edit #<CR>")
 keymap("n", "<leader>L", ":noh<CR>")
 
 keymap("n", "<leader>x", ":lua require('telescope').extensions.neoclip.default()<CR>")

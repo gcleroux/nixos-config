@@ -10,11 +10,9 @@ require("ui.lualine")
 -- Cool devicons integration
 require("ui.web-devicons")
 
--- require("ui.nnn")
 require("ui.oil")
 
 -- Terminal
--- require("ui.fterm")
 require("ui.toggleterm")
 
 -- Telescope
@@ -23,9 +21,6 @@ require("ui.telescope")
 -- Telescope integration for clipboard management
 -- TODO: Fix errors when closing neoclip
 -- require("ui.neoclip")
-
--- Cursor behaviour in buffer
-require("ui.nvim-cursorline")
 
 require("ui.trouble")
 

@@ -1,5 +1,6 @@
 { pkgs, config, ... }:
 {
+
   # TODO: Find a cleaner way to manage config
   xdg.configFile = {
     nvim = {
@@ -58,12 +59,12 @@
       nvim-dap-virtual-text
 
       # Utils plugins
+      bufdelete-nvim
       SchemaStore-nvim
       comment-nvim
       flash-nvim
       neogen
       nvim-autopairs
-      nvim-cursorline
       nvim-surround
       nvim-ufo
       nvim-web-devicons
@@ -72,7 +73,6 @@
       rainbow-delimiters-nvim
       vim-suda
       tmux-nvim
-      vim-bbye
       vim-markdown-toc
 
       # Themes plugins
@@ -80,7 +80,6 @@
       onenord-nvim
 
       # UI plugins
-      ChatGPT-nvim
       toggleterm-nvim
       bufferline-nvim
       gitsigns-nvim

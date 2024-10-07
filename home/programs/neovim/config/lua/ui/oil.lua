@@ -45,6 +45,5 @@ oil.setup({
     },
 
     -- Open parent directory
-    vim.keymap.set("n", "<C-\\>", require("oil").open),
-    vim.keymap.set("n", "<leader><tab>", require("oil").toggle_float),
+    vim.keymap.set("n", "<tab>", require("oil").open),
 })
