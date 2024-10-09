@@ -22,6 +22,12 @@ in
       source (cat ${kubectl.path} | sed -r 's/(kubectl.*) --watch/watch \1/g' | psub)
     '';
     shellAbbrs = {
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
+      "....." = "cd ../../../..";
+      "......" = "cd ../../../../..";
+
       # Bat aliases
       cat = "bat -p";
       man = "batman";
@@ -33,7 +39,6 @@ in
       v = "nvim";
 
       nnn = "nnn -deo";
-      vpn = "sudo openvpn ~/Pinax/Auth/VPN/dor-gw1-gcleroux-laptop.ovpn";
 
       gc = "git clone";
       gs = "git status";
