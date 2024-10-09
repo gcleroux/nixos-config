@@ -28,7 +28,6 @@
       riverctl spawn "wbg ~/Pictures/Wallpapers/murky_peaks.jpg"
       riverctl spawn "nm-applet --indicator"
       riverctl spawn "spotify_player -d"
-      riverctl spawn "signal-desktop --start-in-tray"
 
       # Using swayidle here since ddcutil breaks with a home-manager service
       riverctl spawn '${pkgs.swayidle}/bin/swayidle -w \
