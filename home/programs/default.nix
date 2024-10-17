@@ -14,6 +14,7 @@ in
   ./bottom
   ./chromium
   ./direnv
+  ./firefox
   ./fish
   ./foot
   ./fzf

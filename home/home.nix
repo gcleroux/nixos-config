@@ -72,6 +72,7 @@
     dig
     fd
     fluxcd
+    fusee-launcher
     gh
     gimp
     go
