@@ -26,7 +26,7 @@
       efi.canTouchEfiVariables = true;
     };
     # Kernel config
-    kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = pkgs.linuxPackages_6_10;
     kernelModules = [ "kvm-intel" ];
     kernelParams = [
       "mem_sleep_default=deep"

@@ -30,13 +30,13 @@
 
     config = {
       profile = "gpu-hq";
-      hwdec = "auto";
+      hwdec = "vaapi,auto-safe";
+      gpu-context = "wayland";
       force-window = true;
       keep-open = "no";
       osc = "no";
       osd-bar = "no";
       ytdl-format = "bestvideo+bestaudio";
-      cache-default = 4000000;
     };
   };
 }

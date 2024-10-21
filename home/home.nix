@@ -56,8 +56,11 @@
     #   XDG_DATA_HOME = "$HOME/.local/share";
     #   XDG_STATE_HOME = "$HOME/.local/state";
 
-    BROWSER = "chromium-browser";
+    BROWSER = "firefox";
     TERMINAL = "foot";
+
+    CLIPBOARD_NOAUDIO = "1";
+    CLIPBOARD_NOGUI = "1";
   };
   home.sessionPath = [ "$HOME/go/bin" ];
 
@@ -65,9 +68,7 @@
   home.packages = with pkgs; [
     age
     bazecor
-    bitwarden
-    bitwarden-cli
-    caprine-bin
+    clipboard-jh
     deploy-rs
     dig
     fd

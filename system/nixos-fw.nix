@@ -127,7 +127,6 @@
     systemPackages = with pkgs; [
       brightnessctl
       clinfo
-      cliphist
       coreutils
       gcc
       gdb

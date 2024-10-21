@@ -38,13 +38,13 @@
                      before-sleep "${pkgs.swaylock}/bin/swaylock"'
 
       riverctl map normal Super Return spawn foot
-      riverctl map normal Control Space spawn "wofi --allow-images --show drun"
-      riverctl map normal Control Semicolon spawn ${pkgs.custom-scripts}/bin/emoji # CTRL+;
-      riverctl map normal Super B spawn chromium-browser
+      riverctl map normal Super B spawn firefox
       riverctl map normal Super D spawn vesktop
       riverctl map normal Super F spawn thunar
       riverctl map normal Control+Alt L spawn swaylock
       riverctl map normal Super V spawn "cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+      riverctl map normal Control Space spawn "wofi --allow-images --show drun"
+      riverctl map normal Control Semicolon spawn ${pkgs.custom-scripts}/bin/emoji # CTRL+;
 
       riverctl map -release normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy'
       riverctl map -release normal Shift Print spawn "slurp | grim -g - ~/Pictures/Screenshots/$(date +'screenshot_%Y-%m-%d-%H%M%S.png')"
