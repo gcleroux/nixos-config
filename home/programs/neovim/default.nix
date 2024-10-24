@@ -82,6 +82,7 @@
       # UI plugins
       toggleterm-nvim
       bufferline-nvim
+      diffview-nvim
       gitsigns-nvim
       lualine-nvim
       markdown-preview-nvim
