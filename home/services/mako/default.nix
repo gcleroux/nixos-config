@@ -1,6 +1,7 @@
 {
   services.mako = {
     enable = true;
+    defaultTimeout = 5000;
     anchor = "top-right";
     maxVisible = 5;
     font = "Cousine Nerd Font Mono 12";

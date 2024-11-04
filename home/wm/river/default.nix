@@ -38,7 +38,7 @@
                      before-sleep "${pkgs.swaylock}/bin/swaylock"'
 
       riverctl map normal Super Return spawn foot
-      riverctl map normal Super B spawn firefox
+      riverctl map normal Super B spawn chromium-browser
       riverctl map normal Super D spawn vesktop
       riverctl map normal Super F spawn thunar
       riverctl map normal Control+Alt L spawn swaylock

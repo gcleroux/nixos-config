@@ -56,7 +56,7 @@
     #   XDG_DATA_HOME = "$HOME/.local/share";
     #   XDG_STATE_HOME = "$HOME/.local/state";
 
-    BROWSER = "firefox";
+    BROWSER = "chromium-browser";
     TERMINAL = "foot";
 
     CLIPBOARD_NOAUDIO = "1";

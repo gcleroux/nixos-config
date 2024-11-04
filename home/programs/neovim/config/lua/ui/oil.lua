@@ -19,6 +19,7 @@ oil.setup({
         conceallevel = 3,
         concealcursor = "nvic",
     },
+    skip_confirm_for_simple_edits = true,
     keymaps = {
         ["g?"] = "actions.show_help",
         ["<CR>"] = "actions.select",
@@ -45,5 +46,5 @@ oil.setup({
     },
 
     -- Open parent directory
-    vim.keymap.set("n", "<tab>", require("oil").toggle_float),
+    vim.keymap.set("n", "<tab>", require("oil").open),
 })
