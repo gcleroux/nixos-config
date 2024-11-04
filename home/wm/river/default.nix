@@ -10,23 +10,11 @@
     extraConfig = ''
       #!/usr/bin/env sh
 
-      scripts=$HOME/.config/river/scripts
-
-      # This is the example configuration file for river.
-      #
-      # If you wish to edit this, you will probably want to copy it to
-      # $XDG_CONFIG_HOME/river/init or $HOME/.config/river/init first.
-      #
-      # See the river(1), riverctl(1), and rivertile(1) man pages for complete
-      # documentation.
-
       # Autostart programs
       # ==================
-      # riverctl spawn "swww init; sleep 2 && ${pkgs.custom-scripts}/bin/swww_random ~/Pictures/Wallpapers"
       riverctl spawn "way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1"
       riverctl spawn "wl-paste --watch cliphist store"
       riverctl spawn "wbg ~/Pictures/Wallpapers/murky_peaks.jpg"
-      riverctl spawn "nm-applet --indicator"
       riverctl spawn "spotify_player -d"
 
       # Using swayidle here since ddcutil breaks with a home-manager service

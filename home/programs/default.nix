@@ -23,6 +23,7 @@ in
   ./mpv
   ./neovim
   ./nnn
+  ./spotify-player
   ./ssh
   ./starship
   ./swaylock
