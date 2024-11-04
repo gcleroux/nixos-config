@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   wayland.windowManager.river = {
     enable = true;
@@ -8,25 +8,15 @@
       XCURSOR_SIZE = 24;
     };
     extraConfig = ''
-      #!/usr/bin/env sh
-
       # Autostart programs
       # ==================
-      riverctl spawn "way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1"
+      # riverctl spawn "way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1"
       riverctl spawn "wl-paste --watch cliphist store"
       riverctl spawn "wbg ~/Pictures/Wallpapers/murky_peaks.jpg"
       riverctl spawn "spotify_player -d"
 
-      # Using swayidle here since ddcutil breaks with a home-manager service
-      riverctl spawn '${pkgs.swayidle}/bin/swayidle -w \
-                     timeout 240 "${pkgs.libnotify}/bin/notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -c overlay Locking system in 1 minute" \
-                     timeout 300 "${pkgs.swaylock}/bin/swaylock" \
-                     timeout 600 "${pkgs.custom-scripts}/bin/brightness --dpms-off" \
-                          resume "${pkgs.custom-scripts}/bin/brightness --dpms-on" \
-                     before-sleep "${pkgs.swaylock}/bin/swaylock"'
-
-      riverctl map normal Super Return spawn foot
-      riverctl map normal Super B spawn chromium-browser
+      riverctl map normal Super Return spawn ${config.home.sessionVariables.TERMINAL}
+      riverctl map normal Super B spawn ${config.home.sessionVariables.BROWSER}
       riverctl map normal Super D spawn vesktop
       riverctl map normal Super F spawn thunar
       riverctl map normal Control+Alt L spawn swaylock

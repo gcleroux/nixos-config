@@ -3,7 +3,7 @@ let
     programs.eza.enable = true;
     programs.imv.enable = true;
     programs.ripgrep.enable = true;
-    programs.yazi.enable = true;
+    # programs.yazi.enable = true;
     programs.zellij.enable = true;
     programs.zoxide.enable = true;
   };

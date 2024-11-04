@@ -2,12 +2,12 @@
 let
   notify = ''${pkgs.libnotify}/bin/notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -c "overlay" "Locking system in 1 minute"'';
   lock = "${pkgs.swaylock}/bin/swaylock";
-  dpmsOff = "${pkgs.custom-scripts}/bin/brightness --dpms-off";
-  dpmsOn = "${pkgs.custom-scripts}/bin/brightness --dpms-on";
+  dpmsOff = "${pkgs.wlopm}/bin/wlopm --off '*'";
+  dpmsOn = "${pkgs.wlopm}/bin/wlopm --on '*'";
 in
 {
   services.swayidle = {
-    enable = false; # TODO: ddcutil breaks in home-manager service
+    enable = true;
     systemdTarget = "river-session.target";
     timeouts = [
       {
@@ -19,7 +19,7 @@ in
         command = lock;
       }
       {
-        timeout = 15;
+        timeout = 420;
         command = dpmsOff;
         resumeCommand = dpmsOn;
       }

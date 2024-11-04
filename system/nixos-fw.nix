@@ -11,7 +11,7 @@
   imports = [
     # ../modules/backups
     ../modules/old/bluetooth
-    ../modules/old/ddcci
+    # ../modules/old/ddcci
     ../modules/old/fonts
     ../modules/old/greeter
     # ../modules/old/pipewire

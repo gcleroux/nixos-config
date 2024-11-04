@@ -100,7 +100,6 @@
     signal-desktop
     sops
     spotify-player
-    swayidle
     thunderbird-bin
     vesktop
     wbg
