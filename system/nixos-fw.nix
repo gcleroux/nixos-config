@@ -61,7 +61,6 @@
 
   programs = {
     file-roller.enable = true;
-    quark-goldleaf.enable = true;
     river.enable = true;
 
     seahorse.enable = true;
