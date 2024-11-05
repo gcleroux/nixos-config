@@ -26,9 +26,6 @@
 * {
   font-family: "Cousine Nerd Font";
   font-size: 1.2rem;
-  /* transition-property: background-color; */
-  /* transition-duration: 0.5s; */
-  background-color: @bg1;
 }
 
 @keyframes blink_red {
@@ -212,9 +209,4 @@ tooltip label {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
   color: @green;
-}
-/* This is not a good solution, since the active text doesn't change color,
-* but at least it is readable now when the cursor is over it */
-#tray menu menuitem label {
-  caret-color: @cyan;
 }
