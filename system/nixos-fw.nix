@@ -9,12 +9,9 @@
 {
   #TODO: Refactor config into modules like this for cleaner repo
   imports = [
-    # ../modules/backups
     ../modules/old/bluetooth
-    # ../modules/old/ddcci
     ../modules/old/fonts
     ../modules/old/greeter
-    # ../modules/old/pipewire
     ../modules/old/polkit
     ../modules/old/powersave
     ../modules/old/virtualisation

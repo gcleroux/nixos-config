@@ -10,11 +10,12 @@
     extraConfig = ''
       # Autostart programs
       # ==================
-      # riverctl spawn "way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1"
       riverctl spawn "wl-paste --watch cliphist store"
       riverctl spawn "wbg ~/Pictures/Wallpapers/murky_peaks.jpg"
       riverctl spawn "spotify_player -d"
 
+      # Programs keybinds
+      # =================
       riverctl map normal Super Return spawn ${config.home.sessionVariables.TERMINAL}
       riverctl map normal Super B spawn ${config.home.sessionVariables.BROWSER}
       riverctl map normal Super D spawn vesktop
@@ -24,6 +25,7 @@
       riverctl map normal Control Space spawn "wofi --allow-images --show drun"
       riverctl map normal Control Semicolon spawn ${pkgs.custom-scripts}/bin/emoji # CTRL+;
 
+      # Screenshot
       riverctl map -release normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy'
       riverctl map -release normal Shift Print spawn "slurp | grim -g - ~/Pictures/Screenshots/$(date +'screenshot_%Y-%m-%d-%H%M%S.png')"
 
@@ -101,16 +103,17 @@
       	riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
       done
 
-      # Super+0 to focus all tags
-      # Super+Shift+0 to tag focused view with all tags
+      # Focus views under all tags
       all_tags=$(((1 << 32) - 1))
       riverctl map normal Super 0 set-focused-tags $all_tags
+
+      # View window under all tags
       riverctl map normal Super+Shift 0 set-view-tags $all_tags
 
-      # Super+Space to toggle float
+      # Toggle float
       riverctl map normal Super Space toggle-float
 
-      # Super+F to toggle fullscreen
+      # Toggle fullscreen
       riverctl map normal Super+Shift Space toggle-fullscreen
 
       # Super+{Up,Right,Down,Left} to change layout orientation
@@ -155,12 +158,8 @@
 
       # Set background and border color
       riverctl border-width 3
-      # riverctl background-color 0x000000
       riverctl border-color-focused 0x81a1c1
       riverctl border-color-unfocused 0x595959
-
-      # Set keyboard repeat rate
-      # riverctl set-repeat 50 300
 
       # Make all views with an app-id that starts with "float" and title "foo" start floating.
       riverctl rule-add -app-id 'float*' float
@@ -171,8 +170,8 @@
       riverctl rule-add -app-id 'mpv' float
       riverctl rule-add -app-id 'pavucontrol' float
 
-      # Make all views with app-id "bar" and any title use client-side decorations
-      riverctl rule-add -app-id "bar" csd
+      # Make firefox use server-side decorations
+      riverctl rule-add -app-id firefox ssd
 
       # Set keyboard repeat rate
       riverctl set-repeat 50 300
