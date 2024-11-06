@@ -100,7 +100,12 @@
     upower.enable = true;
     libinput.enable = true;
 
+    # Since dock is TB3, it doesn't support wake-from-USB.
+    # Ignoring lidSwitch events will prevent laptop from going to sleep
+    # and thus having to reopen the lid since external devices are connected to the dock
     hardware.bolt.enable = true;
+    logind.lidSwitch = "ignore";
+    logind.powerKey = "suspend";
   };
 
   networking = {

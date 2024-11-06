@@ -44,7 +44,7 @@ in
       gs = "git status";
 
       # TODO: This path should be tracked somewhere
-      nixconf = "cd ~/.nix/nixos-config && nvim";
+      nixconf = "cd ~/.nix/nixos-config";
       nr = "sudo nixos-rebuild --flake ~/.nix/nixos-config";
       # Need impure since the config depends on secrets with sops-nix
       hm = "home-manager --flake ~/.nix/nixos-config";
