@@ -24,7 +24,7 @@
           criteria = "Dell Inc. DELL S2721QS FQ0FM43";
           status = "enable";
           mode = "3840x2160@60Hz";
-          position = "2304,0";
+          position = "2308,0";
           scale = 1.666667;
         };
       }
