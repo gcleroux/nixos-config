@@ -77,6 +77,7 @@
     gh
     gimp
     go
+    handbrake
     hey
     jq
     k9s
