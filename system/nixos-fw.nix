@@ -7,18 +7,21 @@
   ...
 }@args:
 {
-  #TODO: Refactor config into modules like this for cleaner repo
-  imports = [
-    ../modules/old/bluetooth
-    ../modules/old/fonts
-    ../modules/old/greeter
-    ../modules/old/polkit
-    ../modules/old/powersave
-    ../modules/old/virtualisation
-  ] ++ (builtins.attrValues outputs.nixosModules);
+  imports = builtins.attrValues outputs.nixosModules;
 
-  host.services.backups.enable = true;
-  host.services.audio.enable = true;
+  host.services = {
+    audio = {
+      enable = true;
+      bluetooth.enable = true;
+    };
+    backups.enable = true;
+    fonts.enable = true;
+    greeter.enable = true;
+    polkit.enable = true;
+    powersave.enable = true;
+    printing.enable = true;
+    virtualisation.enable = true;
+  };
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = import ../overlays args;
@@ -84,15 +87,6 @@
     mullvad-vpn.enable = true;
     openssh.enable = true;
     udev.packages = with pkgs; [ bazecor ];
-
-    # Printing settings
-    printing.enable = true;
-    avahi = {
-      enable = true;
-      nssmdns4 = true;
-      # for a WiFi printer
-      openFirewall = true;
-    };
 
     # Thunar services
     gvfs.enable = true; # Mount, trash, and other functionalities
