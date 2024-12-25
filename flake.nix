@@ -25,41 +25,41 @@
       inherit (self) outputs;
 
       username = "guillaume";
-      system = "x86_64-linux";
-      pkgs = inputs.nixpkgs.legacyPackages.${system};
+      systems = [
+        "aarch64-linux"
+        "i686-linux"
+        "x86_64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
+      forAllSystems = inputs.nixpkgs.lib.genAttrs systems;
     in
     {
+      packages = forAllSystems (system: import ./pkgs inputs.nixpkgs.legacyPackages.${system});
+      overlays = import ./overlays { inherit inputs; };
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
       # Standalone NixOS conf
-      nixosConfigurations = {
-        inherit system;
-        nixos-fw = inputs.nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs username;
-          };
-          modules = [
-            ./hardware/intel-framework.nix
-            ./system/nixos-fw.nix
-          ];
+      nixosConfigurations.nixos-fw = inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs username;
         };
+        modules = [
+          ./hardware/intel-framework.nix
+          ./system/nixos-fw.nix
+        ];
       };
-      homeConfigurations.${username} = inputs.home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+
+      homeConfigurations."${username}@nixos-fw" = inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {
           inherit inputs outputs username;
+          inherit (self) packages;
         };
         modules = [
           inputs.sops-nix.homeManagerModules.sops
           ./home/home.nix
-        ];
-      };
-      devShells.${system}.default = pkgs.mkShell {
-        packages = with pkgs; [
-          age
-          ssh-to-age
-          sops
         ];
       };
     };

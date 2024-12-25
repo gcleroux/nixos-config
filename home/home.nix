@@ -4,11 +4,8 @@
   pkgs,
   username,
   ...
-}@args:
+}:
 {
-  # Applying custom overlays
-  nixpkgs.overlays = import ../overlays args;
-
   imports = builtins.concatMap import [
     ./modules
     ./programs

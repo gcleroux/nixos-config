@@ -5,7 +5,7 @@
   username,
   outputs,
   ...
-}@args:
+}:
 {
   imports = builtins.attrValues outputs.nixosModules;
 
@@ -24,7 +24,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = import ../overlays args;
 
   nix.settings = {
     # Nix package manager options

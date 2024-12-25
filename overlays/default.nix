@@ -1,13 +1,14 @@
-# import all nix files in the current folder,
-# and execute them with args as parameters
-# The return value is a list of all execution results,
-# which is the list of overlays
+{ inputs, ... }:
+{
+  # This one brings our custom packages from the 'pkgs' directory
+  additions = final: _prev: import ../pkgs final.pkgs;
 
-args:
-# execute and import all overlay files in the current
-# directory with the given args
-builtins.map
-  # execute and import the overlay file
-  (f: (import (./. + "/${f}") args))
-  # find all overlay files in the current directory
-  (builtins.filter (f: f != "default.nix") (builtins.attrNames (builtins.readDir ./.)))
+  # This one contains whatever you want to overlay
+  # You can change versions, add patches, set compilation flags, anything really.
+  # https://nixos.wiki/wiki/Overlays
+  modifications = final: prev: {
+    # example = prev.example.overrideAttrs (oldAttrs: rec {
+    # ...
+    # });
+  };
+}
