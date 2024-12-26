@@ -46,8 +46,7 @@
           inherit inputs outputs username;
         };
         modules = [
-          ./hardware/intel-framework.nix
-          ./system/nixos-fw.nix
+          ./hosts/nixos-fw
         ];
       };
 
