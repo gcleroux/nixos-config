@@ -23,6 +23,7 @@
     { self, ... }@inputs:
     let
       inherit (self) outputs;
+      inherit (inputs.nixpkgs) lib;
 
       systems = [
         "aarch64-linux"
@@ -34,8 +35,21 @@
       forAllSystems = inputs.nixpkgs.lib.genAttrs systems;
     in
     {
-      packages = forAllSystems (system: import ./pkgs inputs.nixpkgs.legacyPackages.${system});
       overlays = import ./overlays { inherit inputs; };
+      # packages = forAllSystems (system: import ./pkgs inputs.nixpkgs.legacyPackages.${system});
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = import inputs.nixpkgs {
+            inherit system;
+            overlays = [ self.overlays.default ];
+          };
+        in
+        lib.packagesFromDirectoryRecursive {
+          callPackage = lib.callPackageWith pkgs;
+          directory = ./pkgs;
+        }
+      );
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
@@ -63,5 +77,11 @@
           ./home/guillaume.nix
         ];
       };
+      devShells = forAllSystems (
+        system:
+        import ./shell.nix {
+          pkgs = inputs.nixpkgs.legacyPackages.${system};
+        }
+      );
     };
 }

@@ -1,5 +1,5 @@
-{ pkgs, ... }:
-pkgs.stdenv.mkDerivation rec {
+{ lib, stdenv, ... }:
+stdenv.mkDerivation rec {
   pname = "custom-scripts";
   version = "0.1.0";
 

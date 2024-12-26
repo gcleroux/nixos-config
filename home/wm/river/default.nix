@@ -28,7 +28,7 @@
       riverctl map normal Control+Alt L spawn swaylock
       riverctl map normal Super V spawn "cliphist list | wofi --dmenu | cliphist decode | wl-copy"
       riverctl map normal Control Space spawn "wofi --allow-images --show drun"
-      riverctl map normal Control Semicolon spawn ${packages.x86_64-linux.custom-scripts}/bin/emoji # CTRL+;
+      riverctl map normal Control Semicolon spawn ${pkgs.custom-scripts}/bin/emoji # CTRL+;
 
       # Screenshot
       riverctl map -release normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy'
@@ -141,14 +141,14 @@
       # not have a modifier
       for mode in normal locked; do
       	# Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
-      	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "${packages.x86_64-linux.custom-scripts}/bin/volume --inc-output"
-      	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "${packages.x86_64-linux.custom-scripts}/bin/volume --dec-output"
-      	riverctl map $mode None XF86AudioMute spawn "${packages.x86_64-linux.custom-scripts}/bin/volume --toggle-output"
+      	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "${pkgs.custom-scripts}/bin/volume --inc-output"
+      	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "${pkgs.custom-scripts}/bin/volume --dec-output"
+      	riverctl map $mode None XF86AudioMute spawn "${pkgs.custom-scripts}/bin/volume --toggle-output"
 
       	# Input volume control
-      	riverctl map -repeat $mode Shift XF86AudioRaiseVolume spawn "${packages.x86_64-linux.custom-scripts}/bin/volume --inc-input"
-      	riverctl map -repeat $mode Shift XF86AudioLowerVolume spawn "${packages.x86_64-linux.custom-scripts}/bin/volume --dec-input"
-      	riverctl map $mode Shift XF86AudioMute spawn "${packages.x86_64-linux.custom-scripts}/bin/volume --toggle-input"
+      	riverctl map -repeat $mode Shift XF86AudioRaiseVolume spawn "${pkgs.custom-scripts}/bin/volume --inc-input"
+      	riverctl map -repeat $mode Shift XF86AudioLowerVolume spawn "${pkgs.custom-scripts}/bin/volume --dec-input"
+      	riverctl map $mode Shift XF86AudioMute spawn "${pkgs.custom-scripts}/bin/volume --toggle-input"
 
       	# Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
       	riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
@@ -157,8 +157,8 @@
       	riverctl map $mode None XF86AudioNext spawn 'playerctl next'
 
       	# Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
-      	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "${packages.x86_64-linux.custom-scripts}/bin/brightness --inc"
-      	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "${packages.x86_64-linux.custom-scripts}/bin/brightness --dec"
+      	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "${pkgs.custom-scripts}/bin/brightness --inc"
+      	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "${pkgs.custom-scripts}/bin/brightness --dec"
       done
 
       # Set background and border color
