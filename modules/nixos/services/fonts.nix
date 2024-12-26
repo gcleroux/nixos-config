@@ -21,25 +21,18 @@ with lib;
 
   config = mkIf cfg.enable {
     # Installing fonts
-    fonts = {
-      packages = with pkgs; [
-        # Nerd fonts
-        (nerdfonts.override {
-          fonts = [
-            "Cousine"
-            "Hack"
-            "FiraCode"
-            "Noto"
-          ];
-        })
+    fonts.packages = with pkgs; [
+      nerd-fonts.cousine
+      nerd-fonts.hack
+      nerd-fonts.fira-code
+      nerd-fonts.noto
 
-        # System fonts
-        noto-fonts
-        noto-fonts-cjk-sans
-        noto-fonts-cjk-serif
-        noto-fonts-emoji
-        noto-fonts-extra
-      ];
-    };
+      # System fonts
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      noto-fonts-emoji
+      noto-fonts-extra
+    ];
   };
 }
