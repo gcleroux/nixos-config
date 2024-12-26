@@ -24,7 +24,12 @@
     virtualisation.enable = true;
   };
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    config.allowUnfree = true;
+    overlays = [
+      outputs.overlays.default
+    ];
+  };
 
   nix.settings = {
     # Nix package manager options

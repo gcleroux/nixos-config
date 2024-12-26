@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   pkgs,
   ...
@@ -25,13 +24,18 @@
     /run/current-system/sw/bin/systemctl start --user sops-nix
   '';
 
-  nixpkgs.config = {
-    # Disable if you don't want unfree packages
-    allowUnfree = true;
-
-    # Workaround for https://github.com/nix-community/home-manager/issues/2942
-    allowUnfreePredicate = _: true;
-  };
+  # nixpkgs = {
+  #   overlays = [
+  #     outputs.overlays.default
+  #   ];
+  #   config = {
+  #     # Disable if you don't want unfree packages
+  #     allowUnfree = true;
+  #
+  #     # Workaround for https://github.com/nix-community/home-manager/issues/2942
+  #     allowUnfreePredicate = _: true;
+  #   };
+  # };
 
   # xdg.portal = {
   #   enable = true;
@@ -61,49 +65,52 @@
   home.sessionPath = [ "$HOME/go/bin" ];
 
   # Installed packages
-  home.packages = with pkgs; [
-    age
-    bazecor
-    clipboard-jh
-    deploy-rs
-    dig
-    fd
-    fluxcd
-    fusee-launcher
-    gh
-    gimp
-    go
-    handbrake
-    hey
-    jq
-    k9s
-    kalendar
-    killall
-    krita
-    kubectl
-    kubelogin-oidc
-    kubernetes-helm
-    kubie
-    kustomize
-    libreoffice
-    lswt
-    moonlight-qt
-    mullvad-vpn
-    neofetch
-    obs-studio
-    pavucontrol
-    qbittorrent
-    rclone
-    signal-desktop
-    sops
-    spotify-player
-    thunderbird-bin
-    vesktop
-    wbg
-    way-displays
-    wlr-randr
-    zathura
-  ];
+  home.packages = builtins.attrValues {
+    inherit (pkgs)
+
+      age
+      bazecor
+      clipboard-jh
+      deploy-rs
+      dig
+      fd
+      fluxcd
+      fusee-launcher
+      gh
+      gimp
+      go
+      handbrake
+      hey
+      jq
+      k9s
+      kalendar
+      killall
+      krita
+      kubectl
+      kubelogin-oidc
+      kubernetes-helm
+      kubie
+      kustomize
+      libreoffice
+      lswt
+      moonlight-qt
+      mullvad-vpn
+      neofetch
+      obs-studio
+      pavucontrol
+      qbittorrent
+      rclone
+      signal-desktop
+      sops
+      spotify-player
+      thunderbird-bin
+      vesktop
+      wbg
+      way-displays
+      wlr-randr
+      zathura
+      ;
+  };
 
   # TODO: Find a place for this config
   # Creating default connection for virt-manager

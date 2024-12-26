@@ -23,7 +23,6 @@
     { self, ... }@inputs:
     let
       inherit (self) outputs;
-      inherit (inputs.nixpkgs) lib;
 
       systems = [
         "aarch64-linux"
@@ -36,7 +35,7 @@
     in
     {
       overlays = import ./overlays { inherit inputs; };
-      # packages = forAllSystems (system: import ./pkgs inputs.nixpkgs.legacyPackages.${system});
+
       packages = forAllSystems (
         system:
         let
@@ -45,38 +44,38 @@
             overlays = [ self.overlays.default ];
           };
         in
-        lib.packagesFromDirectoryRecursive {
-          callPackage = lib.callPackageWith pkgs;
+        inputs.nixpkgs.lib.packagesFromDirectoryRecursive {
+          callPackage = inputs.nixpkgs.lib.callPackageWith pkgs;
           directory = ./pkgs;
         }
       );
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
-      # Standalone NixOS conf
       nixosConfigurations.nixos-fw = inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {
           inherit inputs outputs;
-
           username = "guillaume";
           hostname = "nixos-fw";
         };
         modules = [
           ./hosts/nixos-fw
+
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.guillaume = import ./home/guillaume.nix;
+              sharedModules = [
+                inputs.sops-nix.homeManagerModules.sops
+              ];
+            };
+          }
         ];
       };
 
-      homeConfigurations."guillaume@nixos-fw" = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = {
-          inherit inputs outputs;
-          inherit (self) packages;
-        };
-        modules = [
-          inputs.sops-nix.homeManagerModules.sops
-          ./home/guillaume.nix
-        ];
-      };
       devShells = forAllSystems (
         system:
         import ./shell.nix {
