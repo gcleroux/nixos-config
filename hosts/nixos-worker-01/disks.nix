@@ -3,9 +3,14 @@
     "/boot" = {
       device = "/dev/disk/by-label/boot";
       fsType = "vfat";
+      options = [
+        "fmask=0077"
+        "dmask=0077"
+      ];
     };
+
     "/" = {
-      device = "/dev/mapper/root";
+      device = "/dev/disk/by-label/nixos";
       fsType = "btrfs";
       options = [
         "subvol=@"
@@ -13,17 +18,9 @@
         "noatime"
       ];
     };
-    "/home" = {
-      device = "/dev/mapper/root";
-      fsType = "btrfs";
-      options = [
-        "subvol=@home"
-        "compress=zstd"
-        "noatime"
-      ];
-    };
+
     "/nix" = {
-      device = "/dev/mapper/root";
+      device = "/dev/disk/by-label/nixos";
       fsType = "btrfs";
       options = [
         "subvol=@nix"
@@ -31,26 +28,19 @@
         "noatime"
       ];
     };
-    "/persist" = {
-      device = "/dev/mapper/root";
+
+    "/var" = {
+      device = "/dev/disk/by-label/nixos";
       fsType = "btrfs";
       options = [
-        "subvol=@persist"
+        "subvol=@var"
         "compress=zstd"
         "noatime"
       ];
     };
-    "/var/log" = {
-      device = "/dev/mapper/root";
-      fsType = "btrfs";
-      options = [
-        "subvol=@log"
-        "compress=zstd"
-        "noatime"
-      ];
-    };
+
     "/.snapshots" = {
-      device = "/dev/mapper/root";
+      device = "/dev/disk/by-label/nixos";
       fsType = "btrfs";
       options = [
         "subvol=@snapshots"

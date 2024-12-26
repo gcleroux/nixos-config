@@ -3,6 +3,7 @@
   config,
   pkgs,
   username,
+  hostname,
   outputs,
   ...
 }:
@@ -102,7 +103,7 @@
   };
 
   networking = {
-    hostName = "nixos-fw"; # Define your hostname.
+    hostName = hostname;
     networkmanager.enable = true;
     firewall.enable = false;
   };

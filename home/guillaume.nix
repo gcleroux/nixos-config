@@ -2,7 +2,6 @@
   inputs,
   config,
   pkgs,
-  username,
   ...
 }:
 {
@@ -45,8 +44,8 @@
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = username;
-  home.homeDirectory = "/home/${username}";
+  home.username = "guillaume";
+  home.homeDirectory = "/home/guillaume";
   home.sessionVariables = {
     #   XDG_CACHE_HOME = "$HOME/.cache";
     #   XDG_CONFIG_HOME = "$HOME/.config";

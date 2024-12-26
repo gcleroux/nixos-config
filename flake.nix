@@ -24,7 +24,6 @@
     let
       inherit (self) outputs;
 
-      username = "guillaume";
       systems = [
         "aarch64-linux"
         "i686-linux"
@@ -43,22 +42,25 @@
       # Standalone NixOS conf
       nixosConfigurations.nixos-fw = inputs.nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs outputs username;
+          inherit inputs outputs;
+
+          username = "guillaume";
+          hostname = "nixos-fw";
         };
         modules = [
           ./hosts/nixos-fw
         ];
       };
 
-      homeConfigurations."${username}@nixos-fw" = inputs.home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."guillaume@nixos-fw" = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {
-          inherit inputs outputs username;
+          inherit inputs outputs;
           inherit (self) packages;
         };
         modules = [
           inputs.sops-nix.homeManagerModules.sops
-          ./home/home.nix
+          ./home/guillaume.nix
         ];
       };
     };
