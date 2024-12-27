@@ -65,6 +65,7 @@
   };
 
   programs = {
+    bazecor.enable = true;
     file-roller.enable = true;
     river.enable = true;
 
@@ -91,7 +92,6 @@
     gnome.gnome-keyring.enable = true;
     mullvad-vpn.enable = true;
     openssh.enable = true;
-    udev.packages = with pkgs; [ bazecor ];
 
     # Thunar services
     gvfs.enable = true; # Mount, trash, and other functionalities

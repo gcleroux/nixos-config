@@ -69,7 +69,6 @@
     inherit (pkgs)
 
       age
-      bazecor
       clipboard-jh
       deploy-rs
       dig
