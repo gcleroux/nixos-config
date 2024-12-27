@@ -71,11 +71,6 @@ window > box {
   margin-bottom: 0;
 }
 
-/* Workspaces */
-#workspaces:hover {
-  background-color: @green;
-}
-
 #workspaces button {
   padding-right: 0.1rem;
   padding-left: 0.1rem;
@@ -90,11 +85,6 @@ window > box {
 #workspaces button:hover {
   /* border: .2px solid transparent; */
   color: @cyan;
-}
-
-/* River tags */
-#tags:hover {
-  background-color: @green;
 }
 
 #tags button {
