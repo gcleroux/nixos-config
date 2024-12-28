@@ -4,13 +4,15 @@
   ...
 }:
 {
-  imports = builtins.concatMap import [
-    ./modules
-    ./programs
-    ./services
-    ./themes
-    ./wm
-  ];
+  # How do I add the ./default-apps.nix to the imports?
+  imports =
+    builtins.concatMap import [
+      ./programs
+      ./services
+      ./themes
+      ./wm
+    ]
+    ++ [ ./default-apps.nix ];
 
   sops = {
     # This will automatically import SSH keys as age keys
@@ -24,38 +26,11 @@
     /run/current-system/sw/bin/systemctl start --user sops-nix
   '';
 
-  # nixpkgs = {
-  #   overlays = [
-  #     outputs.overlays.default
-  #   ];
-  #   config = {
-  #     # Disable if you don't want unfree packages
-  #     allowUnfree = true;
-  #
-  #     # Workaround for https://github.com/nix-community/home-manager/issues/2942
-  #     allowUnfreePredicate = _: true;
-  #   };
-  # };
-
-  # xdg.portal = {
-  #   enable = true;
-  #   extraPortals = with pkgs; [ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
-  #   config.river.default = [ "wlr" "gtk" ];
-  #
-  #   # [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
-  #   # configPackages = [ pkgs.xdg-desktop-portal-wlr ];
-  # };
-
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "guillaume";
   home.homeDirectory = "/home/guillaume";
   home.sessionVariables = {
-    #   XDG_CACHE_HOME = "$HOME/.cache";
-    #   XDG_CONFIG_HOME = "$HOME/.config";
-    #   XDG_DATA_HOME = "$HOME/.local/share";
-    #   XDG_STATE_HOME = "$HOME/.local/state";
-
     BROWSER = "chromium-browser";
     TERMINAL = "foot";
 
@@ -65,51 +40,47 @@
   home.sessionPath = [ "$HOME/go/bin" ];
 
   # Installed packages
-  home.packages = builtins.attrValues {
-    inherit (pkgs)
-
-      age
-      clipboard-jh
-      deploy-rs
-      dig
-      fd
-      fluxcd
-      fusee-launcher
-      gh
-      gimp
-      go
-      handbrake
-      hey
-      jq
-      k9s
-      kalendar
-      killall
-      krita
-      kubectl
-      kubelogin-oidc
-      kubernetes-helm
-      kubie
-      kustomize
-      libreoffice
-      lswt
-      moonlight-qt
-      mullvad-vpn
-      neofetch
-      obs-studio
-      pavucontrol
-      qbittorrent
-      rclone
-      signal-desktop
-      sops
-      spotify-player
-      thunderbird-bin
-      vesktop
-      wbg
-      way-displays
-      wlr-randr
-      zathura
-      ;
-  };
+  home.packages = with pkgs; [
+    age
+    clipboard-jh
+    deploy-rs
+    dig
+    fd
+    fluxcd
+    fusee-launcher
+    gh
+    gimp
+    go
+    hey
+    jq
+    k9s
+    kalendar
+    killall
+    krita
+    kubectl
+    kubelogin-oidc
+    kubernetes-helm
+    kubie
+    kustomize
+    libreoffice
+    lswt
+    moonlight-qt
+    mullvad-vpn
+    neofetch
+    obs-studio
+    pavucontrol
+    qbittorrent
+    rclone
+    signal-desktop
+    sops
+    spotify-player
+    thunderbird-bin
+    vesktop
+    wbg
+    way-displays
+    wlr-randr
+    zathura
+  ];
 
   # TODO: Find a place for this config
   # Creating default connection for virt-manager
@@ -129,7 +100,4 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "23.05";
-
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 }

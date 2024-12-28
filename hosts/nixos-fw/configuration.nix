@@ -134,7 +134,6 @@
       glib
       glxinfo
       grim
-      home-manager
       imagemagick
       libguestfs
       libnotify

@@ -1,7 +1,6 @@
 ---
 keys: &keys
   - age1w25xrwp4207snq0nr7ext6slkph3n5zw0u6t358k46p7v9zx0udstxpw5c # personal
-  - age105ulqzp5ggycef8ry0kgura35taczyxr3cqd5gkgzzvh8sm7h59qanrypj # nixos-fw host
 
 creation_rules:
   - key_groups:

@@ -2,10 +2,11 @@
 
 🚧 My own NixOS config - Forever WIP 🚧
 
-## Feature Wishlist
+## TODOs
 
 - [x] Restructure the repo in modules for composable configs per host
 - [x] Create separate hosts inside repo
 - [x] Manage home-manager as NixOS module
+- [ ] Move home-manager modules out of `home/`
 - [ ] Deploying NixOS with deploy-rs
-- [ ] Use nixos-generators for ISO and VM builds
+- [ ] Use disko to manage disks

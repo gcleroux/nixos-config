@@ -9,6 +9,7 @@ let
   };
 in
 [
+  ./aerc
   ./alacritty
   ./bat
   ./bottom
