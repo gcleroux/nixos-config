@@ -14,7 +14,10 @@
   boot = {
     loader = {
       # Use the systemd-boot EFI boot loader.
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 10;
+      };
       efi.canTouchEfiVariables = true;
     };
     # Kernel config
@@ -43,6 +46,8 @@
   };
 
   hardware = {
+    enableRedistributableFirmware = true;
+    enableAllFirmware = true;
     bluetooth.enable = true;
 
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
@@ -54,6 +59,7 @@
         intel-compute-runtime
         intel-media-driver
         libvdpau-va-gl
+        vpl-gpu-rt
       ];
     };
     opentabletdriver.enable = true;
@@ -63,4 +69,13 @@
   };
 
   networking.useDHCP = lib.mkDefault true;
+
+  services = {
+    # Since dock is TB3, it doesn't support wake-from-USB.
+    # Ignoring lidSwitch events will prevent laptop from going to sleep
+    # and thus having to reopen the lid since external devices are connected to the dock
+    hardware.bolt.enable = true;
+    logind.lidSwitch = "ignore";
+    logind.powerKey = "suspend";
+  };
 }
