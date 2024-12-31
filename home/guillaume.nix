@@ -65,7 +65,6 @@
     libreoffice
     lswt
     moonlight-qt
-    mullvad-vpn
     neofetch
     obs-studio
     pavucontrol
