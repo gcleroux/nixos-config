@@ -18,7 +18,7 @@ conform.setup({
         cpp = { "clang_format" },
         css = { "prettierd" },
         cuda = { "clang_format" },
-        go = { "gimports-reviser", "gofumpt", "golines" },
+        go = { "gimports-reviser", "gofumpt" },
         html = { "prettierd" },
         javascript = { "prettierd" },
         json = { "prettierd" },
