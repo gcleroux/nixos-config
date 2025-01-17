@@ -23,15 +23,12 @@ with lib;
     services.greetd = {
       enable = true;
       restart = false;
-      settings = rec {
-        initial_session = {
-          command = ''
-            ${lib.makeBinPath [ pkgs.greetd.tuigreet ]}/tuigreet --remember --asterisks --time \
-              --cmd "${pkgs.river}/bin/river &> /dev/null"
-          '';
-          user = "guillaume";
+      vt = 1;
+      settings = {
+        default_session = {
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --time --cmd 'river -log-level debug >/tmp/river.log 2>&1'";
+          user = "greeter";
         };
-        default_session = initial_session;
       };
     };
   };
