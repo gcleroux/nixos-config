@@ -190,6 +190,7 @@
       	riverctl input $pad tap-button-map left-right-middle
       	riverctl input $pad scroll-method two-finger
       	riverctl input $pad natural-scroll enabled
+        riverctl input $pad scroll-factor 0.12
       done
 
       # Cursor config
