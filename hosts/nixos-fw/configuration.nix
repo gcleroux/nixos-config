@@ -93,7 +93,10 @@
   };
 
   services = {
-    dbus.enable = true;
+    dbus = {
+      enable = true;
+      implementation = "broker";
+    };
     fwupd.enable = true;
     gnome.gnome-keyring.enable = true;
     openssh.enable = true;
