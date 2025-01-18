@@ -29,10 +29,10 @@ in
       "......" = "cd ../../../../..";
 
       # Bat aliases
-      cat = "bat -p";
-      man = "batman";
-      diff = "batdiff";
-      grep = "batgrep";
+      bat = "bat -p";
+      ban = "batman";
+      biff = "batdiff";
+      brep = "batgrep";
 
       f = "yazi";
       g = "lazygit";
@@ -43,15 +43,10 @@ in
       gc = "git clone";
       gs = "git status";
 
-      # TODO: This path should be tracked somewhere
-      nixconf = "cd ~/.nix/nixos-config";
-      nr = "sudo nixos-rebuild --flake ~/.nix/nixos-config";
-      # Need impure since the config depends on secrets with sops-nix
-      hm = "home-manager --flake ~/.nix/nixos-config";
+      nixconf = "cd /etc/nixos";
+      nr = "sudo nixos-rebuild --flake /etc/nixos#";
       ns = "nix-shell -p";
       search = "nix search nixpkgs";
     };
   };
 }
-# [ -f ${config.xdg.configHome}/fish/kubectl_aliases ] && source \
-#    <(cat ${config.xdg.configHome}/fish/kubectl_aliases | sed -r 's/(kubectl.*) --watch/watch \1/g')
