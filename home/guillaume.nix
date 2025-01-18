@@ -21,10 +21,6 @@
     defaultSymlinkPath = "/run/user/1000/secrets";
     defaultSecretsMountPoint = "/run/user/1000/secrets.d";
   };
-  # Generate secrets at activation time
-  home.activation.setupEtc = config.lib.dag.entryAfter [ "writeBoundary" ] ''
-    /run/current-system/sw/bin/systemctl start --user sops-nix
-  '';
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
