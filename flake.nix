@@ -52,6 +52,9 @@
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
+      ####################
+      # Framework laptop #
+      ####################
       nixosConfigurations.nixos-fw = inputs.nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
@@ -73,6 +76,21 @@
               ];
             };
           }
+        ];
+      };
+
+      #######################
+      # Framework mainboard #
+      #######################
+      nixosConfigurations.nixos-worker-01 = inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit inputs outputs;
+          username = "guillaume";
+          hostname = "nixos-worker-01";
+        };
+        modules = [
+          ./hosts/nixos-worker-01
         ];
       };
 
