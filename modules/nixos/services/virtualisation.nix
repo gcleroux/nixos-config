@@ -20,6 +20,9 @@ with lib;
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [
+      libguestfs
+    ];
     virtualisation = {
       # Enable docker
       docker = {

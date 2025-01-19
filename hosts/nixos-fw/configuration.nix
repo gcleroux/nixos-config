@@ -17,6 +17,7 @@
     };
     backups.enable = true;
     fonts.enable = true;
+    gaming.enable = true;
     greeter.enable = true;
     polkit.enable = true;
     powersave.enable = true;
@@ -74,9 +75,7 @@
     bazecor.enable = true;
     file-roller.enable = true;
     river.enable = true;
-
     seahorse.enable = true;
-    steam.enable = true;
     thunar = {
       enable = true;
       plugins = with pkgs.xfce; [
@@ -136,9 +135,7 @@
       glxinfo
       grim
       imagemagick
-      libguestfs
       libnotify
-      lutris
       mesa
       networkmanagerapplet
       openconnect
@@ -147,7 +144,6 @@
       pciutils
       playerctl
       powerstat
-      protonup-qt
       rtkit
       slurp
       tpm2-tss
