@@ -1,10 +1,10 @@
 {
   config,
   pkgs,
+  username,
   ...
 }:
 {
-  # How do I add the ./default-apps.nix to the imports?
   imports =
     builtins.concatMap import [
       ./programs
@@ -14,24 +14,20 @@
     ]
     ++ [ ./default-apps.nix ];
 
-  sops = {
-    # This will automatically import SSH keys as age keys
-    age.sshKeyPaths = [ "/home/guillaume/.ssh/id_ed25519" ];
-    # TODO: Fix this uid to make it cleaner
-    defaultSymlinkPath = "/run/user/1000/secrets";
-    defaultSecretsMountPoint = "/run/user/1000/secrets.d";
-  };
+  # This will automatically import SSH keys as age keys
+  sops.age.sshKeyPaths = [ "/home/guillaume/.ssh/sops-nix_ed25519" ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "guillaume";
-  home.homeDirectory = "/home/guillaume";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   home.sessionVariables = {
     BROWSER = "chromium-browser";
     TERMINAL = "foot";
 
-    CLIPBOARD_NOAUDIO = "1";
-    CLIPBOARD_NOGUI = "1";
+    # gnome-keyring needed env vars
+    GNOME_KEYRING_CONTROL = "$XDG_RUNTIME_DIR/keyring";
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
   };
   home.sessionPath = [ "$HOME/go/bin" ];
 

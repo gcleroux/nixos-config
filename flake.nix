@@ -74,6 +74,9 @@
               sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops
               ];
+              extraSpecialArgs = {
+                username = "guillaume";
+              };
             };
           }
         ];

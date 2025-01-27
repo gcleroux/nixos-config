@@ -5,11 +5,19 @@ let
     services.swaync.enable = true;
     services.network-manager-applet.enable = true;
     services.mpris-proxy.enable = true;
+    services.gnome-keyring = {
+      enable = true;
+      components = [
+        "pkcs11"
+        "secrets"
+        "ssh"
+      ];
+    };
   };
 in
 [
   ./cliphist
-  ./gpg-agent
+  # ./gpg-agent
   ./gromit-mpx
   # ./mako
   ./kanshi

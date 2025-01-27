@@ -20,16 +20,22 @@ with lib;
   };
 
   config = mkIf cfg.enable {
+
     services.greetd = {
       enable = true;
-      restart = false;
+      restart = true;
       vt = 1;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --asterisks --time --cmd 'river -log-level debug >/tmp/river.log 2>&1'";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet -d --time --remember --remember-session --session-wrapper '>/tmp/tuigreet-session.log 2>&1'";
           user = "greeter";
         };
       };
+    };
+    # Unlock gnome-keyring on login
+    security.pam.services = lib.optionals config.host.services.keyring.enable {
+      greetd.enableGnomeKeyring = true;
+      login.enableGnomeKeyring = true;
     };
   };
 }

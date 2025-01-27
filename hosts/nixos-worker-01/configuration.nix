@@ -53,6 +53,23 @@
     extraGroups = [
       "wheel"
     ];
+    createHome = true;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICS77iyKWFPGfozY/N0daz6d9uEXhpdSVpsTTIkBbcRg guillaume@nixos-fw"
+    ];
+  };
+  # Enable the OpenSSH daemon.
+  services.openssh = {
+    enable = true;
+    settings.PermitRootLogin = "no";
+  };
+  # Enable passwordless config
+  security = {
+    sudo.enable = true;
+    pam = {
+      sshAgentAuth.enable = true;
+      services.sudo.sshAgentAuth = true;
+    };
   };
 
   programs.fish.enable = true;
@@ -73,9 +90,6 @@
       wget
     ];
   };
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   system.stateVersion = "24.05";
 }

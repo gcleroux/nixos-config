@@ -1,6 +1,6 @@
 ---
 keys: &keys
-  - age1w25xrwp4207snq0nr7ext6slkph3n5zw0u6t358k46p7v9zx0udstxpw5c # personal
+  - age17z388m07ucvsk6t69knt0h8r006m4ejswq8fvfcfyavv45fxr4useyxtm9 # sops-nix
 
 creation_rules:
   - key_groups:

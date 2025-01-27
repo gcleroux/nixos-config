@@ -19,6 +19,7 @@
     fonts.enable = true;
     gaming.enable = true;
     greeter.enable = true;
+    keyring.enable = true;
     polkit.enable = true;
     powersave.enable = true;
     printing.enable = true;
@@ -61,21 +62,12 @@
     shell = pkgs.zsh;
   };
 
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    config.common.default = [
-      "wlr"
-      "gtk"
-    ];
-    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-  };
+  xdg.portal.enable = true;
 
   programs = {
     bazecor.enable = true;
     file-roller.enable = true;
     river.enable = true;
-    seahorse.enable = true;
     thunar = {
       enable = true;
       plugins = with pkgs.xfce; [
@@ -97,7 +89,6 @@
       implementation = "broker";
     };
     fwupd.enable = true;
-    gnome.gnome-keyring.enable = true;
     openssh.enable = true;
 
     # Thunar services
@@ -118,9 +109,6 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
-
-  # This makes swaylock work to unlock session
-  security.pam.services.swaylock = { };
 
   environment = {
     # Installed packages

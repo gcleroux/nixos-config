@@ -24,7 +24,7 @@
   # Personal SSH key
   sops.secrets.id_ed25519 = {
     sopsFile = ./keys/id_ed25519;
-    # path = ".ssh/id_ed25519";
+    path = ".ssh/id_ed25519";
     mode = "0400";
     format = "binary";
   };
