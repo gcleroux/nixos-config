@@ -10,55 +10,62 @@
       };
 
       messages = {
+        # Navigation
         "h" = ":prev-tab<Enter>";
         "l" = ":next-tab<Enter>";
-
         "j" = ":next<Enter>";
-        "<Down>" = ":next<Enter>";
-        "<C-d>" = ":next 50%<Enter>";
-        "<C-f>" = ":next 100%<Enter>";
-        "<PgDn>" = ":next 100%<Enter>";
-
         "k" = ":prev<Enter>";
-        "<Up>" = ":prev<Enter>";
-        "<C-u>" = ":prev 50%<Enter>";
-        "<C-b>" = ":prev 100%<Enter>";
-        "<PgUp>" = ":prev 100%<Enter>";
-        "g" = ":select 0<Enter>";
-        "G" = ":select -1<Enter>";
 
+        # Folder navigation
         "J" = ":next-folder<Enter>";
         "K" = ":prev-folder<Enter>";
         "H" = ":collapse-folder<Enter>";
         "L" = ":expand-folder<Enter>";
+        "F" = ":cf<space>"; # Search folder
 
-        "v" = ":mark -t<Enter>";
+        # Vim-like scrolling
+        "<C-u>" = ":prev 50%<Enter>";
+        "<C-b>" = ":prev 100%<Enter>";
+        "<C-d>" = ":next 50%<Enter>";
+        "<C-f>" = ":next 100%<Enter>";
+        "g" = ":select 0<Enter>";
+        "G" = ":select -1<Enter>";
+
+        # Select messages
+        "<Enter>" = ":view<Enter>";
+        "<space>" = ":mark -t<Enter>";
         "V" = ":mark -v<Enter>";
 
+        # Mail command
+        "c" = ":compose<Enter>"; # New
+        "C" = ":check-mail<Enter>"; # Sync
+        "u" = ":unread -t<Enter>"; # Toggle read/unread
+        "t" = ":tag<space>"; # Tag +/- to add/remove
         "T" = ":toggle-threads<Enter>";
 
-        "<Enter>" = ":view<Enter>";
+        # Delete/archive
         "d" = ":prompt 'Really delete this message?' 'delete-message'<Enter>";
         "D" = ":delete<Enter>";
         "A" = ":archive flat<Enter>";
 
-        "C" = ":compose<Enter>";
+        # Reply/Reply-all
+        "rr" = ":reply<Enter>";
+        "ra" = ":reply -a<Enter>";
 
-        "rr" = ":reply -a<Enter>";
-        "rq" = ":reply -aq<Enter>";
-        "Rr" = ":reply<Enter>";
-        "Rq" = ":reply -q<Enter>";
+        # Reply/Reply-all with quoted message
+        "Rr" = ":reply -q<Enter>";
+        "Ra" = ":reply -aq<Enter>";
 
-        "c" = ":cf<space>";
-        "$" = ":term<space>";
-        "!" = ":term<space>";
-        "|" = ":pipe<space>";
-
+        # Search/filter
         "/" = ":search<space>";
         "\\" = ":filter<space>";
         "n" = ":next-result<Enter>";
         "N" = ":prev-result<Enter>";
         "<Esc>" = ":clear<Enter>";
+
+        "$" = ":term<space>";
+        "!" = ":term<space>";
+        "|" = ":pipe<space>";
       };
 
       "messages:folder=Drafts" = {
