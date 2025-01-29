@@ -28,6 +28,11 @@ with lib;
       docker = {
         enable = true;
         storageDriver = "btrfs";
+        daemon.settings = {
+          bip = "172.100.0.1/16";
+          ipv6 = true;
+          fixed-cidr-v6 = "2001:db8:1::/64";
+        };
       };
       # Enable KVM virtualisation
       libvirtd.enable = true;
