@@ -15,6 +15,7 @@
         output = {
           criteria = "Dell Inc. DELL S2721QS 7Q1FM43";
           mode = "3840x2160@60Hz";
+          adaptiveSync = true;
           position = "0,0";
           scale = 1.666667;
         };
@@ -22,8 +23,8 @@
       {
         output = {
           criteria = "Dell Inc. DELL S2721QS FQ0FM43";
-          status = "enable";
           mode = "3840x2160@60Hz";
+          adaptiveSync = true;
           position = "2308,0";
           scale = 1.666667;
         };
