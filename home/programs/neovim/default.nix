@@ -102,6 +102,9 @@
     ];
 
     extraPackages = with pkgs; [
+      # Required for running some linter/formatter
+      nodejs-slim
+
       # Telescope tools
       ripgrep
       fd
