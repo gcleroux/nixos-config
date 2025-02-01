@@ -114,11 +114,22 @@ lspconfig.gopls.setup({
 })
 lspconfig.jedi_language_server.setup({})
 lspconfig.marksman.setup({})
-lspconfig.nil_ls.setup({
-    on_init = function(client)
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.documentFormattingRangeProvider = false
-    end,
+lspconfig.nixd.setup({
+    settings = {
+        nixd = {
+            nixpkgs = {
+                expr = 'import (builtins.getFlake "/etc/nixos").inputs.nixpkgs {}',
+            },
+            options = {
+                nixos = {
+                    expr = '(builtins.getFlake "/etc/nixos").nixosConfigurations.nixos-fw.options',
+                },
+                home_manager = {
+                    expr = '(builtins.getFlake "/etc/nixos").nixosConfigurations.nixos-fw.options.home-manager.users.type.getSubOptions []',
+                },
+            },
+        },
+    },
 })
 lspconfig.quick_lint_js.setup({})
 lspconfig.taplo.setup({})

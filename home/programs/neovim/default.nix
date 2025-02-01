@@ -132,7 +132,7 @@
       gopls
       lua-language-server
       marksman
-      nil
+      nixd
       bash-language-server
       dockerfile-language-server-nodejs
       nodePackages.typescript-language-server
