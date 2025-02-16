@@ -17,6 +17,11 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -65,6 +70,7 @@
         modules = [
           ./hosts/nixos-fw
 
+          inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -94,6 +100,7 @@
         };
         modules = [
           ./hosts/nixos-worker-01
+          inputs.disko.nixosModules.disko
         ];
       };
 
