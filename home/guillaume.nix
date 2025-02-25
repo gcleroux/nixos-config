@@ -46,7 +46,6 @@
     hey
     jq
     k9s
-    kalendar
     killall
     krita
     kubectl

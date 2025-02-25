@@ -118,7 +118,7 @@
           format = " {temperatureC}°C";
         };
         clock = {
-          on-click = "${pkgs.libsForQt5.merkuro}/bin/merkuro-calendar --platform wayland";
+          on-click = "${pkgs.kdePackages.merkuro}/bin/merkuro-calendar --platform wayland";
           interval = 1;
           format = "{:%I:%M %p | %A, %b %d}";
           tooltip = true;
