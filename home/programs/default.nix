@@ -13,7 +13,7 @@ in
   ./alacritty
   ./bat
   ./bottom
-  ./chromium
+  # ./chromium
   ./direnv
   ./firefox
   ./fish

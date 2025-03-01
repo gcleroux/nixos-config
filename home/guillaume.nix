@@ -22,7 +22,7 @@
   home.username = username;
   home.homeDirectory = "/home/${username}";
   home.sessionVariables = {
-    BROWSER = "chromium-browser";
+    BROWSER = "firefox";
     TERMINAL = "foot";
 
     # gnome-keyring needed env vars
@@ -79,6 +79,11 @@
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = [ "qemu:///system" ];
       uris = [ "qemu:///system" ];
+    };
+
+    # https://codeberg.org/river/wiki#workaround-for-firefox
+    "org/gnome/desktop/wm/preferences" = {
+      button-layout = "";
     };
   };
 

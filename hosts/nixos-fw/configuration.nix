@@ -65,10 +65,13 @@
   xdg.portal = {
     enable = true;
     wlr.enable = true;
-    config.common.default = [
-      "wlr"
-      "gtk"
-    ];
+    config.common = {
+      default = [
+        "wlr"
+        "gtk"
+      ];
+      "org.freedesktop.impl.portal.Inhibit" = [ "none" ];
+    };
     extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
   };
 
@@ -151,7 +154,6 @@
       xdg-utils
     ];
 
-    # Get completion for system packages
     pathsToLink = [ "/share/zsh" ];
 
     sessionVariables = {

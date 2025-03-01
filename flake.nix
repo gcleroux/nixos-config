@@ -22,6 +22,11 @@
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -76,11 +81,13 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              backupFileExtension = "backup";
               users.guillaume = import ./home/guillaume.nix;
               sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops
               ];
               extraSpecialArgs = {
+                inherit inputs outputs;
                 username = "guillaume";
               };
             };
