@@ -30,6 +30,8 @@
 
       -- Set up LSP (Should be loaded last)
       require("lsp")
+
+      require("utils")
     '';
 
     plugins = with pkgs.vimPlugins; [
@@ -90,10 +92,7 @@
       trouble-nvim
       oil-nvim
 
-      # Telescope plugins
       nvim-neoclip-lua
-      telescope-media-files-nvim
-      telescope-nvim
       fzf-lua
 
       # TreeSitter plugins
@@ -105,9 +104,10 @@
       # Required for running some linter/formatter
       nodejs-slim
 
-      # Telescope tools
-      ripgrep
+      # Preview tools
+      bat
       fd
+      ripgrep
 
       # Toggleterm tools
       bottom

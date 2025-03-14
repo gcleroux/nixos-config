@@ -16,11 +16,11 @@ require("ui.oil")
 require("ui.toggleterm")
 
 -- Telescope
-require("ui.telescope")
+-- require("ui.telescope")
+require("ui.fzf-lua")
 
--- Telescope integration for clipboard management
 -- TODO: Fix errors when closing neoclip
--- require("ui.neoclip")
+require("ui.neoclip")
 
 require("ui.trouble")
 

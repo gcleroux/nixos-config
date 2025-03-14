@@ -59,3 +59,5 @@ neoclip.setup({
         },
     },
 })
+
+vim.api.nvim_set_keymap("n", "<leader>x", ":lua require('neoclip.fzf')('\"')<CR>", { noremap = true, silent = true })

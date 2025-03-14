@@ -45,10 +45,6 @@ keymap("v", "<A-k>", ":m .-2<CR>==")
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv")
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv")
 
--- Telescope
-keymap("n", "<leader>f", "<cmd>Telescope find_files<CR>")
-keymap("n", "<leader>t", "<cmd>Telescope live_grep<cr>")
-
 -- Generate docstring
 keymap("n", "<leader>doc", ":Neogen<CR>")
 
@@ -71,5 +67,3 @@ keymap("n", "<leader>hb", ":Gitsigns prev_hunk<CR>")
 
 -- Pressing backspace in normal mode returns to previous opened file
 keymap("n", "<leader>L", ":noh<CR>")
-
-keymap("n", "<leader>x", ":lua require('telescope').extensions.neoclip.default()<CR>")

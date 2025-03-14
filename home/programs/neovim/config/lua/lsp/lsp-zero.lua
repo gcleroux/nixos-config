@@ -12,13 +12,14 @@ end
 
 local opts = { buffer = bufnr, remap = false }
 lsp_zero.on_attach(function(client, bufnr)
+    vim.keymap.set("n", "gd", "<cmd>FzfLua lsp_definitions<CR>", opts)
+    vim.keymap.set("n", "gi", "<cmd>FzfLua lsp_implementations<CR>", opts)
+    vim.keymap.set("n", "gr", "<cmd>FzfLua lsp_references<CR>", opts)
+
     vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    vim.keymap.set("n", "gd", "<cmd>lua require'telescope.builtin'.lsp_definitions()<CR>", opts)
     vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    vim.keymap.set("n", "gi", "<cmd>lua require'telescope.builtin'lsp_implementations()<CR>", opts)
     vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     vim.keymap.set("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-    vim.keymap.set("n", "gr", "<cmd>lua require'telescope.builtin'.lsp_references()<CR>", opts)
 end)
 
 -- Diagnostics is not tied to LSP, it's handled by nvim-lint instead
@@ -72,7 +73,6 @@ lspconfig.yamlls.setup({
     settings = {
         yaml = {
             schemas = {
-                kubernetes = "*.yaml",
                 ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
                 ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
                 ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
