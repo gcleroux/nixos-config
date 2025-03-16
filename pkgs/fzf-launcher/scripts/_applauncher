@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+declare -A apps
+
+desktop_file() {
+    fd '\.desktop$' /run/current-system/sw/share/applications 2>/dev/null
+    fd '\.desktop$' /etc/profiles/per-user/guillaume/share/applications 2>/dev/null
+    fd '\.desktop$' /var/lib/flatpak/exports/share/applications 2>/dev/null
+    fd '\.desktop$' "$HOME"/.local/share/applications 2>/dev/null
+    fd '\.desktop$' "$HOME"/.local/share/flatpak/exports/share/applications 2>/dev/null
+}
+
+while read -r df; do
+    app_name=$(awk -F= '/^Name=/ {print $2; exit}' "$df")
+    [ -n "$app_name" ] && apps["$app_name"]="$df"
+done < <(desktop_file)
+
+export FZF_DEFAULT_OPTS="-e -i --info=hidden --layout=reverse --scroll-off=5 --tiebreak=index --bind 'home:first,end:last'"
+selected=$(printf "%s\n" "${!apps[@]}" | sort | fzf -m -d / --with-nth -1 --prompt="select program(s) to open: ")
+[ -z "$selected" ] && exit
+
+while read -r line; do
+    setsid dex "${apps[$line]}" >/dev/null 2>&1 &
+    disown
+    sleep 0.2
+done <<<"$selected"

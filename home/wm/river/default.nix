@@ -25,9 +25,10 @@
       riverctl map normal Super D spawn vesktop
       riverctl map normal Super F spawn thunar
       riverctl map normal Control+Alt L spawn swaylock
-      riverctl map normal Super V spawn "cliphist list | wofi --dmenu | cliphist decode | wl-copy"
-      riverctl map normal Control Space spawn "wofi --allow-images --show drun"
-      riverctl map normal Control Semicolon spawn ${pkgs.custom-scripts}/bin/emoji # CTRL+;
+      riverctl map normal Super V spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/_cliphist"
+      riverctl map normal Control Space spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/_applauncher"
+      riverctl map normal Control Semicolon spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/_emoji"
+      riverctl map normal Control+Shift Space spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/launcher"
 
       # Screenshot
       riverctl map -release normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy'
@@ -165,9 +166,11 @@
       riverctl border-color-focused 0x81a1c1
       riverctl border-color-unfocused 0x595959
 
-      # Make all views with an app-id that starts with "float" and title "foo" start floating.
+      # Make fzf-launcher floating with set dimensions
+      riverctl rule-add -title 'fzf-launcher' float
+      riverctl rule-add -title 'fzf-launcher' dimensions 1000 200
+
       riverctl rule-add -app-id 'float*' float
-      riverctl rule-add -app-id 'wofi' float
       riverctl rule-add -app-id 'nm-connection-editor' float
       riverctl rule-add -app-id '.blueman-manager-wrapped' float
       riverctl rule-add -app-id 'imv' float
@@ -176,6 +179,7 @@
 
       # Make firefox use server-side decorations
       riverctl rule-add -app-id firefox ssd
+
 
       # Set keyboard repeat rate
       riverctl set-repeat 50 300

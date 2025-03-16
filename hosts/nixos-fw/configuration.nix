@@ -127,6 +127,7 @@
       brightnessctl
       clinfo
       coreutils
+      dex
       gcc
       gdb
       git
