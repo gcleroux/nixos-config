@@ -35,19 +35,16 @@
   home.packages = with pkgs; [
     age
     clipboard-jh
-    deploy-rs
     dig
     fd
     fluxcd
     fusee-launcher
     gh
-    gimp
     go
     hey
     jq
     k9s
     killall
-    krita
     kubectl
     kubelogin-oidc
     kubernetes-helm
