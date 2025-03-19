@@ -20,7 +20,7 @@ in
   # ./gpg-agent
   ./gromit-mpx
   # ./mako
-  ./kanshi
+  # ./kanshi
   ./swayidle
   more
 ]
