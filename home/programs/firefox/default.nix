@@ -123,8 +123,11 @@
 
       };
       extensions.force = true;
+      # https://gitlab.com/rycee/nur-expressions/-/blob/master/pkgs/firefox-addons/addons.json?ref_type=heads
       extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
         bitwarden
+        dearrow
+        return-youtube-dislikes
         sponsorblock
         ublock-origin
       ];
