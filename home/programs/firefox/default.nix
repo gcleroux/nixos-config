@@ -80,7 +80,6 @@
         "browser.search.isUS" = false;
         "browser.urlbar.showSearchSuggestionsFirst" = false;
         "browser.search.suggest.enabled.private" = false;
-        "accessibility.typeaheadfind" = true; # Search for text when typing
         "distribution.searchplugins.defaultLocale" = "en-CA";
         "general.useragent.locale" = "en-CA";
         "datareporting.healthreport.uploadEnabled" = false;
