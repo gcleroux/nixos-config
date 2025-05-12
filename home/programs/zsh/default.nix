@@ -6,7 +6,7 @@
 
   programs.zsh = {
     enable = true;
-    initExtra = ''
+    initContent = ''
       ${builtins.readFile ./nnn_zsh_cd.sh}
     '';
     autosuggestion.enable = true;
