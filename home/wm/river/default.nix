@@ -177,6 +177,7 @@
       riverctl rule-add -app-id 'imv' float
       riverctl rule-add -app-id 'mpv' float
       riverctl rule-add -app-id 'pavucontrol' float
+      riverctl rule-add -app-id 'thunar' -title 'File Operation Progress' float
 
       # Make firefox use server-side decorations
       riverctl rule-add -app-id firefox ssd
