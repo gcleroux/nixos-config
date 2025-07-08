@@ -21,9 +21,6 @@ with lib;
 
   config = mkIf cfg.enable {
     services.gnome.gnome-keyring.enable = true;
-    programs = {
-      ssh.startAgent = true;
-      seahorse.enable = true;
-    };
+    programs.seahorse.enable = true;
   };
 }

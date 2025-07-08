@@ -35,6 +35,7 @@ with lib;
     # Unlock gnome-keyring on login
     security.pam.services = lib.optionals config.host.services.keyring.enable {
       greetd.enableGnomeKeyring = true;
+      greetd-password.enableGnomeKeyring = true;
       login.enableGnomeKeyring = true;
     };
   };

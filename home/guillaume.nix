@@ -27,7 +27,7 @@
 
     # gnome-keyring needed env vars
     GNOME_KEYRING_CONTROL = "$XDG_RUNTIME_DIR/keyring";
-    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
   };
   home.sessionPath = [ "$HOME/go/bin" ];
 
@@ -38,7 +38,6 @@
     dig
     fd
     fluxcd
-    fusee-launcher
     gh
     go
     hey
