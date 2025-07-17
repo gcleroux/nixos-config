@@ -92,6 +92,10 @@
       enable = true;
       syntaxHighlighting.enable = true;
     };
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
   };
 
   services = {
