@@ -56,6 +56,7 @@
     obs-studio
     pavucontrol
     qbittorrent
+    rbw
     rclone
     signal-desktop
     sops
