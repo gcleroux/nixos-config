@@ -24,10 +24,9 @@ with lib;
     services.greetd = {
       enable = true;
       restart = true;
-      vt = 1;
       settings = {
         default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet -d --time --remember --remember-session --session-wrapper '>/tmp/tuigreet-session.log 2>&1'";
+          command = "${pkgs.tuigreet}/bin/tuigreet -d --time --remember --remember-session --session-wrapper '>/tmp/tuigreet-session.log 2>&1'";
           user = "greeter";
         };
       };
