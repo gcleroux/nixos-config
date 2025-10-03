@@ -78,7 +78,7 @@
   programs = {
     bazecor.enable = true;
     file-roller.enable = true;
-    river.enable = true;
+    river-classic.enable = true;
     thunar = {
       enable = true;
       plugins = with pkgs.xfce; [

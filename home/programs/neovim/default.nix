@@ -134,10 +134,10 @@
       marksman
       nixd
       bash-language-server
-      dockerfile-language-server-nodejs
+      dockerfile-language-server
       nodePackages.typescript-language-server
       yaml-language-server
-      python311Packages.jedi-language-server
+      python313Packages.jedi-language-server
       quick-lint-js
       taplo
       vscode-langservers-extracted

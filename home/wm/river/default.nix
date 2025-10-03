@@ -16,7 +16,7 @@
       # ==================
       riverctl spawn "way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1"
       riverctl spawn "wl-paste --watch cliphist store"
-      riverctl spawn "wbg ~/Pictures/Wallpapers/murky_peaks.jpg"
+      riverctl spawn "wbg -s ~/Pictures/Wallpapers/murky_peaks.jpg"
       riverctl spawn "spotify_player -d"
 
       # Programs keybinds

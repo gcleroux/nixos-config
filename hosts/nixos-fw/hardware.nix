@@ -75,7 +75,7 @@
     # Ignoring lidSwitch events will prevent laptop from going to sleep
     # and thus having to reopen the lid since external devices are connected to the dock
     hardware.bolt.enable = true;
-    logind.lidSwitch = "ignore";
-    logind.powerKey = "suspend";
+    logind.settings.Login.HandlelidSwitch = "ignore";
+    logind.settings.Login.HandlePowerKey = "suspend";
   };
 }
