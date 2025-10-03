@@ -2,6 +2,9 @@
   programs.lazygit = {
     enable = true;
     settings = {
+      git = {
+        overrideGpg = true;
+      };
       customCommands = [
         {
           key = "<c-v>";
