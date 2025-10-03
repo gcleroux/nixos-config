@@ -15,7 +15,7 @@
     ++ [ ./default-apps.nix ];
 
   # This will automatically import SSH keys as age keys
-  sops.age.sshKeyPaths = [ "/home/guillaume/.ssh/sops-nix_ed25519" ];
+  sops.age.sshKeyPaths = [ "/home/guillaume/.ssh/id_ed25519" ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
