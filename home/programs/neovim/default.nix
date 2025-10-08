@@ -37,7 +37,6 @@
     plugins = with pkgs.vimPlugins; [
       # LSP plugins
       go-nvim
-      lsp-zero-nvim
       nvim-lint
       conform-nvim
       actions-preview-nvim
