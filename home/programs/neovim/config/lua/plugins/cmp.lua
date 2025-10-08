@@ -9,10 +9,41 @@ if not luasnip_status_ok then
     return
 end
 
-local lsp_zero_status_ok, lsp_zero = pcall(require, "lsp-zero")
-if not lsp_zero_status_ok then
-    vim.notify("Plugin lsp-zero is missing")
-    return
+-- From: https://github.com/VonHeikemen/lsp-zero.nvim/blob/d388e2b71834c826e61a3eba48caec53d7602510/lua/lsp-zero/cmp-mapping.lua#L221-L265
+---If the completion menu is visible it will navigate to the next item in
+---the list. If cursor is on top of the trigger of a snippet it'll expand
+---it. If the cursor can jump to a luasnip placeholder, it moves to it.
+---If the cursor is in the middle of a word that doesn't trigger a snippet
+---it displays the completion menu. Else, it uses the fallback.
+local function luasnip_supertab(select_opts)
+    return cmp.mapping(function(fallback)
+        local col = vim.fn.col(".") - 1
+
+        if cmp.visible() then
+            cmp.select_next_item(select_opts)
+        elseif luasnip.expand_or_locally_jumpable() then
+            luasnip.expand_or_jump()
+        elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
+            fallback()
+        else
+            cmp.complete()
+        end
+    end, { "i", "s" })
+end
+
+---If the completion menu is visible it will navigate to previous item in the
+---list. If the cursor can navigate to a previous snippet placeholder, it
+---moves to it. Else, it uses the fallback.
+local function luasnip_shift_supertab(select_opts)
+    return cmp.mapping(function(fallback)
+        if cmp.visible() then
+            cmp.select_prev_item(select_opts)
+        elseif luasnip.locally_jumpable(-1) then
+            luasnip.jump(-1)
+        else
+            fallback()
+        end
+    end, { "i", "s" })
 end
 
 local kind_icons = {
@@ -53,8 +84,8 @@ cmp.setup({
         end,
     },
     mapping = {
-        ["<Tab>"] = lsp_zero.cmp_action().luasnip_supertab(),
-        ["<S-Tab>"] = lsp_zero.cmp_action().luasnip_shift_supertab(),
+        ["<Tab>"] = luasnip_supertab(),
+        ["<S-Tab>"] = luasnip_shift_supertab(),
         ["<CR>"] = cmp.mapping.confirm({ select = false }),
 
         ["<C-a>"] = cmp.mapping.complete(), -- Every cmp entry
