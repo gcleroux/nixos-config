@@ -9,7 +9,7 @@ lint.linters_by_ft = {
     cpp = { "clangtidy", "cppcheck" },
     dockerfile = { "hadolint" },
     go = { "golangcilint" },
-    javascript = { "eslint_d" },
+    javascript = { "biomejs" },
     json = { "jsonlint" },
     lua = { "luacheck" },
     markdown = { "markdownlint", "proselint" },
@@ -18,7 +18,7 @@ lint.linters_by_ft = {
     python = { "ruff" },
     sh = { "shellcheck" },
     env = { "dotenv_linter" },
-    typescript = { "eslint_d" },
+    typescript = { "biomejs" },
     -- yaml = { "yamllint", "actionlint" },
 }
 

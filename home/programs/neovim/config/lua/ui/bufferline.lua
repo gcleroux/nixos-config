@@ -74,8 +74,3 @@ bufferline.setup({
         -- end
     },
 })
-
-vim.cmd("hi BufferLineFill guibg=#" .. string.format("%06x", sep_hl_info.foreground))
-vim.cmd("set fillchars+=vert:\\ |")
-vim.cmd("hi BufferLineOffsetSeparator guifg=#" .. string.format("%06x", sep_hl_info.foreground))
-vim.cmd("hi BufferLineOffsetSeparator guibg=#" .. string.format("%06x", sep_hl_info.foreground))

@@ -127,27 +127,26 @@
       mockgen
 
       # LSP packages
+      bash-language-server
       docker-compose-language-service
+      dockerfile-language-server
       gopls
       lua-language-server
       marksman
       nixd
-      bash-language-server
-      dockerfile-language-server
-      nodePackages.typescript-language-server
-      yaml-language-server
       python313Packages.jedi-language-server
-      quick-lint-js
       taplo
+      typescript-language-server
       vscode-langservers-extracted
+      yaml-language-server
 
       # Linters
       actionlint
+      biome
       buf
       codespell
       cppcheck
       dotenv-linter
-      eslint_d
       golangci-lint
       hadolint
       luajitPackages.luacheck
