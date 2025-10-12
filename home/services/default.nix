@@ -17,7 +17,7 @@ let
 in
 [
   ./cliphist
-  # ./gpg-agent
+  ./gpg-agent
   ./gromit-mpx
   # ./mako
   # ./kanshi

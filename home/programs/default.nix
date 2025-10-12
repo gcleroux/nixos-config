@@ -24,6 +24,7 @@ in
   ./mpv
   ./neovim
   ./nnn
+  ./rbw
   ./spotify-player
   ./ssh
   ./starship
