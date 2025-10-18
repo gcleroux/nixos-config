@@ -9,6 +9,9 @@
     };
   };
 
+  # Make neovim the default man page viewer
+  home.sessionVariables.MANPAGER = "nvim +Man!";
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
