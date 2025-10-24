@@ -24,7 +24,6 @@
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "kvm-intel" ];
     kernelParams = [
-      "mem_sleep_default=deep"
       "quiet"
       "splash"
     ];
