@@ -13,7 +13,6 @@
 }:
 let
   kubeMasterIP = "10.0.0.20";
-  kubeMasterPrefixLength = 24;
   kubeMasterAPIServerPort = 6443;
 in
 {
@@ -48,21 +47,7 @@ in
   networking = {
     networkmanager.enable = true;
     hostName = hostname;
-    useDHCP = false;
 
-    interfaces = {
-      enp0s13f0u1.ipv4.addresses = [
-        {
-          address = kubeMasterIP;
-          prefixLength = kubeMasterPrefixLength;
-        }
-      ];
-    };
-    defaultGateway = {
-      address = "10.0.0.1";
-      interface = "enp0s13f0u1";
-    };
-    nameservers = [ "10.0.0.1" ];
     extraHosts = "${kubeMasterIP} ${hostname}";
 
     # Disable firewall for faster deployment
@@ -121,6 +106,7 @@ in
       kubectl
       clinfo
       foot
+      fluxcd
       git
       glib
       glxinfo
@@ -134,7 +120,6 @@ in
   };
 
   services.kubernetes = {
-
     roles = [
       "master"
       "node"
@@ -146,6 +131,7 @@ in
       securePort = kubeMasterAPIServerPort;
       advertiseAddress = kubeMasterIP;
       allowPrivileged = true;
+      serviceClusterIpRange = "10.200.0.0/24";
     };
     addons.dns.enable = true;
   };
