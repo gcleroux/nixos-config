@@ -40,6 +40,7 @@
     fluxcd
     gh
     go
+    gnumake
     hey
     jq
     k9s
@@ -61,6 +62,7 @@
     sops
     spotify-player
     thunderbird-bin
+    traceroute
     vesktop
     wbg
     way-displays
