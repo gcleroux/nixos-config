@@ -62,55 +62,70 @@
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
-      ####################
-      # Framework laptop #
-      ####################
-      nixosConfigurations.nixos-fw = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs outputs;
-          username = "guillaume";
-          hostname = "nixos-fw";
-        };
-        modules = [
-          ./hosts/nixos-fw
+      nixosConfigurations = {
+        ####################
+        # Framework laptop #
+        ####################
+        nixos-fw = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs outputs;
+            username = "guillaume";
+            hostname = "nixos-fw";
+          };
+          modules = [
+            ./hosts/nixos-fw
 
-          inputs.disko.nixosModules.disko
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "backup";
-              users.guillaume = import ./home/guillaume.nix;
-              sharedModules = [
-                inputs.sops-nix.homeManagerModules.sops
-              ];
-              extraSpecialArgs = {
-                inherit inputs outputs;
-                username = "guillaume";
+            inputs.disko.nixosModules.disko
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "backup";
+                users.guillaume = import ./home/guillaume.nix;
+                sharedModules = [
+                  inputs.sops-nix.homeManagerModules.sops
+                ];
+                extraSpecialArgs = {
+                  inherit inputs outputs;
+                  username = "guillaume";
+                };
               };
-            };
-          }
-        ];
-      };
-
-      #######################
-      # Framework mainboard #
-      #######################
-      nixosConfigurations.nixos-worker-01 = inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs outputs;
-          username = "guillaume";
-          hostname = "nixos-worker-01";
+            }
+          ];
         };
-        modules = [
-          ./hosts/nixos-worker-01
-          inputs.disko.nixosModules.disko
-        ];
-      };
 
+        #######################
+        # Framework mainboard #
+        #######################
+        nixos-worker-01 = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs outputs;
+            username = "guillaume";
+            hostname = "nixos-worker-01";
+          };
+          modules = [
+            ./hosts/nixos-worker-01
+            inputs.disko.nixosModules.disko
+          ];
+        };
+
+        # Router
+        calcifer = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs outputs;
+            username = "guillaume";
+            hostname = "calcifer";
+          };
+          modules = [
+            ./hosts/calcifer
+            inputs.disko.nixosModules.disko
+          ];
+        };
+      };
       devShells = forAllSystems (
         system:
         import ./shell.nix {

@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 {
   inputs,
   config,
@@ -12,13 +8,10 @@
   ...
 }:
 let
-  kubeMasterIP = "10.0.0.20";
-  kubeMasterAPIServerPort = 6443;
+  gatewayIP = "192.168.0.10";
+  gatewayMask = 24;
 in
 {
-
-  # host.services.virtualisation.enable = true;
-
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [
@@ -39,29 +32,37 @@ in
       ];
       trusted-users = [
         "root"
-        "guillaume"
+        username
       ];
     };
   };
 
   networking = {
-    networkmanager.enable = true;
     hostName = hostname;
+    useDHCP = false;
+    extraHosts = "${gatewayIP} ${hostname}";
+    firewall.enable = true;
 
-    extraHosts = "${kubeMasterIP} ${hostname}";
+    bridges.br-lan.interfaces = [
+      "enp2s0"
+      "enp3s0"
+      "enp4s0"
+    ];
 
-    # Disable firewall for faster deployment
-    firewall.enable = false;
-    # firewall.allowedTCPPorts = [
-    #   kubeMasterAPIServerPort
-    #
-    #   # k8s-gateway
-    #   31000
-    #
-    #   # ingress-nginx
-    #   32001
-    #   32002
-    # ];
+    interfaces = {
+      enp1s0 = {
+        # WAN
+        useDHCP = true;
+      };
+      br-lan = {
+        ipv4.addresses = [
+          {
+            address = gatewayIP;
+            prefixLength = gatewayMask;
+          }
+        ];
+      };
+    };
   };
 
   # Set your time zone.
@@ -72,6 +73,7 @@ in
 
   users.users.${username} = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     extraGroups = [
       "wheel"
     ];
@@ -82,10 +84,30 @@ in
   };
 
   # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    settings.PermitRootLogin = "no";
+  services = {
+    openssh = {
+      enable = true;
+      settings.PermitRootLogin = "no";
+    };
+    dnsmasq = {
+      enable = true;
+      settings = {
+        domain-needed = true;
+        localise-queries = true;
+        stop-dns-rebind = true;
+        cache-size = 1000;
+        no-resolv = true;
+
+        dhcp-range = [ "br-lan,192.168.0.100,192.168.0.250,12h" ];
+        interface = "br-lan";
+
+        local = "/internal/";
+        domain = "internal";
+        expand-hosts = true;
+      };
+    };
   };
+
   # Enable passwordless config
   security = {
     sudo.enable = true;
@@ -95,51 +117,33 @@ in
     };
   };
 
-  programs.fish.enable = true;
+  programs = {
+    fish.enable = true;
+    zsh = {
+      enable = true;
+      syntaxHighlighting.enable = true;
+    };
+  };
 
   environment = {
     # Installed packages
     systemPackages = with pkgs; [
       bottom
-      kompose
-      kubernetes
-      kubectl
       clinfo
       foot
-      fluxcd
       git
       glib
       glxinfo
+      iputils
       mesa
       neovim
       pciutils
       powerstat
+      traceroute
       usbutils
       wget
     ];
   };
 
-  services.kubernetes = {
-    roles = [
-      "master"
-      "node"
-    ];
-    masterAddress = hostname;
-    apiserverAddress = "https://${hostname}:${toString kubeMasterAPIServerPort}";
-    easyCerts = true;
-    apiserver = {
-      securePort = kubeMasterAPIServerPort;
-      advertiseAddress = kubeMasterIP;
-      allowPrivileged = true;
-      serviceClusterIpRange = "10.0.0.0/24";
-    };
-    addons.dns.enable = true;
-  };
-
-  virtualisation.docker = {
-    enable = true;
-    storageDriver = "btrfs";
-  };
-
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
 }
