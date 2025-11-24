@@ -44,7 +44,7 @@ in
       gs = "git status";
 
       nixconf = "cd /etc/nixos";
-      nr = "sudo nixos-rebuild --flake /etc/nixos#";
+      nr = "nixos-rebuild --flake /etc/nixos#";
       ns = "nix-shell -p";
       search = "nix search nixpkgs";
     };
