@@ -57,6 +57,7 @@
       enable = true;
       settings.PermitRootLogin = "no";
     };
+    resolved.enable = false;
   };
 
   # Enable passwordless config

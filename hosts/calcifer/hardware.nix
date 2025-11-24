@@ -28,6 +28,7 @@
     kernel.sysctl = {
       "net.ipv4.conf.all.forwarding" = true;
       "net.ipv6.conf.all.forwarding" = false;
+      # "net.ipv4.conf.default.rp_filter" = 1;
     };
 
     initrd = {

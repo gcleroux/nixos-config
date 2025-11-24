@@ -17,6 +17,39 @@ in
   ### Interfaces
   systemd.network = {
     wait-online.anyInterface = true;
+
+    # Rename links to match device's labels
+    links = {
+      "10-eth0" = {
+        matchConfig.Path = "pci-0000:01:00.0";
+        linkConfig = {
+          Description = "eth0";
+          Name = "wan0";
+        };
+      };
+      "10-eth1" = {
+        matchConfig.Path = "pci-0000:02:00.0";
+        linkConfig = {
+          Description = "eth1";
+          Name = "lan0";
+        };
+      };
+      "10-eth2" = {
+        matchConfig.Path = "pci-0000:03:00.0";
+        linkConfig = {
+          Description = "eth2";
+          Name = "lan1";
+        };
+      };
+      "10-eth3" = {
+        matchConfig.Path = "pci-0000:04:00.0";
+        linkConfig = {
+          Description = "eth3";
+          Name = "lan2";
+        };
+      };
+    };
+
     netdevs = {
       # Create the bridge interface
       "20-br-lan" = {
@@ -28,8 +61,8 @@ in
     };
 
     networks = {
-      "10-wan" = {
-        matchConfig.Name = "enp1s0";
+      "10-wan0" = {
+        matchConfig.Name = "wan0";
         networkConfig = {
           DHCP = "ipv4";
           DNSOverTLS = true;
@@ -43,7 +76,7 @@ in
       };
 
       "30-lan0" = {
-        matchConfig.Name = "enp4s0";
+        matchConfig.Name = "lan0";
         networkConfig = {
           Bridge = "br-lan";
           ConfigureWithoutCarrier = true;
@@ -51,7 +84,7 @@ in
         linkConfig.RequiredForOnline = "enslaved";
       };
       "30-lan1" = {
-        matchConfig.Name = "enp3s0";
+        matchConfig.Name = "lan1";
         networkConfig = {
           Bridge = "br-lan";
           ConfigureWithoutCarrier = true;
@@ -59,7 +92,7 @@ in
         linkConfig.RequiredForOnline = "enslaved";
       };
       "30-lan2" = {
-        matchConfig.Name = "enp2s0";
+        matchConfig.Name = "lan2";
         networkConfig = {
           Bridge = "br-lan";
           ConfigureWithoutCarrier = true;
@@ -73,6 +106,7 @@ in
           "${gatewayIP}/24"
         ];
         networkConfig = {
+          IPv4ReversePathFilter = "no";
           ConfigureWithoutCarrier = true;
         };
       };
