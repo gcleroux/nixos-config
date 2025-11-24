@@ -25,6 +25,10 @@
       "quiet"
       "splash"
     ];
+    kernel.sysctl = {
+      "net.ipv4.conf.all.forwarding" = true;
+      "net.ipv6.conf.all.forwarding" = false;
+    };
 
     initrd = {
       availableKernelModules = [
@@ -45,16 +49,5 @@
     enableAllFirmware = true;
 
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-
-    # GPU hardware acceleration
-    graphics = {
-      enable = true;
-      extraPackages = with pkgs; [
-        intel-compute-runtime
-        intel-media-driver
-        libvdpau-va-gl
-        vpl-gpu-rt
-      ];
-    };
   };
 }

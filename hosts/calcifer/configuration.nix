@@ -7,10 +7,6 @@
   outputs,
   ...
 }:
-let
-  gatewayIP = "192.168.0.10";
-  gatewayMask = 24;
-in
 {
   nixpkgs = {
     config.allowUnfree = true;
@@ -34,34 +30,6 @@ in
         "root"
         username
       ];
-    };
-  };
-
-  networking = {
-    hostName = hostname;
-    useDHCP = false;
-    extraHosts = "${gatewayIP} ${hostname}";
-    firewall.enable = true;
-
-    bridges.br-lan.interfaces = [
-      "enp2s0"
-      "enp3s0"
-      "enp4s0"
-    ];
-
-    interfaces = {
-      enp1s0 = {
-        # WAN
-        useDHCP = true;
-      };
-      br-lan = {
-        ipv4.addresses = [
-          {
-            address = gatewayIP;
-            prefixLength = gatewayMask;
-          }
-        ];
-      };
     };
   };
 
@@ -89,23 +57,6 @@ in
       enable = true;
       settings.PermitRootLogin = "no";
     };
-    dnsmasq = {
-      enable = true;
-      settings = {
-        domain-needed = true;
-        localise-queries = true;
-        stop-dns-rebind = true;
-        cache-size = 1000;
-        no-resolv = true;
-
-        dhcp-range = [ "br-lan,192.168.0.100,192.168.0.250,12h" ];
-        interface = "br-lan";
-
-        local = "/internal/";
-        domain = "internal";
-        expand-hosts = true;
-      };
-    };
   };
 
   # Enable passwordless config
@@ -129,13 +80,9 @@ in
     # Installed packages
     systemPackages = with pkgs; [
       bottom
-      clinfo
       foot
       git
-      glib
-      glxinfo
       iputils
-      mesa
       neovim
       pciutils
       powerstat
