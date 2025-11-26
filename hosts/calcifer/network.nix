@@ -351,7 +351,7 @@ in
     settings = {
       server = {
         interface = [ "127.0.0.1" ];
-        port = 53;
+        port = 5335;
         access-control = [ "127.0.0.1 allow" ];
 
         harden-glue = true;
@@ -446,6 +446,54 @@ in
           "127.0.0.1"
           "::1"
         ];
+      };
+    };
+  };
+
+  services.blocky = {
+    enable = true;
+    settings = {
+      ports.dns = 53;
+      upstreams.groups.default = [
+        "127.0.0.1:5335"
+      ];
+      caching = {
+        minTime = "5m";
+        maxTime = "30m";
+        prefetching = true;
+      };
+      specialUseDomains.enable = false; # Don't block .lan TLD
+      blocking = {
+        denylists = {
+          ads = [
+            "https://adaway.org/hosts.txt"
+            "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_2_Base/filter.txt"
+            "https://easylist.to/easylist/easylist.txt"
+            "https://big.oisd.nl/domainswild"
+            "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext"
+          ];
+          annoyances = [
+            "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt"
+            "https://secure.fanboy.co.nz/fanboy-annoyance.txt"
+          ];
+          phising = [
+            "https://hole.cert.pl/domains/v2/domains.txt"
+          ];
+          tracking = [
+            "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_3_Spyware/filter.txt"
+            "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_17_TrackParam/filter.txt"
+            "https://easylist.to/easylist/easyprivacy.txt"
+            "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/refs/heads/master/SmartTV.txt"
+          ];
+        };
+        clientGroupsBlock = {
+          default = [
+            "ads"
+            "annoyances"
+            "phising"
+            "tracking"
+          ];
+        };
       };
     };
   };
