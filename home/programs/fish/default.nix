@@ -18,6 +18,9 @@ in
       # Disable greeting
       set fish_greeting
 
+      # Expand abbr without space added
+      bind " " expand-abbr or self-insert
+
       # Load the kubectl_aliases file
       source (cat ${kubectl.path} | sed -r 's/(kubectl.*) --watch/watch \1/g' | psub)
     '';
@@ -44,7 +47,10 @@ in
       gs = "git status";
 
       nixconf = "cd /etc/nixos";
-      nr = "nixos-rebuild --flake /etc/nixos#";
+      nr = {
+        position = "anywhere";
+        expansion = "nixos-rebuild --flake /etc/nixos#";
+      };
       ns = "nix-shell -p";
       search = "nix search nixpkgs";
     };
