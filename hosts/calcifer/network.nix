@@ -7,12 +7,6 @@
   outputs,
   ...
 }:
-let
-  gatewayIP = "192.168.0.10";
-
-  bytes = lib.splitString "." gatewayIP;
-  netPrefix = lib.concatStringsSep "." (lib.take 3 bytes);
-in
 {
   ### Interfaces
   systemd.network = {
@@ -83,12 +77,16 @@ in
         matchConfig.Name = "wan0";
         networkConfig = {
           DHCP = "ipv4";
+          DNS = "127.0.0.1";
           DNSOverTLS = true;
           DNSSEC = true;
           IPv4Forwarding = true;
           IPv6Forwarding = false;
           IPv6PrivacyExtensions = false;
         };
+        # Don't use upstream's DNS server
+        dhcpV4Config.UseDNS = false;
+        dhcpV6Config.UseDNS = false;
         # make routing on this interface a dependency for network-online.target
         linkConfig.RequiredForOnline = "routable";
       };
@@ -126,7 +124,7 @@ in
         matchConfig.Name = "br-lan";
         bridgeConfig = { };
         address = [
-          "${gatewayIP}/24"
+          "10.0.0.1/24"
         ];
         networkConfig = {
           IPv4ReversePathFilter = "no";
@@ -329,10 +327,10 @@ in
         cache-size = 1000;
         no-resolv = true;
 
-        dhcp-range = [ "br-lan,${netPrefix}.100,${netPrefix}.250,12h" ];
+        dhcp-range = [ "br-lan,10.0.0.100,10.0.0.250,12h" ];
         dhcp-lease-max = 150;
         interface = "br-lan";
-        dhcp-host = gatewayIP;
+        dhcp-host = "10.0.0.1";
         port = 1053;
 
         local = "/lan/";
@@ -341,7 +339,7 @@ in
 
         # Set static IP in DHCP
         no-hosts = true;
-        address = "/${hostname}.lan/${gatewayIP}";
+        address = "/${hostname}.lan/10.0.0.1";
       };
     };
   };
@@ -350,9 +348,14 @@ in
     enable = true;
     settings = {
       server = {
-        interface = [ "127.0.0.1" ];
+        # Only make unboud answer to queries from localhost
+        interface = [
+          "127.0.0.1"
+        ];
         port = 5335;
-        access-control = [ "127.0.0.1 allow" ];
+        access-control = [
+          "127.0.0.1 allow"
+        ];
 
         harden-glue = true;
         harden-dnssec-stripped = true;
@@ -457,6 +460,9 @@ in
       upstreams.groups.default = [
         "127.0.0.1:5335"
       ];
+      bootstrapDns = [
+        "127.0.0.1:5335"
+      ];
       caching = {
         minTime = "5m";
         maxTime = "30m";
@@ -466,31 +472,24 @@ in
       blocking = {
         denylists = {
           ads = [
+            "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
             "https://adaway.org/hosts.txt"
-            "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_2_Base/filter.txt"
-            "https://easylist.to/easylist/easylist.txt"
+            "https://raw.githubusercontent.com/ProgramComputer/Easylist_hosts/refs/heads/main/hosts"
             "https://big.oisd.nl/domainswild"
-            "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext"
           ];
-          annoyances = [
-            "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt"
-            "https://secure.fanboy.co.nz/fanboy-annoyance.txt"
-          ];
-          phising = [
+          phishing = [
             "https://hole.cert.pl/domains/v2/domains.txt"
           ];
           tracking = [
-            "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_3_Spyware/filter.txt"
-            "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_17_TrackParam/filter.txt"
-            "https://easylist.to/easylist/easyprivacy.txt"
+            "https://raw.githubusercontent.com/ProgramComputer/Easylist_hosts/refs/heads/main/EasyListMirror/easyprivacy/easyprivacy_trackingservers_general.txt/hosts"
+            "https://raw.githubusercontent.com/ProgramComputer/Easylist_hosts/refs/heads/main/EasyListMirror/easyprivacy/easyprivacy_thirdparty.txt/hosts"
             "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/refs/heads/master/SmartTV.txt"
           ];
         };
         clientGroupsBlock = {
           default = [
             "ads"
-            "annoyances"
-            "phising"
+            "phishing"
             "tracking"
           ];
         };

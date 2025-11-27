@@ -56,6 +56,7 @@
     openssh = {
       enable = true;
       settings.PermitRootLogin = "no";
+      openFirewall = false;
     };
     resolved.enable = false;
   };
@@ -81,6 +82,7 @@
     # Installed packages
     systemPackages = with pkgs; [
       bottom
+      dnsutils
       foot
       git
       iputils
