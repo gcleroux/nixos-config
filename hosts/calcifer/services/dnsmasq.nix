@@ -9,6 +9,13 @@
 }:
 {
   services = {
+    prometheus.exporters.dnsmasq = {
+      enable = true;
+      extraFlags = [ "--expose_leases true" ];
+      port = 9103;
+      dnsmasqListenAddress = "localhost:1053";
+
+    };
     dnsmasq = {
       enable = true;
       settings = {
