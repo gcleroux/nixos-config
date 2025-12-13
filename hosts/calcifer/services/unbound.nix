@@ -18,7 +18,7 @@
           port = 5335;
           access-control = [
             "127.0.0.1 allow"
-            "192.168.0.0/8 allow"
+            "192.168.0.0/16 allow"
           ];
 
           harden-glue = true;
@@ -38,7 +38,13 @@
           ];
           private-domain = [
             "internal"
+            "cleroux.dev" # Allow private IP for this domain
             "0.0.10.in-addr.arpa"
+          ];
+          private-address = [
+            "10.0.0.0/8"
+            "172.16.0.0/12"
+            "192.168.0.0/16"
           ];
           local-zone = [
             "internal transparent"
