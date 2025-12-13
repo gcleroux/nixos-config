@@ -97,7 +97,7 @@
           Bridge = "br-lan";
           ConfigureWithoutCarrier = true;
         };
-        linkConfig.RequiredForOnline = "enslaved";
+        linkConfig.RequiredForOnline = false;
       };
       "30-lan1" = {
         matchConfig.Name = "lan1";
@@ -105,7 +105,7 @@
           Bridge = "br-lan";
           ConfigureWithoutCarrier = true;
         };
-        linkConfig.RequiredForOnline = "enslaved";
+        linkConfig.RequiredForOnline = false;
       };
       "30-lan2" = {
         # VLAN trunk
@@ -118,13 +118,13 @@
           "vlan30"
           "vlan99"
         ];
-        linkConfig.RequiredForOnline = "enslaved";
+        linkConfig.RequiredForOnline = false;
       };
       "40-br-lan" = {
         matchConfig.Name = "br-lan";
         bridgeConfig = { };
         address = [
-          "10.0.0.1/24"
+          "192.168.0.10/24"
         ];
         networkConfig = {
           IPv4ReversePathFilter = "no";
@@ -134,14 +134,14 @@
       "40-vlan30" = {
         matchConfig.Name = "vlan30";
         address = [
-          "10.0.1.1/24"
+          "192.168.1.1/24"
         ];
         networkConfig.ConfigureWithoutCarrier = true;
       };
       "40-vlan99" = {
         matchConfig.Name = "vlan99";
         address = [
-          "10.0.255.1/24"
+          "192.168.255.1/24"
         ];
         networkConfig.ConfigureWithoutCarrier = true;
       };
@@ -327,19 +327,20 @@
         cache-size = 1000;
         no-resolv = true;
 
-        dhcp-range = [ "br-lan,10.0.0.100,10.0.0.250,12h" ];
+        dhcp-range = [ "br-lan,192.168.0.100,192.168.0.250,12h" ];
         dhcp-lease-max = 150;
         interface = "br-lan";
-        dhcp-host = "10.0.0.1";
+        dhcp-host = "192.168.0.10";
         port = 1053;
 
-        local = "/lan/";
-        domain = "lan";
+        local = "/internal/";
+        domain = "internal";
         expand-hosts = true;
 
         # Set static IP in DHCP
         no-hosts = true;
-        address = "/${hostname}.lan/10.0.0.1";
+        address = "/${hostname}.internal/192.168.0.10";
+        dhcp-option = "option:dns-server,192.168.0.10";
       };
     };
   };
@@ -348,13 +349,14 @@
     enable = true;
     settings = {
       server = {
-        # Only make unboud answer to queries from localhost
         interface = [
           "127.0.0.1"
+          "192.168.0.10"
         ];
         port = 5335;
         access-control = [
           "127.0.0.1 allow"
+          "192.168.0.0/8 allow"
         ];
 
         harden-glue = true;
@@ -368,15 +370,15 @@
         # Local zone is handled by dnsmasq
         do-not-query-localhost = false;
         domain-insecure = [
-          "lan"
+          "internal"
           "0.0.10.in-addr.arpa"
         ];
         private-domain = [
-          "lan"
+          "internal"
           "0.0.10.in-addr.arpa"
         ];
         local-zone = [
-          "lan transparent"
+          "internal transparent"
           "0.0.10.in-addr.arpa transparent"
         ];
       };
@@ -432,7 +434,7 @@
       ];
       forward-zone = [
         {
-          name = "lan";
+          name = "internal";
           forward-first = false;
           forward-addr = "127.0.0.1@1053";
         }
