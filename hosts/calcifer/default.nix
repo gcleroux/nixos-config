@@ -3,6 +3,11 @@
     ./configuration.nix
     ./hardware.nix
     ./disks.nix
-    ./network.nix
+    ./interfaces.nix
+    ./firewall.nix
+
+    ./services/blocky.nix
+    ./services/dnsmasq.nix
+    ./services/unbound.nix
   ];
 }

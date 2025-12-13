@@ -2,8 +2,9 @@
   services = {
     prometheus.exporters.unbound = {
       enable = true;
+      port = 9101;
       unbound = {
-        host = "tcp://127.0.0.1:5335";
+        host = "tcp://127.0.0.1:8953";
       };
     };
     unbound = {
@@ -27,6 +28,7 @@
           edns-buffer-size = 1232;
           hide-identity = true;
           hide-version = true;
+          extended-statistics = true;
 
           # Local zone is handled by dnsmasq
           do-not-query-localhost = false;
@@ -108,6 +110,7 @@
         remote-control = {
           control-enable = true;
           control-use-cert = true;
+          control-port = 8953;
           control-interface = [
             "127.0.0.1"
             "::1"
