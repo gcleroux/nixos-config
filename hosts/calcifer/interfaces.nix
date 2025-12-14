@@ -8,28 +8,28 @@
         matchConfig.Path = "pci-0000:01:00.0";
         linkConfig = {
           Description = "eth0";
-          Name = "wan0";
+          Name = "lan0";
         };
       };
       "10-eth1" = {
         matchConfig.Path = "pci-0000:02:00.0";
         linkConfig = {
           Description = "eth1";
-          Name = "lan0";
+          Name = "lan1";
         };
       };
       "10-eth2" = {
         matchConfig.Path = "pci-0000:03:00.0";
         linkConfig = {
           Description = "eth2";
-          Name = "lan1";
+          Name = "lan2";
         };
       };
       "10-eth3" = {
         matchConfig.Path = "pci-0000:04:00.0";
         linkConfig = {
           Description = "eth3";
-          Name = "lan2";
+          Name = "wan0";
         };
       };
     };
