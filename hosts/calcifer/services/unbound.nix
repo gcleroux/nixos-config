@@ -38,9 +38,11 @@
           ];
           private-domain = [
             "lan"
-            "cleroux.dev" # Allow private IP for this domain
-            "pinax.io" # Allow private IP for this domain
             "0.0.10.in-addr.arpa"
+            # Allow private IP for these domain
+            "cleroux.dev"
+            "pinax.io"
+            "eosn.io"
           ];
           private-address = [
             "10.0.0.0/8"
