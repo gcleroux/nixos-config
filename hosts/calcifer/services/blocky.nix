@@ -17,9 +17,9 @@
         "127.0.0.1:5335"
       ];
       caching = {
-        minTime = "5m";
-        maxTime = "30m";
-        prefetching = true;
+        minTime = "0";
+        maxTime = "-1"; # Disables blocky cache
+        prefetching = false;
       };
       specialUseDomains.enable = false; # Don't block .lan TLD
       blocking = {
