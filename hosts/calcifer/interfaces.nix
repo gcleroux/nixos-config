@@ -68,8 +68,8 @@
         networkConfig = {
           DHCP = "ipv4";
           DNS = "127.0.0.1";
-          DNSOverTLS = true;
-          DNSSEC = true;
+          DNSOverTLS = false;
+          DNSSEC = false;
           IPv4Forwarding = true;
           IPv6Forwarding = false;
           IPv6PrivacyExtensions = false;
@@ -114,7 +114,7 @@
         matchConfig.Name = "br-lan";
         bridgeConfig = { };
         address = [
-          "192.168.0.10/24"
+          "10.0.0.1/24"
         ];
         networkConfig = {
           IPv4ReversePathFilter = "no";
@@ -124,14 +124,14 @@
       "40-vlan30" = {
         matchConfig.Name = "vlan30";
         address = [
-          "192.168.1.1/24"
+          "10.0.1.1/24"
         ];
         networkConfig.ConfigureWithoutCarrier = true;
       };
       "40-vlan99" = {
         matchConfig.Name = "vlan99";
         address = [
-          "192.168.255.1/24"
+          "10.0.255.1/24"
         ];
         networkConfig.ConfigureWithoutCarrier = true;
       };

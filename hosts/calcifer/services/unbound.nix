@@ -13,12 +13,12 @@
         server = {
           interface = [
             "127.0.0.1"
-            "192.168.0.10"
+            "10.0.0.1"
           ];
           port = 5335;
           access-control = [
             "127.0.0.1 allow"
-            "192.168.0.0/16 allow"
+            "10.0.0.0/8 allow"
           ];
 
           harden-glue = true;
@@ -33,12 +33,13 @@
           # Local zone is handled by dnsmasq
           do-not-query-localhost = false;
           domain-insecure = [
-            "internal"
+            "lan"
             "0.0.10.in-addr.arpa"
           ];
           private-domain = [
-            "internal"
+            "lan"
             "cleroux.dev" # Allow private IP for this domain
+            "pinax.io" # Allow private IP for this domain
             "0.0.10.in-addr.arpa"
           ];
           private-address = [
@@ -47,7 +48,7 @@
             "192.168.0.0/16"
           ];
           local-zone = [
-            "internal transparent"
+            "lan transparent"
             "0.0.10.in-addr.arpa transparent"
           ];
         };
@@ -103,7 +104,7 @@
         ];
         forward-zone = [
           {
-            name = "internal";
+            name = "lan";
             forward-first = false;
             forward-addr = "127.0.0.1@1053";
           }
