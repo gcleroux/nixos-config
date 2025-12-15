@@ -123,6 +123,7 @@
           modules = [
             ./hosts/calcifer
             inputs.disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
           ];
         };
       };

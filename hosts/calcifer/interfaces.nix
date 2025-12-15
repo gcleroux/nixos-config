@@ -1,4 +1,13 @@
 {
+  inputs,
+  config,
+  lib,
+  pkgs,
+  hostname,
+  outputs,
+  ...
+}:
+{
   systemd.network = {
     wait-online.anyInterface = true;
 
@@ -59,6 +68,33 @@
           Name = "vlan99";
         };
         vlanConfig.Id = 99;
+      };
+      "50-wg0" = {
+        netdevConfig = {
+          Kind = "wireguard";
+          Name = "wg0";
+        };
+        wireguardConfig = {
+          PrivateKeyFile = config.sops.secrets."wireguard/calcifer/private.key".path;
+          ListenPort = 51820;
+        };
+        wireguardPeers = [
+          {
+            PublicKey = builtins.readFile ./wireguard/s24-ultra/public.key;
+            PresharedKeyFile = config.sops.secrets."wireguard/s24-ultra/psk.key".path;
+            AllowedIPs = [ "10.0.9.100/32" ];
+          }
+          {
+            PublicKey = builtins.readFile ./wireguard/nixos-fw/public.key;
+            PresharedKeyFile = config.sops.secrets."wireguard/nixos-fw/psk.key".path;
+            AllowedIPs = [ "10.0.9.101/32" ];
+          }
+          {
+            PublicKey = builtins.readFile ./wireguard/iphone-lapin/public.key;
+            PresharedKeyFile = config.sops.secrets."wireguard/iphone-lapin/psk.key".path;
+            AllowedIPs = [ "10.0.9.102/32" ];
+          }
+        ];
       };
     };
 
@@ -135,6 +171,45 @@
         ];
         networkConfig.ConfigureWithoutCarrier = true;
       };
+      "50-wg0" = {
+        matchConfig.Name = "wg0";
+        address = [ "10.0.9.1/24" ];
+        networkConfig = {
+          IPv4Forwarding = true;
+          DNS = "127.0.0.1";
+        };
+      };
+    };
+  };
+
+  sops.secrets = {
+    "wireguard/calcifer/private.key" = {
+      sopsFile = ./wireguard/calcifer/private.key;
+      key = "data";
+      mode = "0640";
+      owner = "systemd-network";
+      group = "systemd-network";
+    };
+    "wireguard/s24-ultra/psk.key" = {
+      sopsFile = ./wireguard/s24-ultra/psk.key;
+      key = "data";
+      mode = "0640";
+      owner = "systemd-network";
+      group = "systemd-network";
+    };
+    "wireguard/nixos-fw/psk.key" = {
+      sopsFile = ./wireguard/nixos-fw/psk.key;
+      key = "data";
+      mode = "0640";
+      owner = "systemd-network";
+      group = "systemd-network";
+    };
+    "wireguard/iphone-lapin/psk.key" = {
+      sopsFile = ./wireguard/iphone-lapin/psk.key;
+      key = "data";
+      mode = "0640";
+      owner = "systemd-network";
+      group = "systemd-network";
     };
   };
 }

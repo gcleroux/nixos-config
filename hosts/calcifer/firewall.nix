@@ -25,7 +25,7 @@
                 iifname "lo" accept comment "!fw4: Accept traffic from loopback"
                 ct state established,related accept comment "!fw4: Allow inbound established and related flows"
                 tcp flags syn / fin,syn,rst,ack jump syn_flood comment "!fw4: Rate limit TCP syn packets"
-                iifname { "vpn", "br-lan" } jump input_lan comment "!fw4: Handle lan IPv4/IPv6 input traffic"
+                iifname { "wg0", "br-lan" } jump input_lan comment "!fw4: Handle lan IPv4/IPv6 input traffic"
                 iifname "wan0" jump input_wan comment "!fw4: Handle wan IPv4/IPv6 input traffic"
                 jump handle_reject
             }
@@ -34,7 +34,7 @@
                 type filter hook forward priority filter; policy drop;
 
                 ct state established,related accept comment "!fw4: Allow forwarded established and related flows"
-                iifname { "vpn", "br-lan" } jump forward_lan comment "!fw4: Handle lan IPv4/IPv6 forward traffic"
+                iifname { "wg0", "br-lan" } jump forward_lan comment "!fw4: Handle lan IPv4/IPv6 forward traffic"
                 iifname "wan0" jump forward_wan comment "!fw4: Handle wan IPv4/IPv6 forward traffic"
                 jump handle_reject
             }
@@ -44,14 +44,14 @@
                 
                 oifname "lo" accept comment "!fw4: Accept traffic towards loopback"
                 ct state established,related accept comment "!fw4: Allow outbound established and related flows"
-                oifname { "vpn", "br-lan" } jump output_lan comment "!fw4: Handle lan IPv4/IPv6 output traffic"
+                oifname { "wg0", "br-lan" } jump output_lan comment "!fw4: Handle lan IPv4/IPv6 output traffic"
                 oifname "wan0" jump output_wan comment "!fw4: Handle wan IPv4/IPv6 output traffic"
             }
 
             chain prerouting {
                 type filter hook prerouting priority filter; policy accept;
 
-                iifname { "vpn", "br-lan" } jump helper_lan comment "!fw4: Handle lan IPv4/IPv6 helper assignment"
+                iifname { "wg0", "br-lan" } jump helper_lan comment "!fw4: Handle lan IPv4/IPv6 helper assignment"
             }
 
             chain handle_reject {
@@ -81,11 +81,11 @@
             }
 
             chain accept_from_lan {
-                iifname { "vpn", "br-lan" } counter accept comment "!fw4: accept lan IPv4/IPv6 traffic"
+                iifname { "wg0", "br-lan" } counter accept comment "!fw4: accept lan IPv4/IPv6 traffic"
             }
 
             chain accept_to_lan {
-                oifname { "vpn", "br-lan" } counter  accept comment "!fw4: accept lan IPv4/IPv6 traffic"
+                oifname { "wg0", "br-lan" } counter  accept comment "!fw4: accept lan IPv4/IPv6 traffic"
             }
 
             chain input_wan {

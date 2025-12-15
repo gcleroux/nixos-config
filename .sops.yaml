@@ -1,6 +1,7 @@
 ---
 keys: &keys
   - age17z388m07ucvsk6t69knt0h8r006m4ejswq8fvfcfyavv45fxr4useyxtm9 # sops-nix
+  - age172c0stpajtlx7kdrjyelf6am9rr5e6fknac3mkn7ut2tzhc5zq0s7nucse # calcifer
 
 creation_rules:
   - key_groups:
