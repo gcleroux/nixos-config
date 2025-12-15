@@ -69,7 +69,7 @@
           DHCP = "ipv4";
           DNS = "127.0.0.1";
           DNSOverTLS = false;
-          DNSSEC = false;
+          DNSSEC = true;
           IPv4Forwarding = true;
           IPv6Forwarding = false;
           IPv6PrivacyExtensions = false;
