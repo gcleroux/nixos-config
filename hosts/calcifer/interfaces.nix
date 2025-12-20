@@ -94,6 +94,11 @@
             PresharedKeyFile = config.sops.secrets."wireguard/iphone-lapin/psk.key".path;
             AllowedIPs = [ "10.0.9.102/32" ];
           }
+          {
+            PublicKey = builtins.readFile ./wireguard/mac-lapin/public.key;
+            PresharedKeyFile = config.sops.secrets."wireguard/mac-lapin/psk.key".path;
+            AllowedIPs = [ "10.0.9.103/32" ];
+          }
         ];
       };
     };
@@ -208,6 +213,13 @@
     };
     "wireguard/iphone-lapin/psk.key" = {
       sopsFile = ./wireguard/iphone-lapin/psk.key;
+      key = "data";
+      mode = "0640";
+      owner = "systemd-network";
+      group = "systemd-network";
+    };
+    "wireguard/mac-lapin/psk.key" = {
+      sopsFile = ./wireguard/mac-lapin/psk.key;
       key = "data";
       mode = "0640";
       owner = "systemd-network";
