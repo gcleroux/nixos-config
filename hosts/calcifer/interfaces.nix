@@ -163,6 +163,7 @@
           "10.0.1.1/24"
         ];
         networkConfig.ConfigureWithoutCarrier = true;
+        linkConfig.RequiredForOnline = false;
       };
       "40-vlan99" = {
         matchConfig.Name = "vlan99";
@@ -170,6 +171,7 @@
           "10.0.255.1/24"
         ];
         networkConfig.ConfigureWithoutCarrier = true;
+        linkConfig.RequiredForOnline = false;
       };
       "50-wg0" = {
         matchConfig.Name = "wg0";
