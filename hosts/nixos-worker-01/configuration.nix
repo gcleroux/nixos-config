@@ -5,6 +5,7 @@
 {
   inputs,
   config,
+  lib,
   pkgs,
   username,
   hostname,
@@ -48,7 +49,8 @@ in
     networkmanager.enable = true;
     hostName = hostname;
 
-    extraHosts = "${kubeMasterIP} ${hostname}";
+    hosts = lib.mkForce { };
+    extraHosts = " ${kubeMasterIP} ${hostname}";
 
     # Disable firewall for faster deployment
     firewall.enable = false;
@@ -74,6 +76,7 @@ in
     isNormalUser = true;
     extraGroups = [
       "wheel"
+      "kubernetes"
     ];
     createHome = true;
     openssh.authorizedKeys.keys = [
@@ -110,6 +113,7 @@ in
       git
       glib
       glxinfo
+      k9s
       mesa
       neovim
       pciutils
@@ -118,6 +122,9 @@ in
       wget
     ];
   };
+
+  systemd.services.etcd.environment.EXPERIMENTAL_PEER_SKIP_CLIENT_SAN_VERIFICATION = "true";
+  services.etcd.extraConf."EXPERIMENTAL_PEER_SKIP_CLIENT_SAN_VERIFICATION" = "true";
 
   services.kubernetes = {
     roles = [
