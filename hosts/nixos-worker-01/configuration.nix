@@ -15,6 +15,14 @@
 let
   kubeMasterIP = "10.0.0.20";
   kubeMasterAPIServerPort = 6443;
+
+  nixpkgsCoreDNSFix = import (pkgs.fetchFromGitHub {
+    owner = "NixOS";
+    repo = "nixpkgs";
+    rev = "ee09932cedcef15aaf476f9343d1dea2cb77e261";
+    sha256 = "sha256-9glbI7f1uU+yzQCq5LwLgdZqx6svOhZWkd4JRY265fc=";
+  }) { inherit (pkgs) system; };
+  corednsFix = nixpkgsCoreDNSFix.coredns;
 in
 {
 
@@ -50,7 +58,7 @@ in
     hostName = hostname;
 
     hosts = lib.mkForce { };
-    extraHosts = " ${kubeMasterIP} ${hostname}";
+    extraHosts = "${kubeMasterIP} ${hostname}";
 
     # Disable firewall for faster deployment
     firewall.enable = false;
@@ -112,9 +120,9 @@ in
       fluxcd
       git
       glib
-      glxinfo
       k9s
       mesa
+      mesa-demos
       neovim
       pciutils
       powerstat
@@ -140,8 +148,15 @@ in
       allowPrivileged = true;
       serviceClusterIpRange = "10.0.0.0/24";
     };
-    addons.dns.enable = true;
+    addons.dns = {
+      enable = true;
+      corednsImage = nixpkgsCoreDNSFix.dockerTools.buildImage {
+        name = "coredns";
+        config.Entrypoint = [ "${corednsFix}/bin/coredns" ];
+      };
+    };
   };
+  services.coredns.package = corednsFix;
 
   virtualisation.docker = {
     enable = true;
