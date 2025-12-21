@@ -88,7 +88,7 @@
         "font.default.x-western" = "sans-serif";
         "font.size.variable.x-western" = 16;
         "font.size.monospace.x-western" = 16;
-        "layout.css.devPixelsPerPx" = 2.2;
+        "layout.css.devPixelsPerPx" = 2.0;
 
         # Bookmarks
         "browser.toolbars.bookmarks.visibility" = "always";
@@ -123,7 +123,7 @@
       };
       extensions.force = true;
       # https://gitlab.com/rycee/nur-expressions/-/blob/master/pkgs/firefox-addons/addons.json?ref_type=heads
-      extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
+      extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
         bitwarden
         dearrow
         return-youtube-dislikes

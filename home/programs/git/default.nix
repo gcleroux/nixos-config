@@ -2,19 +2,17 @@
 {
   programs.git = {
     enable = true;
-    delta = {
-      enable = true;
-      options.navigate = true;
-    };
-    aliases = {
-      ignore = "update-index --skip-worktree";
-      unignore = "update-index --no-skip-worktree";
-      ignored = "!git ls-files -v | grep '^[[:lower:]]'";
-    };
-    userName = "Guillaume Cléroux";
-    userEmail = "73357644+gcleroux@users.noreply.github.com";
+    settings = {
+      user = {
+        name = "Guillaume Cléroux";
+        email = "73357644+gcleroux@users.noreply.github.com";
+      };
+      alias = {
+        ignore = "update-index --skip-worktree";
+        unignore = "update-index --no-skip-worktree";
+        ignored = "!git ls-files -v | grep '^[[:lower:]]'";
+      };
 
-    extraConfig = {
       core = {
         editor = "nvim";
         whitespace = "trailing-space,space-before-tab";

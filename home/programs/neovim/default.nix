@@ -154,7 +154,6 @@
       hadolint
       luajitPackages.luacheck
       markdownlint-cli
-      nodePackages.jsonlint
       proselint
       ruff
       shellcheck

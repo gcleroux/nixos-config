@@ -24,11 +24,6 @@ in
         resumeCommand = dpmsOn;
       }
     ];
-    events = [
-      {
-        event = "before-sleep";
-        command = lock;
-      }
-    ];
+    events.before-sleep = lock;
   };
 }

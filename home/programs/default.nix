@@ -1,5 +1,9 @@
 let
   more = _: {
+    programs.delta = {
+      enable = true;
+      options.navigate = true;
+    };
     programs.eza.enable = true;
     programs.imv.enable = true;
     programs.ripgrep.enable = true;
@@ -23,7 +27,6 @@ in
   ./lazygit
   ./mpv
   ./neovim
-  ./nnn
   ./rbw
   ./spotify-player
   ./ssh

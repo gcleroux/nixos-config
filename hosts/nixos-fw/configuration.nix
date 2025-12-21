@@ -77,7 +77,6 @@
 
   programs = {
     bazecor.enable = true;
-    file-roller.enable = true;
     river-classic.enable = true;
     thunar = {
       enable = true;
@@ -138,15 +137,16 @@
       clinfo
       coreutils
       dex
+      file-roller
       gcc
       gdb
       git
       glib
-      glxinfo
       grim
       imagemagick
       libnotify
       mesa
+      mesa-demos
       networkmanagerapplet
       openconnect
       openvpn
