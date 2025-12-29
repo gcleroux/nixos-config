@@ -11,5 +11,6 @@
     ./services/dnsmasq.nix
     ./services/unbound.nix
     ./services/node-exporter.nix
+    ./services/lldap.nix
   ];
 }
