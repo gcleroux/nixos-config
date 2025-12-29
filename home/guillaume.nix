@@ -42,6 +42,7 @@
     go
     gnumake
     hey
+    jellyfin-desktop
     jq
     k9s
     killall
