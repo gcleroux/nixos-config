@@ -7,6 +7,11 @@
   outputs,
   ...
 }:
+let
+  gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
+    builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
+  )) 0;
+in
 {
   services = {
     prometheus.exporters.unbound = {
@@ -22,7 +27,7 @@
         server = {
           interface = [
             "127.0.0.1"
-            "10.0.0.1"
+            gatewayIP
           ];
           port = 5335;
           access-control = [
@@ -117,12 +122,12 @@
           {
             name = "lan";
             forward-first = false;
-            forward-addr = "127.0.0.1@1053";
+            forward-addr = "127.0.0.1@${toString config.services.dnsmasq.settings.port}";
           }
           {
             name = "0.0.10.in-addr.arpa";
             forward-first = false;
-            forward-addr = "127.0.0.1@1053";
+            forward-addr = "127.0.0.1@${toString config.services.dnsmasq.settings.port}";
           }
         ];
         remote-control = {

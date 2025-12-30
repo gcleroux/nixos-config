@@ -1,4 +1,13 @@
 {
+  inputs,
+  config,
+  lib,
+  pkgs,
+  hostname,
+  outputs,
+  ...
+}:
+{
   services.blocky = {
     enable = true;
     settings = {
@@ -11,10 +20,10 @@
         path = "/metrics";
       };
       upstreams.groups.default = [
-        "127.0.0.1:5335"
+        "127.0.0.1:${toString config.services.unbound.settings.server.port}"
       ];
       bootstrapDns = [
-        "127.0.0.1:5335"
+        "127.0.0.1:${toString config.services.unbound.settings.server.port}"
       ];
       caching = {
         minTime = "0";

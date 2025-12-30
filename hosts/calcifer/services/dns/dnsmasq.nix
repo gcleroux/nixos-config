@@ -7,13 +7,18 @@
   outputs,
   ...
 }:
+let
+  gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
+    builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
+  )) 0;
+in
 {
   services = {
     prometheus.exporters.dnsmasq = {
       enable = true;
       extraFlags = [ "--expose_leases true" ];
       port = 9103;
-      dnsmasqListenAddress = "localhost:1053";
+      dnsmasqListenAddress = "localhost:${toString config.services.dnsmasq.settings.port}";
 
     };
     dnsmasq = {
@@ -38,17 +43,19 @@
         # Set static IP in DHCP
         no-hosts = true;
         address = [
-          "/${hostname}.lan/10.0.0.1" # Static IP for router
-          # "/home-server/10.0.0.3" # Proxmox node
+          "/${hostname}.lan/${gatewayIP}" # Static IP for router
         ];
         dhcp-host = [
-          "10.0.0.1" # Static IP for router
+          gatewayIP # Static IP for router
           "1c:2a:a3:24:04:ac,10.0.0.10,switch" # Smart switch
           "4c:ea:41:67:19:c8,10.0.0.20,nixos-worker-01" # K8s worker node
           "b8:2d:28:db:c6:cd,supernote"
         ];
-        dhcp-option = "option:dns-server,10.0.0.1";
-        host-record = [ "home-server.lan,10.0.0.3" ];
+        dhcp-option = "option:dns-server,${gatewayIP}";
+        host-record = [
+          "home-server.lan,10.0.0.3"
+          "lldap.lan,${gatewayIP}"
+        ];
       };
     };
   };
