@@ -6,11 +6,6 @@
     ./interfaces.nix
     ./firewall.nix
 
-    ./services/blocky.nix
-    ./services/cloudflare-ddns.nix
-    ./services/dnsmasq.nix
-    ./services/unbound.nix
-    ./services/node-exporter.nix
-    ./services/lldap.nix
+    ./services
   ];
 }

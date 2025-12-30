@@ -1,10 +1,19 @@
 {
+  inputs,
+  config,
+  lib,
+  pkgs,
+  hostname,
+  outputs,
+  ...
+}:
+{
   services = {
     prometheus.exporters.unbound = {
       enable = true;
       port = 9101;
       unbound = {
-        host = "tcp://127.0.0.1:8953";
+        host = "tcp://127.0.0.1:${toString config.services.unbound.settings.remote-control.control-port}";
       };
     };
     unbound = {
