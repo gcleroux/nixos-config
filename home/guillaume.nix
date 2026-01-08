@@ -60,6 +60,7 @@
     qbittorrent
     rclone
     signal-desktop
+    simplex-chat-desktop
     sops
     spotify-player
     thunderbird-bin
