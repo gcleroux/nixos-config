@@ -112,7 +112,9 @@
           ];
         };
 
-        # Router
+        ##########
+        # Router #
+        ##########
         calcifer = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
@@ -124,6 +126,22 @@
             ./hosts/calcifer
             inputs.disko.nixosModules.disko
             inputs.sops-nix.nixosModules.sops
+          ];
+        };
+
+        #######
+        # NAS #
+        #######
+        totoro = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs outputs;
+            username = "guillaume";
+            hostname = "totoro";
+          };
+          modules = [
+            ./hosts/totoro
+            inputs.disko.nixosModules.disko
           ];
         };
       };
