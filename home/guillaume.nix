@@ -38,6 +38,7 @@
     dig
     fd
     fluxcd
+    fusee-nano
     gh
     go
     gnumake
