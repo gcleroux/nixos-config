@@ -58,7 +58,6 @@
       settings.PermitRootLogin = "no";
       openFirewall = false;
     };
-    resolved.enable = false;
   };
 
   # Enable passwordless config

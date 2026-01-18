@@ -17,6 +17,7 @@
     firewall.enable = false;
   };
 
+  services.resolved.enable = true;
   systemd.network = {
     wait-online.anyInterface = true;
 
