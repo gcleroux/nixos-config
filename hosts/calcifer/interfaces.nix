@@ -99,6 +99,11 @@
             PresharedKeyFile = config.sops.secrets."wireguard/mac-lapin/psk.key".path;
             AllowedIPs = [ "10.0.9.103/32" ];
           }
+          {
+            PublicKey = builtins.readFile ./wireguard/s23-julie/public.key;
+            PresharedKeyFile = config.sops.secrets."wireguard/s23-julie/psk.key".path;
+            AllowedIPs = [ "10.0.9.104/32" ];
+          }
         ];
       };
     };
@@ -220,6 +225,13 @@
     };
     "wireguard/mac-lapin/psk.key" = {
       sopsFile = ./wireguard/mac-lapin/psk.key;
+      key = "data";
+      mode = "0640";
+      owner = "systemd-network";
+      group = "systemd-network";
+    };
+    "wireguard/s23-julie/psk.key" = {
+      sopsFile = ./wireguard/s23-julie/psk.key;
       key = "data";
       mode = "0640";
       owner = "systemd-network";
