@@ -4,5 +4,6 @@
     ./hardware.nix
     ./disks.nix
     ./interfaces.nix
+    ./filesystem.nix
   ];
 }
