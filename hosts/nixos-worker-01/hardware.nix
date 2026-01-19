@@ -34,6 +34,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "nfs" ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

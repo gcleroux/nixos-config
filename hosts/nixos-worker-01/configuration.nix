@@ -124,6 +124,7 @@ in
       mesa
       mesa-demos
       neovim
+      nfs-utils
       pciutils
       powerstat
       usbutils
