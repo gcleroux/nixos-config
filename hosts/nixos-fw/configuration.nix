@@ -148,6 +148,7 @@
       mesa
       mesa-demos
       networkmanagerapplet
+      nfs-utils
       openconnect
       openvpn
       p7zip

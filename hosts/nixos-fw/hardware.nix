@@ -29,6 +29,7 @@
     ];
     extraModprobeConfig = "options kvm_intel nested=1";
 
+    supportedFilesystems = [ "nfs" ];
     initrd = {
       availableKernelModules = [
         "xhci_pci"

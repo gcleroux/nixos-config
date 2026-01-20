@@ -58,6 +58,18 @@
         "noatime"
       ];
     };
+    "/srv/totoro" = {
+      device = "totoro:/";
+      fsType = "nfs";
+      options = [
+        "x-systemd.automount" # Lazy mounting
+        "x-systemd.idle-timeout=600" # Timeout after 10m
+        "noauto"
+        "user"
+        "_netdev"
+        "bg"
+      ];
+    };
   };
 
   swapDevices = [ ];
