@@ -1,5 +1,5 @@
 {
-  fileSystems."/srv/Media" = {
+  fileSystems."/srv/Movies" = {
     device = "/dev/disk/by-id/ata-ST4000VN008-2DR166_ZDHAL4NL";
     fsType = "btrfs";
     options = [
@@ -8,8 +8,29 @@
       "rw"
       "noatime"
       "compress=zstd"
-      "subvol=@media"
+      "subvol=@movies"
     ];
+  };
+  fileSystems."/export/Movies" = {
+    device = "/srv/Movies";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/srv/Shows" = {
+    device = "/dev/disk/by-id/ata-ST4000VN008-2DR166_ZDHAL4NL";
+    fsType = "btrfs";
+    options = [
+      "users"
+      "nofail"
+      "rw"
+      "noatime"
+      "compress=zstd"
+      "subvol=@shows"
+    ];
+  };
+  fileSystems."/export/Shows" = {
+    device = "/srv/Shows";
+    options = [ "bind" ];
   };
 
   fileSystems."/srv/Photos" = {
@@ -24,13 +45,6 @@
       "subvol=@photos"
     ];
   };
-
-  # NFS
-  fileSystems."/export/Media" = {
-    device = "/srv/Media";
-    options = [ "bind" ];
-  };
-
   fileSystems."/export/Photos" = {
     device = "/srv/Photos";
     options = [ "bind" ];
@@ -39,7 +53,8 @@
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
     /export         10.0.0.0/24(rw,nohide,insecure,no_subtree_check,crossmnt,fsid=0)
-    /export/Media   10.0.0.0/24(rw,nohide,insecure,no_subtree_check)
+    /export/Movies  10.0.0.0/24(rw,nohide,insecure,no_subtree_check)
+    /export/Shows   10.0.0.0/24(rw,nohide,insecure,no_subtree_check)
     /export/Photos  10.0.0.0/24(rw,nohide,insecure,no_subtree_check)
   '';
 }
