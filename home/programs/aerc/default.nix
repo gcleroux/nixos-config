@@ -4,8 +4,8 @@
     enable = true;
     extraBinds = {
       global = {
-        "<C-p>" = ":prev-tab<Enter>";
-        "<C-n>" = ":next-tab<Enter>";
+        "<C-h>" = ":prev-tab<Enter>";
+        "<C-l>" = ":next-tab<Enter>";
         "?" = ":help keys<Enter>";
       };
 
@@ -18,7 +18,9 @@
 
         # Folder navigation
         "J" = ":next-folder<Enter>";
+        "<C-j>" = ":next-folder<Enter>";
         "K" = ":prev-folder<Enter>";
+        "<C-k>" = ":prev-folder<Enter>";
         "H" = ":collapse-folder<Enter>";
         "L" = ":expand-folder<Enter>";
         "F" = ":cf<space>"; # Search folder
@@ -81,7 +83,7 @@
         "D" = ":delete<Enter>";
         "A" = ":archive flat<Enter>";
 
-        "<C-l>" = ":open-link <space>";
+        "<L>" = ":open-link <space>";
 
         "f" = ":forward<Enter>";
         "rr" = ":reply -a<Enter>";
@@ -110,8 +112,8 @@
         "<A-p>" = ":switch-account -p<Enter>";
         "<A-n>" = ":switch-account -n<Enter>";
         "<tab>" = ":next-field<Enter>";
-        "<C-p>" = ":prev-tab<Enter>";
-        "<C-n>" = ":next-tab<Enter>";
+        "<C-h>" = ":prev-tab<Enter>";
+        "<C-l>" = ":next-tab<Enter>";
       };
 
       "compose::editor" = {
@@ -119,8 +121,8 @@
         "$ex" = "<C-x>";
         "<C-k>" = ":prev-field<Enter>";
         "<C-j>" = ":next-field<Enter>";
-        "<C-p>" = ":prev-tab<Enter>";
-        "<C-n>" = ":next-tab<Enter>";
+        "<C-h>" = ":prev-tab<Enter>";
+        "<C-l>" = ":next-tab<Enter>";
       };
 
       "compose::review" = {
@@ -137,8 +139,8 @@
         "$noinherit" = "true";
         "$ex" = "<C-x>";
 
-        "<C-p>" = ":prev-tab<Enter>";
-        "<C-n>" = ":next-tab<Enter>";
+        "<C-h>" = ":prev-tab<Enter>";
+        "<C-l>" = ":next-tab<Enter>";
       };
     };
 
