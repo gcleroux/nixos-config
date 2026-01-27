@@ -15,7 +15,7 @@
   programs.neovim = {
     enable = true;
     defaultEditor = true;
-    extraLuaConfig = ''
+    initLua = ''
       -- Setup global config
       require("globals")
 
@@ -164,7 +164,7 @@
       cbfmt
       gofumpt
       isort
-      nixfmt-rfc-style
+      nixfmt
       prettierd
       shfmt
       stylua
