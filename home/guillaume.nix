@@ -62,6 +62,7 @@
     rclone
     signal-desktop
     simplex-chat-desktop
+    slack
     sops
     spotify-player
     thunderbird-bin
