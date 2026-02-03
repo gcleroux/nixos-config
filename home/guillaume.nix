@@ -61,7 +61,7 @@
     qbittorrent
     rclone
     signal-desktop
-    simplex-chat-desktop
+    simplex-tz-fix
     slack
     sops
     spotify-player
