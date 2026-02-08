@@ -9,6 +9,10 @@ conform.setup({
         clang_format = {
             prepend_args = { "-style", "google" },
         },
+        goimports = {
+            stdin = false,
+            args = { "-w", "-srcdir", "$DIRNAME", "$FILENAME" },
+        },
         ["goimports-reviser"] = {
             prepend_args = { "-rm-unused", "-set-alias" },
         },
@@ -18,7 +22,7 @@ conform.setup({
         cpp = { "clang_format" },
         css = { "prettierd" },
         cuda = { "clang_format" },
-        go = { "goimports-reviser", "gofumpt" },
+        go = { "goimports-reviser", "goimports", "gofumpt" }, -- Must remove unused imports before adding missing ones
         html = { "prettierd" },
         javascript = { "prettierd" },
         json = { "prettierd" },
