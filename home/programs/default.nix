@@ -8,6 +8,7 @@ let
     programs.imv.enable = true;
     programs.ripgrep.enable = true;
     programs.yazi.enable = true;
+    programs.yazi.shellWrapperName = "yy";
     # programs.zellij.enable = true;
     programs.zoxide.enable = true;
   };

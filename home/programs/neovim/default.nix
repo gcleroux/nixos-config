@@ -123,7 +123,7 @@
       clang-tools
       gotools
       reftools
-      ginkgo
+      # ginkgo
       richgo
       gotestsum
       govulncheck

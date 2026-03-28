@@ -1,6 +1,6 @@
 let
   gtk-theme =
-    { pkgs, ... }:
+    { pkgs, config, ... }:
     {
       # Cursor setup
       home.pointerCursor = {
@@ -13,6 +13,7 @@ let
       # GTK theming
       gtk = {
         enable = true;
+        gtk4.theme = config.gtk.theme;
 
         cursorTheme.name = "Bibata-Modern-Ice";
         cursorTheme.package = pkgs.bibata-cursors;
