@@ -47,13 +47,16 @@
       riverctl map normal Super+Shift J swap next
       riverctl map normal Super+Shift K swap previous
 
-      # Super+Period and Super+Comma to focus the next/previous output
-      riverctl map normal Super H focus-output next
-      riverctl map normal Super L focus-output previous
+      # Move focus to different output
+      riverctl map normal Super H focus-output left
+      riverctl map normal Super L focus-output right
 
-      # Super+Shift+{Period,Comma} to send the focused view to the next/previous output
-      riverctl map normal Super+Shift H send-to-output next
-      riverctl map normal Super+Shift L send-to-output previous
+      # Move window to different output (keeps focus on window)
+      riverctl map normal Super+Shift H spawn 'riverctl send-to-output left && riverctl focus-output left'
+      riverctl map normal Super+Shift L spawn 'riverctl send-to-output right && riverctl focus-output right'
+
+      # riverctl map normal Super+Shift H send-to-output next
+      # riverctl map normal Super+Shift L send-to-output previous
 
       # Super+Return to bump the focused view to the top of the layout stack
       riverctl map normal Super+Shift Return zoom
@@ -202,11 +205,12 @@
       # Cursor config
       riverctl focus-follows-cursor normal
       riverctl hide-cursor timeout 10000
+      riverctl set-cursor-warp on-focus-change
 
       # Set the default layout generator to be rivertile and start it.
       # River will send the process group of the init executable SIGTERM on exit.
       riverctl default-layout rivertile
-      rivertile -view-padding 6 -outer-padding 6 &
+      rivertile -view-padding 6 -outer-padding 6 -main-ratio 0.5 &
     '';
   };
 }
