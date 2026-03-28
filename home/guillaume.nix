@@ -55,7 +55,6 @@
     libreoffice
     lswt
     moonlight-qt
-    neofetch
     obs-studio
     pavucontrol
     qbittorrent

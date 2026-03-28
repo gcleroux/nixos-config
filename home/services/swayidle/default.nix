@@ -8,7 +8,7 @@ in
 {
   services.swayidle = {
     enable = true;
-    systemdTarget = "river-session.target";
+    systemdTargets = [ "river-session.target" ];
     timeouts = [
       {
         timeout = 240;

@@ -5,7 +5,7 @@
     enable = true;
     systemd = {
       enable = true;
-      target = "river-session.target";
+      targets = [ "river-session.target" ];
     };
 
     settings = {
@@ -28,7 +28,6 @@
         modules-center = [
           "custom/weather"
           "clock"
-          "custom/notification"
         ];
 
         modules-right = [
