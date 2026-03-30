@@ -17,9 +17,10 @@ let
 in
 [
   ./cliphist
+  ./fnott
   ./gpg-agent
   ./gromit-mpx
-  ./mako
+  # ./mako
   # ./kanshi
   ./swayidle
   more
