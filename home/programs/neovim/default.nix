@@ -89,7 +89,7 @@
       diffview-nvim
       gitsigns-nvim
       lualine-nvim
-      markdown-preview-nvim
+      render-markdown-nvim
       octo-nvim
       trouble-nvim
       oil-nvim
