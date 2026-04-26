@@ -43,6 +43,7 @@
     go
     gnumake
     hey
+    inetutils
     jellyfin-desktop
     jq
     k9s
