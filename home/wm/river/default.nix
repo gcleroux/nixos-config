@@ -31,6 +31,11 @@
       riverctl map normal Control Semicolon spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/_emoji"
       riverctl map normal Control+Shift Space spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/launcher"
 
+      # Notifications
+      # =============
+      riverctl map normal Super Grave spawn "${pkgs.fnott}/bin/fnottctl dismiss"
+      riverctl map normal Super+Shift Grave spawn "${pkgs.fnott}/bin/fnottctl dismiss all"
+
       # Screenshot
       riverctl map -release normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy'
       riverctl map -release normal Shift Print spawn "slurp | grim -g - ~/Pictures/Screenshots/$(date +'screenshot_%Y-%m-%d-%H%M%S.png')"
