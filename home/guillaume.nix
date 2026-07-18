@@ -71,7 +71,7 @@
     wbg
     way-displays
     wlr-randr
-    yq
+    yq-go
     zathura
   ];
 
