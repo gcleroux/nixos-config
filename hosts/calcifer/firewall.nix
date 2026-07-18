@@ -26,7 +26,7 @@
                 ct state established,related accept comment "!fw4: Allow inbound established and related flows"
                 tcp flags syn / fin,syn,rst,ack jump syn_flood comment "!fw4: Rate limit TCP syn packets"
                 iifname { "wg0", "br-lan" } jump input_lan comment "!fw4: Handle lan IPv4/IPv6 input traffic"
-                iifname "wan0" jump input_wan comment "!fw4: Handle wan IPv4/IPv6 input traffic"
+                iifname { "wan0", "ebox0" } jump input_wan comment "!fw4: Handle wan IPv4/IPv6 input traffic"
                 jump handle_reject
             }
 
@@ -35,7 +35,7 @@
 
                 ct state established,related accept comment "!fw4: Allow forwarded established and related flows"
                 iifname { "wg0", "br-lan" } jump forward_lan comment "!fw4: Handle lan IPv4/IPv6 forward traffic"
-                iifname "wan0" jump forward_wan comment "!fw4: Handle wan IPv4/IPv6 forward traffic"
+                iifname { "wan0", "ebox0" } jump forward_wan comment "!fw4: Handle wan IPv4/IPv6 forward traffic"
                 jump handle_reject
             }
 
@@ -45,7 +45,7 @@
                 oifname "lo" accept comment "!fw4: Accept traffic towards loopback"
                 ct state established,related accept comment "!fw4: Allow outbound established and related flows"
                 oifname { "wg0", "br-lan" } jump output_lan comment "!fw4: Handle lan IPv4/IPv6 output traffic"
-                oifname "wan0" jump output_wan comment "!fw4: Handle wan IPv4/IPv6 output traffic"
+                oifname { "wan0", "ebox0" } jump output_wan comment "!fw4: Handle wan IPv4/IPv6 output traffic"
             }
 
             chain prerouting {
@@ -114,16 +114,16 @@
             }
 
             chain accept_to_wan {
-                meta nfproto ipv4 oifname "wan0" ct state invalid counter drop comment "!fw4: Prevent NAT leakage"
-                oifname "wan0" counter accept comment "!fw4: accept wan IPv4/IPv6 traffic"
+                meta nfproto ipv4 oifname { "wan0", "ebox0" } ct state invalid counter drop comment "!fw4: Prevent NAT leakage"
+                oifname { "wan0", "ebox0" } counter accept comment "!fw4: accept wan IPv4/IPv6 traffic"
             }
 
             chain reject_from_wan {
-                iifname "wan0" counter jump handle_reject comment "!fw4: reject wan IPv4/IPv6 traffic"
+                iifname { "wan0", "ebox0" } counter jump handle_reject comment "!fw4: reject wan IPv4/IPv6 traffic"
             }
 
             chain reject_to_wan {
-                oifname "wan0" counter jump handle_reject comment "!fw4: reject wan IPv4/IPv6 traffic"
+                oifname { "wan0", "ebox0" } counter jump handle_reject comment "!fw4: reject wan IPv4/IPv6 traffic"
             }
 
             chain dstnat {
@@ -133,7 +133,7 @@
             chain srcnat {
                 type nat hook postrouting priority srcnat; policy accept;
 
-                oifname "wan0" jump srcnat_wan comment "!fw4: Handle wan IPv4/IPv6 srcnat traffic"
+                oifname { "wan0", "ebox0" } jump srcnat_wan comment "!fw4: Handle wan IPv4/IPv6 srcnat traffic"
             }
 
             chain srcnat_wan {
@@ -166,8 +166,8 @@
 
             chain mangle_forward {
                 type filter hook forward priority mangle; policy accept;
-                iifname "wan0" tcp flags syn tcp option maxseg size set rt mtu comment "!fw4: Zone wan IPv4/IPv6 ingress MTU fixing"
-                oifname "wan0" tcp flags syn tcp option maxseg size set rt mtu comment "!fw4: Zone wan IPv4/IPv6 egress MTU fixing"
+                iifname { "wan0", "ebox0" } tcp flags syn tcp option maxseg size set rt mtu comment "!fw4: Zone wan IPv4/IPv6 ingress MTU fixing"
+                oifname { "wan0", "ebox0" } tcp flags syn tcp option maxseg size set rt mtu comment "!fw4: Zone wan IPv4/IPv6 egress MTU fixing"
             }
         }
       '';
