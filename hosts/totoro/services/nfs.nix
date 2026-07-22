@@ -14,6 +14,7 @@
   };
   fileSystems."/export/Movies" = {
     device = "/srv/Movies";
+    fsType = "none";
     options = [ "bind" ];
   };
 
@@ -32,6 +33,7 @@
   };
   fileSystems."/export/Shows" = {
     device = "/srv/Shows";
+    fsType = "none";
     options = [ "bind" ];
   };
 
@@ -50,6 +52,7 @@
   };
   fileSystems."/export/Photos" = {
     device = "/srv/Photos";
+    fsType = "none";
     options = [ "bind" ];
   };
 
@@ -68,6 +71,7 @@
   };
   fileSystems."/export/Appdata" = {
     device = "/srv/Appdata";
+    fsType = "none";
     options = [ "bind" ];
   };
 
@@ -86,6 +90,7 @@
   };
   fileSystems."/export/Documents" = {
     device = "/srv/Documents";
+    fsType = "none";
     options = [ "bind" ];
   };
 
