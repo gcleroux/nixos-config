@@ -39,7 +39,6 @@ with lib;
 
     # Bluetooth config
     services.blueman.enable = cfg.bluetooth.enable;
-    services.blueman.withApplet = false; # Disabling here since blueman is handled by home-manager
     hardware.bluetooth = lib.optionals cfg.bluetooth.enable {
       enable = true;
       powerOnBoot = true;
