@@ -56,6 +56,11 @@
             "codeberg:"
           ];
         };
+        "git@github.com:pinax-network/" = {
+          insteadOf = [
+            "https://github.com/pinax-network/"
+          ];
+        };
       };
     };
   };
