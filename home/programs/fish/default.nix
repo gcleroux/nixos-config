@@ -14,6 +14,16 @@ in
 
   programs.fish = {
     enable = true;
+    shellInit = ''
+      # Load the KUBECONFIG variable
+      set -gx KUBECONFIG (
+        ${pkgs.busybox}/bin/find "${config.home.homeDirectory}/.kube/Configs" \
+          -type f \
+          -name '*.yaml' \
+        | ${pkgs.busybox}/bin/sort \
+        | string join :
+      )
+    '';
     interactiveShellInit = ''
       # Disable greeting
       set fish_greeting
