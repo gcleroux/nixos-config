@@ -77,22 +77,6 @@
             ./hosts/nixos-fw
 
             inputs.disko.nixosModules.disko
-            inputs.home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "backup";
-                users.guillaume = import ./home/guillaume.nix;
-                sharedModules = [
-                  inputs.sops-nix.homeManagerModules.sops
-                ];
-                extraSpecialArgs = {
-                  inherit inputs outputs;
-                  username = "guillaume";
-                };
-              };
-            }
           ];
         };
 

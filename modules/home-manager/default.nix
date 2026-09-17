@@ -1,1 +1,3 @@
-{ }
+{
+  user-programs = import ./programs;
+}
