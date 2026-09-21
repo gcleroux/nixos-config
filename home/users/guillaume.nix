@@ -1,6 +1,8 @@
 {
   pkgs,
   username,
+  hostname,
+  inputs,
   outputs,
   ...
 }:
@@ -8,6 +10,8 @@
   imports =
     # Option modules (user.*); toggled per host.
     builtins.attrValues outputs.homeManagerModules
+    # Neovim lives in its own flake: plugins, config and tooling in one package
+    ++ [ inputs.neovim-flake.homeModules.default ]
     # Always-on, headless-safe configuration.
     ++ [
       ../programs/bat
@@ -18,12 +22,28 @@
       ../programs/fzf
       ../programs/git
       ../programs/lazygit
-      ../programs/neovim
       ../programs/ssh
       ../programs/starship
       ../programs/tmux
       ../programs/zsh
     ];
+
+  wrappers.neovim = {
+    enable = true;
+
+    # Which flake nixd should evaluate for option completion is per machine,
+    # so it cannot live in the neovim flake.
+    settings.nixd = {
+      nixpkgs = ''import (builtins.getFlake "/etc/nixos").inputs.nixpkgs { }'';
+      nixos = ''(builtins.getFlake "/etc/nixos").nixosConfigurations.${hostname}.options'';
+      home_manager = ''(builtins.getFlake "/etc/nixos").nixosConfigurations.${hostname}.options.home-manager.users.type.getSubOptions [ ]'';
+    };
+  };
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    MANPAGER = "nvim +Man!";
+  };
 
   programs.delta = {
     enable = true;

@@ -2,6 +2,7 @@
   inputs,
   outputs,
   username,
+  hostname,
   ...
 }:
 {
@@ -15,7 +16,12 @@
       inputs.sops-nix.homeManagerModules.sops
     ];
     extraSpecialArgs = {
-      inherit inputs outputs username;
+      inherit
+        inputs
+        outputs
+        username
+        hostname
+        ;
     };
 
     users.${username} = {
