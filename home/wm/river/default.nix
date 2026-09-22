@@ -37,7 +37,7 @@
 
       # Screenshot
       riverctl map -release normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy'
-      riverctl map -release normal Shift Print spawn "slurp | grim -g - ~/Pictures/Screenshots/$(date +'screenshot_%Y-%m-%d-%H%M%S.png')"
+      riverctl map -release normal Shift Print spawn 'slurp | grim -g - ~/Pictures/Screenshots/$(date +"screenshot_%Y-%m-%d-%H%M%S.png")'
 
       # Super+Q to close the focused view
       riverctl map normal Super Q close
