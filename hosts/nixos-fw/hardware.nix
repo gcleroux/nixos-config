@@ -65,7 +65,6 @@
     opentabletdriver.enable = true;
     opentabletdriver.daemon.enable = true;
     logitech.wireless.enable = true;
-    logitech.wireless.enableGraphical = true;
   };
 
   networking.useDHCP = lib.mkDefault true;
