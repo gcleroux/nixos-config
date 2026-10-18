@@ -39,11 +39,11 @@ with lib;
 
     # Bluetooth config
     services.blueman.enable = cfg.bluetooth.enable;
-    hardware.bluetooth = lib.optionals cfg.bluetooth.enable {
+    hardware.bluetooth = lib.optionalAttrs cfg.bluetooth.enable {
       enable = true;
       powerOnBoot = true;
     };
-    services.pipewire.wireplumber = lib.optionals cfg.bluetooth.enable {
+    services.pipewire.wireplumber = lib.optionalAttrs cfg.bluetooth.enable {
       configPackages = [
         (pkgs.writeTextDir "share/wireplumber/bluetooth.lua.d/51-bluez-config.lua" ''
           bluez_monitor.properties = {

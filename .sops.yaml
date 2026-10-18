@@ -1,8 +1,18 @@
 ---
-keys: &keys
-  - age17z388m07ucvsk6t69knt0h8r006m4ejswq8fvfcfyavv45fxr4useyxtm9 # sops-nix
-  - age172c0stpajtlx7kdrjyelf6am9rr5e6fknac3mkn7ut2tzhc5zq0s7nucse # calcifer
+keys:
+  - &admin age17z388m07ucvsk6t69knt0h8r006m4ejswq8fvfcfyavv45fxr4useyxtm9
+  - &calcifer age172c0stpajtlx7kdrjyelf6am9rr5e6fknac3mkn7ut2tzhc5zq0s7nucse
+  - &nixos-fw age105ulqzp5ggycef8ry0kgura35taczyxr3cqd5gkgzzvh8sm7h59qanrypj
+  - &nixos_worker_01 age1q8trflswqkkrf736xfkcgxuqmzu9yylm6ddq0qwet79n0j7j7pfse09ask
 
 creation_rules:
+  - path_regex: ^hosts/nixos-worker-01/pki/
+    key_groups:
+      - age:
+          - *admin
+          - *nixos_worker_01
   - key_groups:
-      - age: *keys
+      - age:
+          - *admin
+          - *calcifer
+          - *nixos-fw

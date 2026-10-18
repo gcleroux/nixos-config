@@ -26,6 +26,8 @@ let
 in
 {
 
+  imports = builtins.attrValues outputs.nixosModules;
+
   # host.services.virtualisation.enable = true;
 
   nixpkgs = {
@@ -132,8 +134,10 @@ in
     ];
   };
 
-  systemd.services.etcd.environment.EXPERIMENTAL_PEER_SKIP_CLIENT_SAN_VERIFICATION = "true";
-  services.etcd.extraConf."EXPERIMENTAL_PEER_SKIP_CLIENT_SAN_VERIFICATION" = "true";
+  # etcd 3.6 renamed `--experimental-peer-skip-client-san-verification` to
+  # `--peer-skip-client-san-verification`; the old name is dropped in etcd 3.7.
+  # (extraConf keys get the ETCD_ prefix in the unit environment.)
+  services.etcd.extraConf.PEER_SKIP_CLIENT_SAN_VERIFICATION = "true";
 
   services.kubernetes = {
     roles = [
@@ -142,7 +146,7 @@ in
     ];
     masterAddress = hostname;
     apiserverAddress = "https://${hostname}:${toString kubeMasterAPIServerPort}";
-    easyCerts = true;
+    # Certificates come from ./kubernetes-pki.nix (host.services.kubernetes-pki).
     apiserver = {
       securePort = kubeMasterAPIServerPort;
       advertiseAddress = kubeMasterIP;

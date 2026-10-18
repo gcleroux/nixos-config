@@ -3,8 +3,16 @@
 	"sops": {
 		"age": [
 			{
-				"recipient": "age17z388m07ucvsk6t69knt0h8r006m4ejswq8fvfcfyavv45fxr4useyxtm9",
-				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAwbjhsUm02SnJsTlpUdVl2\nSVVvV2RZbDlnZnQyVlROSStmd1MzRE9VbWtBCkwzZ2o4N1hXOFJiT2xsRmRiNjFu\nSWYxR1I4VzdUWUM5NnBCcm9oY2QybWMKLS0tIGl1RXE4dDF4SkJYbDNrYVM5eXlM\nS3ZmbFpieDJ1dHAzZFdWTXc3UmRmVzQKXG4VjqXQC1QepeADEg5jHEVFfEtJGDqZ\n+Xre57dK3PizzkEYIqAO1JJR6tOr7UF52UNGrL+Yx8gkBf+ieJhQ1Q==\n-----END AGE ENCRYPTED FILE-----\n"
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBEOVUvaHdLYXdSQU1UeDlu\nUW9DWkIrQWJWMHU5bDVHMWRUSlM3b2N2OEhvClRTRjZNVmJEZktzUmlUZ3I4M2RS\nTU1raWh3ekxCcDVHVmxLSkxLd2dMTjgKLS0tIFBrak5XdDZpMTJvZVdQNjk0c2hl\ncThTUWVqN2V4ZVkyb0dnT3RoR296NVkKI0zizbjAAJDpbc6/joK8FzRs4Rke4N35\npAfL2zwiB0rOAkjEHA+HVjlokae8Isx3ldHr7pfpGuB87cJgw3ftpw==\n-----END AGE ENCRYPTED FILE-----\n",
+				"recipient": "age17z388m07ucvsk6t69knt0h8r006m4ejswq8fvfcfyavv45fxr4useyxtm9"
+			},
+			{
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBPc0p3WlBGd1FCeEF1cndp\ncHBMc2NrSEV0VlNiNktOY0lmZzd1d3ByL1JZClZGc1NwVXRIcHoyUGwzU1JzdEhq\nQTRVa3ZYRVpjTVdMRTdvODAyOUErVWcKLS0tIGdIOVIxR2Q5MHhkMU1OczZjVkhy\neE9GTjdjODAvdGpMUTl5QStGK2lySTQKKzgBH7yhltBN+qLzW7LwiST7B/vovs0S\nXQ0G5CNb44TMBAk+mrKgw1J2mOjfrplzNss+7rAEA4B/Zuz2P9RVWQ==\n-----END AGE ENCRYPTED FILE-----\n",
+				"recipient": "age172c0stpajtlx7kdrjyelf6am9rr5e6fknac3mkn7ut2tzhc5zq0s7nucse"
+			},
+			{
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzM0hzc1VLTEJrMzFRRG5t\naTVKbnZWUEZQV3RqT2hwOEhhL21ab1p1V0NJCkNDMnNBa0hzNEdSd1A5c0NzWDAv\na1c5VHhmWlRRV21ZY1o5czl0cGZLakkKLS0tIDVDUUZrYTJQVjJ4Qk5acEVQUjFh\nS1lWQUhGQW5Eb0htQWhmYmc3N1lOSFEKAJHhrPuu3aR06b/JOd9JTyJfoUPkGbnD\nVFJrSKsSawXe4j1pInl6/pu2qGgefroVtlryjJ/MJHjfVZ9ZW8T7cw==\n-----END AGE ENCRYPTED FILE-----\n",
+				"recipient": "age105ulqzp5ggycef8ry0kgura35taczyxr3cqd5gkgzzvh8sm7h59qanrypj"
 			}
 		],
 		"lastmodified": "2026-01-17T22:31:23Z",
