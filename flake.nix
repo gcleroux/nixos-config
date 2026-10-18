@@ -98,6 +98,7 @@
           modules = [
             ./hosts/nixos-worker-01
             inputs.disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
           ];
         };
 
