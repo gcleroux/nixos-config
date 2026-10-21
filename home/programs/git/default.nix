@@ -2,7 +2,11 @@
 {
   programs.git = {
     enable = true;
-    signing.format = "openpgp";
+    signing = {
+      format = "openpgp";
+      signByDefault = true;
+      key = "32330E3EDCF4D898";
+    };
     settings = {
       user = {
         name = "Guillaume Cléroux";

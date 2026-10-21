@@ -4,6 +4,7 @@
     settings = {
       git = {
         overrideGpg = true;
+        commit.signOff = true;
       };
       customCommands = [
         {
@@ -98,7 +99,7 @@
               body = "Are you sure you want to commit?";
             }
           ];
-          command = "git commit --message '{{.Form.Type}}{{.Form.Scope}}{{.Form.Breaking}}: {{.Form.Message}}'";
+          command = "git commit --signoff --message '{{.Form.Type}}{{.Form.Scope}}{{.Form.Breaking}}: {{.Form.Message}}'";
           loadingText = "Creating conventional commit...";
         }
       ];
