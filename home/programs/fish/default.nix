@@ -45,7 +45,6 @@ in
       brep = "batgrep";
 
       f = "yazi";
-      g = "lazygit";
       v = "nvim";
 
       nnn = "nnn -deo";
