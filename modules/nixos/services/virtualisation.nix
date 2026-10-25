@@ -31,6 +31,12 @@ with lib;
         daemon.settings = {
           bip = "240.255.0.1/24";
           fixed-cidr = "240.255.0.0/24";
+          default-address-pools = [
+            {
+              base = "240.255.0.0/16";
+              size = 24;
+            }
+          ];
         };
       };
       # Enable KVM virtualisation
