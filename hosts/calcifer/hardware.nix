@@ -43,7 +43,6 @@
         "sd_mod"
       ];
       kernelModules = [ ];
-      systemd.enable = true;
     };
   };
 
