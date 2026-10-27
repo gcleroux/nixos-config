@@ -1,0 +1,20 @@
+--- a/wayland.c
++++ b/wayland.c
+@@ -421,10 +421,13 @@
+     if (notif == NULL)
+         return;
+ 
+-    const struct monitor *mon = notif_monitor(notif);
+-
+-    assert(mon != NULL);
+-    const int scale = mon->scale;
++    /*
++     * Don't use notif_monitor() here: it can be NULL while the
++     * notification is visible, e.g. surface_leave() clears it when the
++     * surface briefly enters, then leaves, a neighbouring output. Use
++     * the same scale as wl_pointer_enter().
++     */
++    const float scale = notif_scale(notif);
+ 
+     seat->pointer.x = wl_fixed_to_int(surface_x) * scale;
+     seat->pointer.y = wl_fixed_to_int(surface_y) * scale;
