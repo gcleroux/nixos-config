@@ -11,6 +11,9 @@ let
   gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
     builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
   )) 0;
+  guestGatewayIP = builtins.elemAt (lib.strings.splitString "/" (
+    builtins.elemAt config.systemd.network.networks."45-guest".address 0
+  )) 0;
 in
 {
   services = {
@@ -31,9 +34,19 @@ in
         cache-size = 1000;
         no-resolv = true;
 
-        dhcp-range = [ "br-lan,10.0.0.100,10.0.0.250,12h" ];
-        dhcp-lease-max = 150;
-        interface = "br-lan";
+        # The leading word is a dnsmasq *tag* (set:<tag>), not an interface binding;
+        # dnsmasq picks the range matching the subnet of the receiving interface.
+        dhcp-range = [
+          "br-lan,10.0.0.100,10.0.0.250,12h"
+          "set:guest,10.0.20.100,10.0.20.250,4h"
+        ];
+        dhcp-lease-max = 300; # Global across all ranges
+        interface = [
+          "br-lan"
+          "guest"
+        ];
+        # Don't let guest devices register names in the .lan zone
+        dhcp-ignore-names = "tag:guest";
         port = 1053;
 
         local = "/lan/";
@@ -47,14 +60,18 @@ in
         ];
         dhcp-host = [
           gatewayIP # Static IP for router
-          "1c:2a:a3:24:04:ac,10.0.0.10,switch" # Smart switch
           "4c:ea:41:67:19:c8,10.0.0.20,nixos-worker-01" # K8s worker node
           "b8:2d:28:db:c6:cd,supernote"
         ];
-        dhcp-option = "option:dns-server,${gatewayIP}";
+        dhcp-option = [
+          "tag:br-lan,option:dns-server,${gatewayIP}"
+          "tag:guest,option:dns-server,${guestGatewayIP}"
+        ];
         host-record = [
           "home-server.lan,10.0.0.3"
           "lldap.lan,${gatewayIP}"
+          "switch.lan,10.0.0.10"
+          "u6-plus.lan,10.0.0.11"
         ];
       };
     };

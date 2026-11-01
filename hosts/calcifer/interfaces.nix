@@ -50,6 +50,12 @@
           Kind = "bridge";
           Name = "br-lan";
         };
+        # Make the bridge VLAN-aware: LAN stays untagged on PVID 1,
+        # guest traffic arrives tagged with VLAN 20.
+        bridgeConfig = {
+          VLANFiltering = true;
+          DefaultPVID = 1;
+        };
       };
 
       # VLANs
@@ -60,6 +66,14 @@
           Name = "ebox-wan";
         };
         vlanConfig.Id = 40;
+      };
+      "20-guest" = {
+        netdevConfig = {
+          Description = "Guest VLAN 20";
+          Kind = "vlan";
+          Name = "guest";
+        };
+        vlanConfig.Id = 20;
       };
       "50-wg0" = {
         netdevConfig = {
@@ -155,6 +169,13 @@
           Bridge = "br-lan";
           ConfigureWithoutCarrier = true;
         };
+        bridgeVLANs = [
+          {
+            PVID = 1;
+            EgressUntagged = 1;
+          } # LAN, untagged
+          { VLAN = 20; } # Guest, tagged
+        ];
         linkConfig.RequiredForOnline = false;
       };
       "30-lan1" = {
@@ -163,11 +184,27 @@
           Bridge = "br-lan";
           ConfigureWithoutCarrier = true;
         };
+        bridgeVLANs = [
+          {
+            PVID = 1;
+            EgressUntagged = 1;
+          } # LAN, untagged
+          { VLAN = 20; } # Guest, tagged
+        ];
         linkConfig.RequiredForOnline = false;
       };
       "40-br-lan" = {
         matchConfig.Name = "br-lan";
         bridgeConfig = { };
+        # Bridge "self" port: untagged LAN for 10.0.0.1, tagged VLAN 20 for the guest netdev
+        bridgeVLANs = [
+          {
+            PVID = 1;
+            EgressUntagged = 1;
+          }
+          { VLAN = 20; }
+        ];
+        vlan = [ "guest" ];
         address = [
           "10.0.0.1/24"
         ];
@@ -175,6 +212,15 @@
           IPv4ReversePathFilter = "no";
           ConfigureWithoutCarrier = true;
         };
+      };
+      "45-guest" = {
+        matchConfig.Name = "guest";
+        address = [ "10.0.20.1/24" ];
+        networkConfig = {
+          IPv4Forwarding = true;
+          ConfigureWithoutCarrier = true;
+        };
+        linkConfig.RequiredForOnline = false;
       };
       "50-wg0" = {
         matchConfig.Name = "wg0";

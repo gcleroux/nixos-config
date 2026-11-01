@@ -26,6 +26,7 @@
                 ct state established,related accept comment "!fw4: Allow inbound established and related flows"
                 tcp flags syn / fin,syn,rst,ack jump syn_flood comment "!fw4: Rate limit TCP syn packets"
                 iifname { "wg0", "br-lan" } jump input_lan comment "!fw4: Handle lan IPv4/IPv6 input traffic"
+                iifname "guest" jump input_guest comment "!fw4: Handle guest IPv4/IPv6 input traffic"
                 iifname { "wan0", "ebox0" } jump input_wan comment "!fw4: Handle wan IPv4/IPv6 input traffic"
                 jump handle_reject
             }
@@ -35,6 +36,7 @@
 
                 ct state established,related accept comment "!fw4: Allow forwarded established and related flows"
                 iifname { "wg0", "br-lan" } jump forward_lan comment "!fw4: Handle lan IPv4/IPv6 forward traffic"
+                iifname "guest" jump forward_guest comment "!fw4: Handle guest IPv4/IPv6 forward traffic"
                 iifname { "wan0", "ebox0" } jump forward_wan comment "!fw4: Handle wan IPv4/IPv6 forward traffic"
                 jump handle_reject
             }
@@ -78,6 +80,19 @@
             }
 
             chain helper_lan {
+            }
+
+            chain input_guest {
+                meta nfproto ipv4 udp dport 67 counter accept comment "!fw4: Allow-Guest-DHCP"
+                udp dport 53 counter accept comment "!fw4: Allow-Guest-DNS"
+                tcp dport 53 counter accept comment "!fw4: Allow-Guest-DNS"
+                icmp type echo-request counter accept comment "!fw4: Allow-Guest-Ping"
+                counter jump handle_reject comment "!fw4: reject guest IPv4/IPv6 input traffic"
+            }
+
+            chain forward_guest {
+                jump accept_to_wan comment "!fw4: Accept guest to wan forwarding"
+                counter jump handle_reject comment "!fw4: reject guest to lan/wg forwarding"
             }
 
             chain accept_from_lan {
