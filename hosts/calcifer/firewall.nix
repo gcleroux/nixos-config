@@ -24,7 +24,7 @@
         # Zones: every interface is listed exactly once, here.
         define LAN   = { "br-lan", "wg0" }
         define GUEST = { "guest" }
-        define WAN   = { "wan0", "ebox0" }
+        define WAN   = { "ebox0" }
 
         table inet filter {
             chain input {
@@ -49,7 +49,6 @@
 
             chain input_wan {
                 tcp flags syn / fin,syn,rst,ack limit rate over 25/second burst 50 packets drop comment "SYN flood"
-                udp dport 68 accept comment "DHCP renewals (wan0)"
                 udp dport 546 ip6 saddr fe80::/10 accept comment "DHCPv6-PD replies (ebox0)"
                 udp dport 51820 accept comment "WireGuard"
                 icmp type echo-request accept

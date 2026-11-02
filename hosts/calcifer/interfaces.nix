@@ -35,7 +35,7 @@
         matchConfig.Path = "pci-0000:03:00.0";
         linkConfig = {
           Description = "eth2";
-          Name = "wan1";
+          Name = "lan2";
         };
       };
       "10-eth3" = {
@@ -121,24 +121,6 @@
     networks = {
       "10-wan0" = {
         matchConfig.Name = "wan0";
-        networkConfig = {
-          DHCP = "ipv4";
-          DNS = "127.0.0.1";
-          DNSOverTLS = false;
-          DNSSEC = true;
-          IPv4Forwarding = true;
-          IPv6Forwarding = false;
-          IPv6PrivacyExtensions = false;
-        };
-        # Don't use upstream's DNS server
-        dhcpV4Config.UseDNS = false;
-        dhcpV6Config.UseDNS = false;
-        # make routing on this interface a dependency for network-online.target
-        linkConfig.RequiredForOnline = "routable";
-      };
-
-      "10-wan1" = {
-        matchConfig.Name = "wan1";
 
         # Attach VLAN 40 to this physical interface.
         vlan = [ "ebox-wan" ];
@@ -205,6 +187,21 @@
       };
       "30-lan1" = {
         matchConfig.Name = "lan1";
+        networkConfig = {
+          Bridge = "br-lan";
+          ConfigureWithoutCarrier = true;
+        };
+        bridgeVLANs = [
+          {
+            PVID = 1;
+            EgressUntagged = 1;
+          } # LAN, untagged
+          { VLAN = 20; } # Guest, tagged
+        ];
+        linkConfig.RequiredForOnline = false;
+      };
+      "30-lan2" = {
+        matchConfig.Name = "lan2";
         networkConfig = {
           Bridge = "br-lan";
           ConfigureWithoutCarrier = true;

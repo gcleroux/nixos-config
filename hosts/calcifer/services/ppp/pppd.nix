@@ -53,9 +53,8 @@
         # Do not use ISP DNS.
         noresolvconf
 
-        # Install a default route, but make EBOX secondary.
+        # EBOX is the only WAN: install the IPv4 default route.
         defaultroute
-        defaultroute-metric 200
       '';
     };
   };
