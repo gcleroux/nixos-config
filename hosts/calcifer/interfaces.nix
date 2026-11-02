@@ -7,13 +7,26 @@
   outputs,
   ...
 }:
+let
+  inherit (import ./subnets.nix)
+    lan4
+    guest4
+    vpn4
+    vpn6
+    ;
+in
 {
   systemd.network = {
     wait-online.anyInterface = true;
 
     # Unlike IPv4Forwarding, the per-link IPv6Forwarding setting doesn't make
     # the kernel forward IPv6 between interfaces; only the global one does.
-    config.networkConfig.IPv6Forwarding = true;
+    config.networkConfig = {
+      IPv6Forwarding = true;
+      # Keep pppd's IPv4 default route on ebox0 (protocol "boot") when
+      # networkd restarts; KeepConfiguration= can't protect that protocol.
+      ManageForeignRoutes = false;
+    };
 
     # Rename links to match device's labels
     links = {
@@ -92,27 +105,42 @@
           {
             PublicKey = builtins.readFile ./wireguard/s24-ultra/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/s24-ultra/psk.key".path;
-            AllowedIPs = [ "10.0.9.100/32" ];
+            AllowedIPs = [
+              "${vpn4}.100/32"
+              "${vpn6}::100/128"
+            ];
           }
           {
             PublicKey = builtins.readFile ./wireguard/nixos-fw/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/nixos-fw/psk.key".path;
-            AllowedIPs = [ "10.0.9.101/32" ];
+            AllowedIPs = [
+              "${vpn4}.101/32"
+              "${vpn6}::101/128"
+            ];
           }
           {
             PublicKey = builtins.readFile ./wireguard/iphone-lapin/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/iphone-lapin/psk.key".path;
-            AllowedIPs = [ "10.0.9.102/32" ];
+            AllowedIPs = [
+              "${vpn4}.102/32"
+              "${vpn6}::102/128"
+            ];
           }
           {
             PublicKey = builtins.readFile ./wireguard/mac-lapin/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/mac-lapin/psk.key".path;
-            AllowedIPs = [ "10.0.9.103/32" ];
+            AllowedIPs = [
+              "${vpn4}.103/32"
+              "${vpn6}::103/128"
+            ];
           }
           {
             PublicKey = builtins.readFile ./wireguard/s23-julie/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/s23-julie/psk.key".path;
-            AllowedIPs = [ "10.0.9.104/32" ];
+            AllowedIPs = [
+              "${vpn4}.104/32"
+              "${vpn6}::104/128"
+            ];
           }
         ];
       };
@@ -152,7 +180,9 @@
       "12-ebox0" = {
         matchConfig.Name = "ebox0";
 
-        # pppd owns this link and its IPv4 address and routes, keep them.
+        # pppd owns this link and its IPv4 address and default route, keep
+        # them. A [Route] here wouldn't work: networkd configures ebox0 before
+        # IPCP, and pppd setting the address flushes the link's IPv4 routes.
         # networkd adds IPv6: a WAN address by SLAAC, the default route from
         # the RA, and the /56 by DHCPv6-PD, which br-lan and guest use.
         networkConfig = {
@@ -228,7 +258,7 @@
         ];
         vlan = [ "guest" ];
         address = [
-          "10.0.0.1/24"
+          "${lan4}.1/24"
         ];
         networkConfig = {
           IPv4ReversePathFilter = "no";
@@ -246,7 +276,7 @@
       };
       "45-guest" = {
         matchConfig.Name = "guest";
-        address = [ "10.0.20.1/24" ];
+        address = [ "${guest4}.1/24" ];
         networkConfig = {
           IPv4Forwarding = true;
           ConfigureWithoutCarrier = true;
@@ -264,7 +294,10 @@
       };
       "50-wg0" = {
         matchConfig.Name = "wg0";
-        address = [ "10.0.9.1/24" ];
+        address = [
+          "${vpn4}.1/24"
+          "${vpn6}::1/64"
+        ];
         networkConfig = {
           IPv4Forwarding = true;
           DNS = "127.0.0.1";

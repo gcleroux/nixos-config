@@ -11,6 +11,10 @@ let
   gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
     builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
   )) 0;
+  inherit (import ../../subnets.nix) lan4;
+  # 10.0.0 -> 0.0.10.in-addr.arpa
+  lanReverseZone =
+    lib.concatStringsSep "." (lib.reverseList (lib.splitString "." lan4)) + ".in-addr.arpa";
 in
 {
   services = {
@@ -48,11 +52,11 @@ in
           do-not-query-localhost = false;
           domain-insecure = [
             "lan"
-            "0.0.10.in-addr.arpa"
+            lanReverseZone
           ];
           private-domain = [
             "lan"
-            "0.0.10.in-addr.arpa"
+            lanReverseZone
             # Allow private IP for these domain
             "cleroux.dev"
             "pinax.io"
@@ -65,7 +69,7 @@ in
           ];
           local-zone = [
             "lan transparent"
-            "0.0.10.in-addr.arpa transparent"
+            "${lanReverseZone} transparent"
           ];
         };
         auth-zone = [
@@ -125,7 +129,7 @@ in
             forward-addr = "127.0.0.1@${toString config.services.dnsmasq.settings.port}";
           }
           {
-            name = "0.0.10.in-addr.arpa";
+            name = lanReverseZone;
             forward-first = false;
             forward-addr = "127.0.0.1@${toString config.services.dnsmasq.settings.port}";
           }

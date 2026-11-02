@@ -53,7 +53,7 @@
         # Do not use ISP DNS.
         noresolvconf
 
-        # EBOX is the only WAN: install the IPv4 default route.
+        # Install the IPv4 default route
         defaultroute
       '';
     };

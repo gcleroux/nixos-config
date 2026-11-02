@@ -60,6 +60,8 @@ fi
 
 PEER_NAME="$1"
 PEER_ADDR="$2"
+# Same host ID in calcifer's wg0 IPv6 /64 (10.0.9.100 -> ::100)
+PEER_ADDR6="2606:6d00:ffb:6609::${PEER_ADDR##*.}"
 
 # Gen keys if not already present
 if [[ ! -d "./${PEER_NAME}" ]]; then
@@ -80,7 +82,7 @@ generate_conf() {
     cat <<EOF
 [Interface]
 PrivateKey = $(sops -d "./${PEER_NAME}/private.key")
-Address = ${PEER_ADDR}/32
+Address = ${PEER_ADDR}/32, ${PEER_ADDR6}/128
 DNS = 10.0.9.1
 
 [Peer]
