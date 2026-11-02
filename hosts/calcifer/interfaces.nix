@@ -142,6 +142,14 @@ in
               "${vpn6}::104/128"
             ];
           }
+          {
+            PublicKey = builtins.readFile ./wireguard/z-fold-8/public.key;
+            PresharedKeyFile = config.sops.secrets."wireguard/z-fold-8/psk.key".path;
+            AllowedIPs = [
+              "${vpn4}.105/32"
+              "${vpn6}::105/128"
+            ];
+          }
         ];
       };
     };
@@ -344,6 +352,13 @@ in
     };
     "wireguard/s23-julie/psk.key" = {
       sopsFile = ./wireguard/s23-julie/psk.key;
+      key = "data";
+      mode = "0640";
+      owner = "systemd-network";
+      group = "systemd-network";
+    };
+    "wireguard/z-fold-8/psk.key" = {
+      sopsFile = ./wireguard/z-fold-8/psk.key;
       key = "data";
       mode = "0640";
       owner = "systemd-network";

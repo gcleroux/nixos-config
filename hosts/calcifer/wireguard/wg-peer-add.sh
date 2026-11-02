@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p dig qrencode sops wireguard-tools
+#!nix-shell -i bash -p qrencode sops wireguard-tools
 
 set -euo pipefail
 
@@ -89,7 +89,7 @@ DNS = 10.0.9.1
 PublicKey = $(cat "./calcifer/public.key")
 PresharedKey = $(sops -d "./${PEER_NAME}/psk.key")
 AllowedIPs = 0.0.0.0/0, ::/0
-Endpoint = $(dig whoami.akamai.net +short):51820
+Endpoint = vpn.cleroux.dev:51820
 PersistentKeepalive = 25
 EOF
 }
