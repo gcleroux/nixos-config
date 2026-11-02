@@ -11,6 +11,10 @@
   systemd.network = {
     wait-online.anyInterface = true;
 
+    # Unlike IPv4Forwarding, the per-link IPv6Forwarding setting doesn't make
+    # the kernel forward IPv6 between interfaces; only the global one does.
+    config.networkConfig.IPv6Forwarding = true;
+
     # Rename links to match device's labels
     links = {
       "10-eth0" = {
@@ -163,6 +167,27 @@
         linkConfig.RequiredForOnline = false;
       };
 
+      "12-ebox0" = {
+        matchConfig.Name = "ebox0";
+
+        # pppd owns this link and its IPv4 address and routes, keep them.
+        # networkd adds IPv6: a WAN address by SLAAC, the default route from
+        # the RA, and the /56 by DHCPv6-PD, which br-lan and guest use.
+        networkConfig = {
+          DHCP = "ipv6";
+          IPv6AcceptRA = true;
+          KeepConfiguration = "static";
+        };
+        ipv6AcceptRAConfig.UseDNS = false;
+        dhcpV6Config = {
+          PrefixDelegationHint = "::/56";
+          WithoutRA = "solicit";
+          UseDNS = false;
+        };
+
+        linkConfig.RequiredForOnline = false;
+      };
+
       "30-lan0" = {
         matchConfig.Name = "lan0";
         networkConfig = {
@@ -211,7 +236,16 @@
         networkConfig = {
           IPv4ReversePathFilter = "no";
           ConfigureWithoutCarrier = true;
+          DHCPPrefixDelegation = true;
+          IPv6SendRA = true;
         };
+        # <prefix>:00::/64 from the EBOX /56, announced by RA (SLAAC)
+        dhcpPrefixDelegationConfig = {
+          UplinkInterface = "ebox0";
+          SubnetId = "0x0";
+          Token = "::1";
+        };
+        ipv6SendRAConfig.DNS = "_link_local"; # blocky
       };
       "45-guest" = {
         matchConfig.Name = "guest";
@@ -219,7 +253,16 @@
         networkConfig = {
           IPv4Forwarding = true;
           ConfigureWithoutCarrier = true;
+          DHCPPrefixDelegation = true;
+          IPv6SendRA = true;
         };
+        # <prefix>:20::/64, subnet ID matches the VLAN ID
+        dhcpPrefixDelegationConfig = {
+          UplinkInterface = "ebox0";
+          SubnetId = "0x20";
+          Token = "::1";
+        };
+        ipv6SendRAConfig.DNS = "_link_local"; # blocky
         linkConfig.RequiredForOnline = false;
       };
       "50-wg0" = {

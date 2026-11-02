@@ -46,8 +46,9 @@
         lcp-echo-interval 10
         lcp-echo-failure 3
 
-        # IPv4 only for now.
-        noipv6
+        # IPv6CP only brings up a link-local address on ebox0; networkd does
+        # SLAAC and DHCPv6-PD on top of it (see 12-ebox0 in interfaces.nix).
+        +ipv6
 
         # Do not use ISP DNS.
         noresolvconf
