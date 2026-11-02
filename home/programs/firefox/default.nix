@@ -94,7 +94,6 @@
         "font.default.x-western" = "sans-serif";
         "font.size.variable.x-western" = 16;
         "font.size.monospace.x-western" = 16;
-        "layout.css.devPixelsPerPx" = 1.9;
 
         # Bookmarks
         "browser.toolbars.bookmarks.visibility" = "always";
