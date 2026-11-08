@@ -184,6 +184,9 @@ in
       "servicelb" # MetalLB, then Cilium
       "local-storage" # openebs-hostpath is the default StorageClass
       "metrics-server" # deployed by Flux in monitoring
+      # Envoy Gateway's chart owns the Gateway API CRDs (experimental channel).
+      # The k3s addon would fight it over them, and its chart 404s in nixpkgs.
+      "gateway-api-crd"
     ];
     extraFlags = [
       # Cilium replaces flannel, the network policy controller and kube-proxy.
