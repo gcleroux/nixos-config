@@ -175,7 +175,7 @@ in
   };
 
   services.k3s = {
-    enable = false; # turned on once the node is prepared, see the migration runbook
+    enable = true;
     role = "server";
     package = pkgs.k3s_1_37; # same Kubernetes minor as the cluster it replaces
     nodeIP = "${kubeMasterIP},${kubeMasterIP6}";
