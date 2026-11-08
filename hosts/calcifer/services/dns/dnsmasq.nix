@@ -8,7 +8,7 @@
   ...
 }:
 let
-  inherit (import ../../subnets.nix) lan4 guest4;
+  inherit (import ../../subnets.nix) lan4 lan6 guest4;
   gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
     builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
   )) 0;
@@ -69,7 +69,7 @@ in
           "tag:guest,option:dns-server,${guestGatewayIP}"
         ];
         host-record = [
-          "home-server.lan,${lan4}.3"
+          "totoro.lan,${lan4}.2,${lan6}::2" # NAS, static on the host
           "lldap.lan,${gatewayIP}"
           "switch.lan,${lan4}.10"
           "u6-plus.lan,${lan4}.11"

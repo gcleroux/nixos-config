@@ -70,8 +70,16 @@
       "40-br-lan" = {
         matchConfig.Name = "br-lan";
         bridgeConfig = { };
+        # Static, below calcifer's DHCP pool: the cluster's firewall rule for NFS
+        # names this address. IPv6 still accepts calcifer's RA for its routes.
+        address = [
+          "10.0.0.2/24"
+          "2606:6d00:ffb:6600::2/64"
+        ];
+        gateway = [ "10.0.0.1" ];
+        dns = [ "10.0.0.1" ];
+        domains = [ "lan" ];
         networkConfig = {
-          DHCP = "ipv4";
           IPv4ReversePathFilter = "no";
           ConfigureWithoutCarrier = true;
         };

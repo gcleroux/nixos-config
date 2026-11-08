@@ -9,4 +9,8 @@
   # mirror their IPv4 address (10.0.9.100 -> ::100). The LAN and guest /64s
   # come from DHCPv6-PD instead, see their SubnetId in interfaces.nix.
   vpn6 = "2606:6d00:ffb:6609";
+
+  # LAN /64, for static host addresses only. br-lan's own address still comes
+  # from DHCPv6-PD (SubnetId 0x0), which hands out this same static prefix.
+  lan6 = "2606:6d00:ffb:6600";
 }
