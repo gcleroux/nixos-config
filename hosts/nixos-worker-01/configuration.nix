@@ -14,6 +14,8 @@
 }:
 let
   kubeMasterIP = "10.0.0.20";
+  # Fixed address in the LAN /64 of the static /56, for the dual-stack node IP.
+  kubeMasterIP6 = "2606:6d00:ffb:6600::20";
   kubeMasterAPIServerPort = 6443;
 
   nixpkgsCoreDNSFix = import (pkgs.fetchFromGitHub {
@@ -56,7 +58,25 @@ in
   };
 
   networking = {
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      # IPv4 comes from a static lease in calcifer's dnsmasq. IPv6 keeps SLAAC
+      # and adds kubeMasterIP6, without temporary addresses.
+      ensureProfiles.profiles.lan = {
+        connection = {
+          id = "lan";
+          type = "ethernet";
+          interface-name = "enp0s13f0u1";
+          autoconnect-priority = 10;
+        };
+        ipv4.method = "auto";
+        ipv6 = {
+          method = "auto";
+          address1 = "${kubeMasterIP6}/64";
+          ip6-privacy = 0;
+        };
+      };
+    };
     hostName = hostname;
 
     hosts = lib.mkForce { };
