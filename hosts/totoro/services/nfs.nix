@@ -95,12 +95,13 @@
   };
 
   services.nfs.server.enable = true;
+  # LAN, and the Kubernetes nodes on VLAN 30 (calcifer only lets them reach port 2049).
   services.nfs.server.exports = ''
-    /export            10.0.0.0/24(rw,nohide,insecure,no_subtree_check,crossmnt,fsid=0)
-    /export/Appdata    10.0.0.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash)
-    /export/Documents  10.0.0.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash)
-    /export/Movies     10.0.0.0/24(rw,nohide,insecure,no_subtree_check)
-    /export/Photos     10.0.0.0/24(rw,nohide,insecure,no_subtree_check)
-    /export/Shows      10.0.0.0/24(rw,nohide,insecure,no_subtree_check)
+    /export            10.0.0.0/24(rw,nohide,insecure,no_subtree_check,crossmnt,fsid=0) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check,crossmnt,fsid=0)
+    /export/Appdata    10.0.0.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash)
+    /export/Documents  10.0.0.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash)
+    /export/Movies     10.0.0.0/24(rw,nohide,insecure,no_subtree_check) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check)
+    /export/Photos     10.0.0.0/24(rw,nohide,insecure,no_subtree_check) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check)
+    /export/Shows      10.0.0.0/24(rw,nohide,insecure,no_subtree_check) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check)
   '';
 }
