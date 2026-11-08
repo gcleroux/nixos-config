@@ -16,15 +16,35 @@ let
   kubeMasterIP = "10.0.0.20";
   # Fixed address in the LAN /64 of the static /56, for the dual-stack node IP.
   kubeMasterIP6 = "2606:6d00:ffb:6600::20";
-  kubeMasterAPIServerPort = 6443;
 
-  nixpkgsCoreDNSFix = import (pkgs.fetchFromGitHub {
-    owner = "NixOS";
-    repo = "nixpkgs";
-    rev = "ee09932cedcef15aaf476f9343d1dea2cb77e261";
-    sha256 = "sha256-9glbI7f1uU+yzQCq5LwLgdZqx6svOhZWkd4JRY265fc=";
-  }) { inherit (pkgs) system; };
-  corednsFix = nixpkgsCoreDNSFix.coredns;
+  # Address plan and stages: docs/network.md in the flux-fleet repository.
+  podCIDRs = "10.42.0.0/16,2606:6d00:ffb:6680::/60";
+  serviceCIDRs = "10.43.0.0/16,fd5e:904f:ae62:43::/112";
+
+  ciliumValues = {
+    cluster = {
+      name = "homelab";
+      id = 1;
+    };
+    # k3s serves the API on every address, and loopback survives a node re-IP.
+    k8sServiceHost = "127.0.0.1";
+    k8sServicePort = 6443;
+    kubeProxyReplacement = true;
+    ipam.mode = "kubernetes"; # node pod ranges come from k3s --cluster-cidr
+    ipv4.enabled = true;
+    ipv6.enabled = true;
+    routingMode = "native";
+    autoDirectNodeRoutes = true;
+    ipv4NativeRoutingCIDR = "10.42.0.0/16";
+    ipv6NativeRoutingCIDR = "2606:6d00:ffb:6680::/60";
+    bpf.masquerade = true;
+    enableIPv4Masquerade = true;
+    # Until calcifer routes the pod /60 to the node over BGP (stage 2).
+    enableIPv6Masquerade = true;
+    bgpControlPlane.enabled = true; # dormant until a CiliumBGPClusterConfig exists
+    operator.replicas = 1;
+    hubble.relay.enabled = true;
+  };
 in
 {
 
@@ -154,34 +174,53 @@ in
     ];
   };
 
-  # etcd 3.6 renamed `--experimental-peer-skip-client-san-verification` to
-  # `--peer-skip-client-san-verification`; the old name is dropped in etcd 3.7.
-  # (extraConf keys get the ETCD_ prefix in the unit environment.)
-  services.etcd.extraConf.PEER_SKIP_CLIENT_SAN_VERIFICATION = "true";
-
-  services.kubernetes = {
-    roles = [
-      "master"
-      "node"
+  services.k3s = {
+    enable = false; # turned on once the node is prepared, see the migration runbook
+    role = "server";
+    package = pkgs.k3s_1_37; # same Kubernetes minor as the cluster it replaces
+    nodeIP = "${kubeMasterIP},${kubeMasterIP6}";
+    disable = [
+      "traefik" # Envoy Gateway
+      "servicelb" # MetalLB, then Cilium
+      "local-storage" # openebs-hostpath is the default StorageClass
+      "metrics-server" # deployed by Flux in monitoring
     ];
-    masterAddress = hostname;
-    apiserverAddress = "https://${hostname}:${toString kubeMasterAPIServerPort}";
-    # Certificates come from ./kubernetes-pki.nix (host.services.kubernetes-pki).
-    apiserver = {
-      securePort = kubeMasterAPIServerPort;
-      advertiseAddress = kubeMasterIP;
-      allowPrivileged = true;
-      serviceClusterIpRange = "10.0.0.0/24";
-    };
-    addons.dns = {
-      enable = true;
-      corednsImage = nixpkgsCoreDNSFix.dockerTools.buildImage {
-        name = "coredns";
-        config.Entrypoint = [ "${corednsFix}/bin/coredns" ];
+    extraFlags = [
+      # Cilium replaces flannel, the network policy controller and kube-proxy.
+      "--flannel-backend=none"
+      "--disable-network-policy"
+      "--disable-kube-proxy"
+      # Dual-stack can only be set when the cluster is created.
+      "--cluster-cidr=${podCIDRs}"
+      "--service-cidr=${serviceCIDRs}"
+      "--write-kubeconfig-mode=0640"
+      "--write-kubeconfig-group=kubernetes"
+      "--tls-san=${hostname}"
+    ];
+    gracefulNodeShutdown.enable = true;
+    # The node has no network until Cilium runs, so k3s installs it from the host
+    # network (bootstrap) instead of Flux. Upgrade Cilium here.
+    manifests.cilium.content = {
+      apiVersion = "helm.cattle.io/v1";
+      kind = "HelmChart";
+      metadata = {
+        name = "cilium";
+        namespace = "kube-system";
+      };
+      spec = {
+        repo = "https://helm.cilium.io";
+        chart = "cilium";
+        version = "1.20.4";
+        targetNamespace = "kube-system";
+        bootstrap = true;
+        valuesContent = builtins.toJSON ciliumValues;
       };
     };
   };
-  services.coredns.package = corednsFix;
+  # Was created by services.kubernetes; k3s writes its kubeconfig for it.
+  users.groups.kubernetes = { };
+  # NFS volumes (boot.supportedFilesystems has "nfs").
+  services.rpcbind.enable = true;
 
   virtualisation.docker = {
     enable = true;
