@@ -13,6 +13,7 @@ let
     guest4
     vpn4
     vpn6
+    cluster4
     ;
 in
 {
@@ -91,6 +92,14 @@ in
           Name = "guest";
         };
         vlanConfig.Id = 20;
+      };
+      "20-cluster" = {
+        netdevConfig = {
+          Description = "Cluster VLAN 30";
+          Kind = "vlan";
+          Name = "cluster";
+        };
+        vlanConfig.Id = 30;
       };
       "50-wg0" = {
         netdevConfig = {
@@ -220,6 +229,7 @@ in
             EgressUntagged = 1;
           } # LAN, untagged
           { VLAN = 20; } # Guest, tagged
+          { VLAN = 30; } # Cluster nodes, tagged
         ];
         linkConfig.RequiredForOnline = false;
       };
@@ -235,6 +245,7 @@ in
             EgressUntagged = 1;
           } # LAN, untagged
           { VLAN = 20; } # Guest, tagged
+          { VLAN = 30; } # Cluster nodes, tagged
         ];
         linkConfig.RequiredForOnline = false;
       };
@@ -250,21 +261,27 @@ in
             EgressUntagged = 1;
           } # LAN, untagged
           { VLAN = 20; } # Guest, tagged
+          { VLAN = 30; } # Cluster nodes, tagged
         ];
         linkConfig.RequiredForOnline = false;
       };
       "40-br-lan" = {
         matchConfig.Name = "br-lan";
         bridgeConfig = { };
-        # Bridge "self" port: untagged LAN for 10.0.0.1, tagged VLAN 20 for the guest netdev
+        # Bridge "self" port: untagged LAN for 10.0.0.1, tagged VLANs 20 and 30 for
+        # the guest and cluster netdevs
         bridgeVLANs = [
           {
             PVID = 1;
             EgressUntagged = 1;
           }
           { VLAN = 20; }
+          { VLAN = 30; }
         ];
-        vlan = [ "guest" ];
+        vlan = [
+          "guest"
+          "cluster"
+        ];
         address = [
           "${lan4}.1/24"
         ];
@@ -298,6 +315,24 @@ in
           Token = "::1";
         };
         ipv6SendRAConfig.DNS = "_link_local"; # blocky
+        linkConfig.RequiredForOnline = false;
+      };
+      "46-cluster" = {
+        matchConfig.Name = "cluster";
+        address = [ "${cluster4}.1/24" ];
+        networkConfig = {
+          IPv4Forwarding = true;
+          ConfigureWithoutCarrier = true;
+          DHCPPrefixDelegation = true;
+          IPv6SendRA = true;
+        };
+        # <prefix>:30::/64, subnet ID matches the VLAN ID
+        dhcpPrefixDelegationConfig = {
+          UplinkInterface = "ebox0";
+          SubnetId = "0x30";
+          Token = "::1";
+        };
+        ipv6SendRAConfig.EmitDNS = false;
         linkConfig.RequiredForOnline = false;
       };
       "50-wg0" = {

@@ -4,6 +4,7 @@
   lan4 = "10.0.0";
   guest4 = "10.0.20";
   vpn4 = "10.0.9";
+  cluster4 = "10.0.30"; # Kubernetes nodes on VLAN 30, from .10 up
 
   # VPN /64 from the EBOX /56: subnet 09 mirrors vpn4, and peer host IDs
   # mirror their IPv4 address (10.0.9.100 -> ::100). The LAN and guest /64s
