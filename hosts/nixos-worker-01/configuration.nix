@@ -94,6 +94,9 @@ in
           method = "auto";
           address1 = "${kubeMasterIP6}/64";
           ip6-privacy = 0;
+          # The RA's link-local DNS server makes k3s reject resolv.conf and give
+          # pods 8.8.8.8, so DNS comes from IPv4 (calcifer) only.
+          ignore-auto-dns = true;
         };
       };
     };
