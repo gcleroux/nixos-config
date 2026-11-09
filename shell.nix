@@ -18,12 +18,12 @@
 
     nativeBuildInputs = builtins.attrValues {
       inherit (pkgs)
-        nix
-        git
-
         age
-        ssh-to-age
+        deploy-rs
+        git
+        nix
         sops
+        ssh-to-age
         ;
     };
   };

@@ -44,6 +44,7 @@
         "nix-command"
         "flakes"
       ];
+      keep-outputs = true;
     };
   };
 

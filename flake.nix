@@ -32,6 +32,11 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -47,6 +52,21 @@
         "x86_64-darwin"
       ];
       forAllSystems = inputs.nixpkgs.lib.genAttrs systems;
+
+      # deploy-rs's activation helpers, but with the deploy-rs package from nixpkgs:
+      # it's in the binary cache and matches the `deploy` CLI in the dev shell.
+      deployPkgs = import inputs.nixpkgs {
+        system = "x86_64-linux";
+        overlays = [
+          inputs.deploy-rs.overlays.default
+          (final: prev: {
+            deploy-rs = {
+              inherit (inputs.nixpkgs.legacyPackages.x86_64-linux) deploy-rs;
+              inherit (prev.deploy-rs) lib;
+            };
+          })
+        ];
+      };
     in
     {
       overlays = import ./overlays { inherit inputs; };
@@ -135,6 +155,18 @@
           ];
         };
       };
+
+      deploy.nodes = {
+        calcifer = {
+          hostname = "calcifer";
+          sshUser = "guillaume";
+          user = "root";
+          magicRollback = true;
+          confirmTimeout = 60;
+          profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.calcifer;
+        };
+      };
+
       devShells = forAllSystems (
         system:
         import ./shell.nix {
