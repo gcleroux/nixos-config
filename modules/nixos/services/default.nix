@@ -6,7 +6,6 @@
     ./gaming.nix
     ./greeter.nix
     ./keyring.nix
-    ./kubernetes-pki.nix
     ./polkit.nix
     ./powersave.nix
     ./printing.nix

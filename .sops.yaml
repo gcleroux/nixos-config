@@ -6,11 +6,6 @@ keys:
   - &nixos_worker_01 age1q8trflswqkkrf736xfkcgxuqmzu9yylm6ddq0qwet79n0j7j7pfse09ask
 
 creation_rules:
-  - path_regex: ^hosts/nixos-worker-01/pki/
-    key_groups:
-      - age:
-          - *admin
-          - *nixos_worker_01
   - key_groups:
       - age:
           - *admin
