@@ -20,12 +20,8 @@ in
   systemd.network = {
     wait-online.anyInterface = true;
 
-    # Unlike IPv4Forwarding, the per-link IPv6Forwarding setting doesn't make
-    # the kernel forward IPv6 between interfaces; only the global one does.
     config.networkConfig = {
       IPv6Forwarding = true;
-      # Keep pppd's IPv4 default route on ebox0 (protocol "boot") when
-      # networkd restarts; KeepConfiguration= can't protect that protocol.
       ManageForeignRoutes = false;
     };
 
@@ -68,8 +64,6 @@ in
           Kind = "bridge";
           Name = "br-lan";
         };
-        # Make the bridge VLAN-aware: LAN stays untagged on PVID 1,
-        # guest traffic arrives tagged with VLAN 20.
         bridgeConfig = {
           VLANFiltering = true;
           DefaultPVID = 1;
@@ -197,11 +191,6 @@ in
       "12-ebox0" = {
         matchConfig.Name = "ebox0";
 
-        # pppd owns this link and its IPv4 address and default route, keep
-        # them. A [Route] here wouldn't work: networkd configures ebox0 before
-        # IPCP, and pppd setting the address flushes the link's IPv4 routes.
-        # networkd adds IPv6: a WAN address by SLAAC, the default route from
-        # the RA, and the /56 by DHCPv6-PD, which br-lan and guest use.
         networkConfig = {
           DHCP = "ipv6";
           IPv6AcceptRA = true;

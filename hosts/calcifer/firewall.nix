@@ -17,9 +17,8 @@
     firewall.enable = false;
     nftables = {
       enable = true;
-      # IPv6 comes from EBOX only (SLAAC on ebox0, a /56 by DHCPv6-PD). It is
-      # routed, not NATed: LAN hosts are reachable wherever forward_wan allows.
-      # ICMPv6 errors (packet-too-big, ...) are accepted as ct state related.
+      # IPv6 comes from EBOX (SLAAC on ebox0, a /56 by DHCPv6-PD)
+      # IPv6 is routed, not NATed
       ruleset = ''
         # Zones: every interface is listed exactly once, here.
         define LAN     = { "br-lan", "wg0" }
