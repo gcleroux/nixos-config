@@ -11,8 +11,8 @@
       };
       scrollback.indicator-position = "none";
       key-bindings = {
-        scrollback-up-line = "Control+k";
-        scrollback-down-line = "Control+j";
+        scrollback-up-line = "Control+Shift+k";
+        scrollback-down-line = "Control+Shift+j";
       };
     };
   };
