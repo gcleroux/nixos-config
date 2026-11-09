@@ -19,7 +19,6 @@ let
   kubeMasterIP6 = "2606:6d00:ffb:6630::10";
   clusterGateway = "10.0.30.1"; # calcifer: router, DNS, BGP peer
 
-  # Address plan and stages: docs/network.md in the flux-fleet repository.
   podCIDRs = "10.42.0.0/16,2606:6d00:ffb:6680::/60";
   serviceCIDRs = "10.43.0.0/16,fd5e:904f:ae62:43::/112";
 
@@ -41,10 +40,8 @@ let
     ipv6NativeRoutingCIDR = "2606:6d00:ffb:6680::/60";
     bpf.masquerade = true;
     enableIPv4Masquerade = true;
-    # Pods keep their global IPv6 addresses: calcifer learns each node's pod /64
-    # over BGP and routes it (flux-infra components/network).
     enableIPv6Masquerade = false;
-    bgpControlPlane.enabled = true; # peers with calcifer, see flux-infra components/network
+    bgpControlPlane.enabled = true;
     operator.replicas = 1;
     hubble.relay.enabled = true;
   };
@@ -52,8 +49,6 @@ in
 {
 
   imports = builtins.attrValues outputs.nixosModules;
-
-  # host.services.virtualisation.enable = true;
 
   nixpkgs = {
     config.allowUnfree = true;
@@ -83,10 +78,6 @@ in
   networking = {
     networkmanager = {
       enable = true;
-      # The switch port is an access port on VLAN 30, which has no DHCP: IPv4 is
-      # static. IPv6 adds kubeMasterIP6 to SLAAC, without temporary addresses,
-      # and takes its default route from calcifer's RA. The profile keeps its
-      # name: NetworkManager wouldn't remove a renamed one's predecessor.
       ensureProfiles.profiles.lan = {
         connection = {
           id = "lan";
@@ -104,8 +95,6 @@ in
           method = "auto";
           address1 = "${kubeMasterIP6}/64";
           ip6-privacy = 0;
-          # The RA's link-local DNS server makes k3s reject resolv.conf and give
-          # pods 8.8.8.8, so DNS comes from IPv4 (calcifer) only.
           ignore-auto-dns = true;
         };
       };
@@ -117,16 +106,6 @@ in
 
     # Disable firewall for faster deployment
     firewall.enable = false;
-    # firewall.allowedTCPPorts = [
-    #   kubeMasterAPIServerPort
-    #
-    #   # k8s-gateway
-    #   31000
-    #
-    #   # ingress-nginx
-    #   32001
-    #   32002
-    # ];
   };
 
   # Set your time zone.
@@ -193,20 +172,16 @@ in
     package = pkgs.k3s_1_37; # same Kubernetes minor as the cluster it replaces
     nodeIP = "${kubeMasterIP},${kubeMasterIP6}";
     disable = [
-      "traefik" # Envoy Gateway
-      "servicelb" # MetalLB, then Cilium
-      "local-storage" # openebs-hostpath is the default StorageClass
-      "metrics-server" # deployed by Flux in monitoring
-      # Envoy Gateway's chart owns the Gateway API CRDs (experimental channel).
-      # The k3s addon would fight it over them, and its chart 404s in nixpkgs.
+      "traefik"
+      "servicelb"
+      "local-storage"
+      "metrics-server"
       "gateway-api-crd"
     ];
     extraFlags = [
-      # Cilium replaces flannel, the network policy controller and kube-proxy.
       "--flannel-backend=none"
       "--disable-network-policy"
       "--disable-kube-proxy"
-      # Dual-stack can only be set when the cluster is created.
       "--cluster-cidr=${podCIDRs}"
       "--service-cidr=${serviceCIDRs}"
       "--write-kubeconfig-mode=0640"
@@ -214,8 +189,6 @@ in
       "--tls-san=${hostname}"
     ];
     gracefulNodeShutdown.enable = true;
-    # The node has no network until Cilium runs, so k3s installs it from the host
-    # network (bootstrap) instead of Flux. Upgrade Cilium here.
     manifests.cilium.content = {
       apiVersion = "helm.cattle.io/v1";
       kind = "HelmChart";
