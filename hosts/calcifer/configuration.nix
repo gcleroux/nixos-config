@@ -72,6 +72,7 @@
 
   programs = {
     fish.enable = true;
+    mtr.enable = true;
     zsh = {
       enable = true;
       syntaxHighlighting.enable = true;
@@ -82,13 +83,16 @@
     # Installed packages
     systemPackages = with pkgs; [
       bottom
+      conntrack-tools
       dnsutils
+      ethtool
       foot
       git
       iputils
       neovim
       pciutils
       powerstat
+      tcpdump
       traceroute
       usbutils
       wget
