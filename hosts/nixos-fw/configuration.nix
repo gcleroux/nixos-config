@@ -61,6 +61,10 @@
       "networkmanager"
     ];
     shell = pkgs.zsh;
+    # deploy-rs deploys this machine by ssh to localhost
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICS77iyKWFPGfozY/N0daz6d9uEXhpdSVpsTTIkBbcRg guillaume@nixos-fw"
+    ];
   };
 
   xdg.portal = {
@@ -115,7 +119,13 @@
       implementation = "broker";
     };
     fwupd.enable = true;
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
+    };
 
     # Thunar services
     gvfs.enable = true; # Mount, trash, and other functionalities

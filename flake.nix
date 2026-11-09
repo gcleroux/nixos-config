@@ -156,14 +156,31 @@
         };
       };
 
-      deploy.nodes = {
-        calcifer = {
-          hostname = "calcifer";
-          sshUser = "guillaume";
-          user = "root";
-          magicRollback = true;
-          confirmTimeout = 60;
-          profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.calcifer;
+      deploy = {
+        sshUser = "guillaume";
+        user = "root";
+        magicRollback = true;
+
+        nodes = {
+          nixos-fw = {
+            hostname = "localhost";
+            # sudo asks for a password here, unlike the hosts with sshAgentAuth
+            interactiveSudo = true;
+            profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-fw;
+          };
+          calcifer = {
+            hostname = "calcifer";
+            confirmTimeout = 60;
+            profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.calcifer;
+          };
+          nixos-worker-01 = {
+            hostname = "nixos-worker-01";
+            profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-worker-01;
+          };
+          totoro = {
+            hostname = "totoro";
+            profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.totoro;
+          };
         };
       };
 
