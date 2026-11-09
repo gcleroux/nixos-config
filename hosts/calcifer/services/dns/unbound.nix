@@ -16,24 +16,11 @@ let
   lanReverseZone =
     lib.concatStringsSep "." (lib.reverseList (lib.splitString "." lan4)) + ".in-addr.arpa";
 
-  # Private names under cleroux.dev, one per HTTPRoute hostname of the cluster's
-  # private gateway. They're answered here; every other name and record type in
-  # cleroux.dev (MX, vpn, _acme-challenge, ...) still resolves publicly.
-  privateNames = [
-    "actual"
-    "audiobookshelf"
-    "calibre"
-    "dashboard"
-    "jellyfin"
-    "jellyseerr"
-    "mealie"
-    "paperless"
-    "vaultwarden"
-    "grafana.infra"
-    "vmks.infra"
-  ];
-  # The private gateway's VIPs, routed to the cluster by BIRD. Short TTL so a
-  # change reaches clients quickly.
+  # Every name under this zone is a hostname on the cluster's private gateway, so
+  # a redirect zone answers them all without listing each one
+  privateZone = "home.cleroux.dev";
+
+  # The private gateway's VIPs, routed to the cluster by BIRD
   privateGateway4 = "10.0.40.10";
   privateGateway6 = "2606:6d00:ffb:6640::10";
   privateTTL = "60";
@@ -92,13 +79,13 @@ in
           local-zone = [
             "lan transparent"
             "${lanReverseZone} transparent"
-            "cleroux.dev. transparent"
+            "${privateZone}. redirect"
           ];
           # unbound needs local-data quoted.
-          local-data = lib.concatMap (name: [
-            ''"${name}.cleroux.dev. ${privateTTL} A ${privateGateway4}"''
-            ''"${name}.cleroux.dev. ${privateTTL} AAAA ${privateGateway6}"''
-          ]) privateNames;
+          local-data = [
+            ''"${privateZone}. ${privateTTL} A ${privateGateway4}"''
+            ''"${privateZone}. ${privateTTL} AAAA ${privateGateway6}"''
+          ];
         };
         auth-zone = [
           {
