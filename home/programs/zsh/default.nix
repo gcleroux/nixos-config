@@ -27,9 +27,6 @@
 
       # TODO: This path should be tracked somewhere
       nixconf = "cd /etc/nixos";
-      nr = "sudo nixos-rebuild --flake ~/.nix/nixos-config";
-      # Need impure since the config depends on secrets with sops-nix
-      hm = "home-manager --flake ~/.nix/nixos-config";
       ns = "nix-shell -p";
       search = "nix search nixpkgs";
     };

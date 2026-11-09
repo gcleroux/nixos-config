@@ -91,10 +91,6 @@ in
       gs = "git status";
 
       nixconf = "cd /etc/nixos";
-      nr = {
-        position = "anywhere";
-        expansion = "nixos-rebuild --flake /etc/nixos#";
-      };
       ns = "nix-shell -p";
       search = "nix search nixpkgs";
     };
