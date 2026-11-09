@@ -13,9 +13,11 @@
   ...
 }:
 let
-  kubeMasterIP = "10.0.0.20";
-  # Fixed address in the LAN /64 of the static /56, for the dual-stack node IP.
-  kubeMasterIP6 = "2606:6d00:ffb:6600::20";
+  # Static on cluster VLAN 30, where node addresses start at .10 / ::10. The IPv6
+  # /64 comes from the static /56, so the dual-stack node IP never changes.
+  kubeMasterIP = "10.0.30.10";
+  kubeMasterIP6 = "2606:6d00:ffb:6630::10";
+  clusterGateway = "10.0.30.1"; # calcifer: router, DNS, BGP peer
 
   # Address plan and stages: docs/network.md in the flux-fleet repository.
   podCIDRs = "10.42.0.0/16,2606:6d00:ffb:6680::/60";
@@ -80,8 +82,10 @@ in
   networking = {
     networkmanager = {
       enable = true;
-      # IPv4 comes from a static lease in calcifer's dnsmasq. IPv6 keeps SLAAC
-      # and adds kubeMasterIP6, without temporary addresses.
+      # The switch port is an access port on VLAN 30, which has no DHCP: IPv4 is
+      # static. IPv6 adds kubeMasterIP6 to SLAAC, without temporary addresses,
+      # and takes its default route from calcifer's RA. The profile keeps its
+      # name: NetworkManager wouldn't remove a renamed one's predecessor.
       ensureProfiles.profiles.lan = {
         connection = {
           id = "lan";
@@ -89,7 +93,12 @@ in
           interface-name = "enp0s13f0u1";
           autoconnect-priority = 10;
         };
-        ipv4.method = "auto";
+        ipv4 = {
+          method = "manual";
+          address1 = "${kubeMasterIP}/24,${clusterGateway}";
+          dns = "${clusterGateway};";
+          dns-search = "lan;";
+        };
         ipv6 = {
           method = "auto";
           address1 = "${kubeMasterIP6}/64";
