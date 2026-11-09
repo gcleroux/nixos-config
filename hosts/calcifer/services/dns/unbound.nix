@@ -15,6 +15,26 @@ let
   # 10.0.0 -> 0.0.10.in-addr.arpa
   lanReverseZone =
     lib.concatStringsSep "." (lib.reverseList (lib.splitString "." lan4)) + ".in-addr.arpa";
+
+  # Private names under cleroux.dev, one per HTTPRoute hostname of the cluster's
+  # private gateway. They're answered here; every other name and record type in
+  # cleroux.dev (MX, vpn, _acme-challenge, ...) still resolves publicly.
+  privateNames = [
+    "actual"
+    "audiobookshelf"
+    "calibre"
+    "dashboard"
+    "jellyfin"
+    "jellyseerr"
+    "mealie"
+    "paperless"
+    "vaultwarden"
+    "grafana.infra"
+    "vmks.infra"
+  ];
+  # The private gateway's address. Short TTL so a change reaches clients quickly.
+  privateGateway4 = "10.0.0.30";
+  privateTTL = "60";
 in
 {
   services = {
@@ -70,7 +90,12 @@ in
           local-zone = [
             "lan transparent"
             "${lanReverseZone} transparent"
+            "cleroux.dev. transparent"
           ];
+          # unbound needs local-data quoted.
+          local-data = map (
+            name: ''"${name}.cleroux.dev. ${privateTTL} A ${privateGateway4}"''
+          ) privateNames;
         };
         auth-zone = [
           {
