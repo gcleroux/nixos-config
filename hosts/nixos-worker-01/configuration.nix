@@ -146,9 +146,6 @@ in
     # Installed packages
     systemPackages = with pkgs; [
       bottom
-      kompose
-      kubernetes
-      kubectl
       clinfo
       foot
       fluxcd
@@ -210,11 +207,6 @@ in
   users.groups.kubernetes = { };
   # NFS volumes (boot.supportedFilesystems has "nfs").
   services.rpcbind.enable = true;
-
-  virtualisation.docker = {
-    enable = true;
-    storageDriver = "btrfs";
-  };
 
   system.stateVersion = "24.05";
 }
