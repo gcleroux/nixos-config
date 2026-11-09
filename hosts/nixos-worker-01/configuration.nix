@@ -41,9 +41,10 @@ let
     ipv6NativeRoutingCIDR = "2606:6d00:ffb:6680::/60";
     bpf.masquerade = true;
     enableIPv4Masquerade = true;
-    # Until calcifer routes the pod /60 to the node over BGP (stage 2).
-    enableIPv6Masquerade = true;
-    bgpControlPlane.enabled = true; # dormant until a CiliumBGPClusterConfig exists
+    # Pods keep their global IPv6 addresses: calcifer learns each node's pod /64
+    # over BGP and routes it (flux-infra components/network).
+    enableIPv6Masquerade = false;
+    bgpControlPlane.enabled = true; # peers with calcifer, see flux-infra components/network
     operator.replicas = 1;
     hubble.relay.enabled = true;
   };
