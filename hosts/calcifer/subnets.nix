@@ -11,7 +11,9 @@
   # come from DHCPv6-PD instead, see their SubnetId in interfaces.nix.
   vpn6 = "2606:6d00:ffb:6609";
 
-  # LAN /64, for static host addresses only. br-lan's own address still comes
-  # from DHCPv6-PD (SubnetId 0x0), which hands out this same static prefix.
+  # LAN and cluster /64s, for static host addresses only. The interfaces' own
+  # addresses still come from DHCPv6-PD (SubnetId 0x0 and 0x30), which hands
+  # out these same static prefixes.
   lan6 = "2606:6d00:ffb:6600";
+  cluster6 = "2606:6d00:ffb:6630";
 }

@@ -32,8 +32,10 @@ let
     "grafana.infra"
     "vmks.infra"
   ];
-  # The private gateway's address. Short TTL so a change reaches clients quickly.
-  privateGateway4 = "10.0.0.30";
+  # The private gateway's VIPs, routed to the cluster by BIRD. Short TTL so a
+  # change reaches clients quickly.
+  privateGateway4 = "10.0.40.10";
+  privateGateway6 = "2606:6d00:ffb:6640::10";
   privateTTL = "60";
 in
 {
@@ -93,9 +95,10 @@ in
             "cleroux.dev. transparent"
           ];
           # unbound needs local-data quoted.
-          local-data = map (
-            name: ''"${name}.cleroux.dev. ${privateTTL} A ${privateGateway4}"''
-          ) privateNames;
+          local-data = lib.concatMap (name: [
+            ''"${name}.cleroux.dev. ${privateTTL} A ${privateGateway4}"''
+            ''"${name}.cleroux.dev. ${privateTTL} AAAA ${privateGateway6}"''
+          ]) privateNames;
         };
         auth-zone = [
           {

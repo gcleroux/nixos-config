@@ -8,7 +8,13 @@
   ...
 }:
 let
-  inherit (import ../../subnets.nix) lan4 lan6 guest4;
+  inherit (import ../../subnets.nix)
+    lan4
+    lan6
+    guest4
+    cluster4
+    cluster6
+    ;
   gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
     builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
   )) 0;
@@ -61,7 +67,6 @@ in
         ];
         dhcp-host = [
           gatewayIP # Static IP for router
-          "4c:ea:41:67:19:c8,${lan4}.20,nixos-worker-01" # K8s worker node
           "b8:2d:28:db:c6:cd,supernote"
         ];
         dhcp-option = [
@@ -70,6 +75,7 @@ in
         ];
         host-record = [
           "totoro.lan,${lan4}.2,${lan6}::2" # NAS, static on the host
+          "nixos-worker-01.lan,${cluster4}.10,${cluster6}::10" # K8s node, static on VLAN 30
           "lldap.lan,${gatewayIP}"
           "switch.lan,${lan4}.10"
           "u6-plus.lan,${lan4}.11"
