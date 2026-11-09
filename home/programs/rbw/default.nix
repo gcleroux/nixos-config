@@ -4,7 +4,7 @@
     enable = true;
     settings = {
       email = "guillaume@cleroux.dev";
-      base_url = "https://vaultwarden.cleroux.dev/";
+      base_url = "https://vaultwarden.home.cleroux.dev/";
       lock_timeout = 3600;
       pinentry = pkgs.pinentry-gnome3;
     };

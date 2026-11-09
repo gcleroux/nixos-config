@@ -80,7 +80,7 @@
         };
       };
       settings = {
-        "browser.startup.homepage" = "https://dashboard.cleroux.dev";
+        "browser.startup.homepage" = "https://dashboard.home.cleroux.dev";
         "browser.aboutConfig.showWarning" = false;
         "browser.search.region" = "CA";
         "browser.search.isUS" = false;
