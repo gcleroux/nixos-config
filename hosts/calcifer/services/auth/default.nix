@@ -1,5 +1,6 @@
 {
   imports = [
-    # ./lldap.nix
+    ./authelia.nix
+    ./lldap.nix
   ];
 }

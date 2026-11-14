@@ -65,6 +65,7 @@
                 ip saddr $CLUSTER4 tcp dport 179 accept comment "BGP from the nodes (BIRD)"
                 ip6 saddr $CLUSTER6 tcp dport 179 accept comment "BGP from the nodes (BIRD)"
                 tcp dport 9100-9103 accept comment "Metrics: node-exporter, unbound, blocky, dnsmasq"
+                ip saddr $CLUSTER4 tcp dport { 9091, 17170 } accept comment "Authelia, LLDAP web UI (private gateway)"
                 icmp type echo-request accept
                 icmpv6 type { echo-request, nd-router-solicit, nd-neighbor-solicit, nd-neighbor-advert } accept
                 jump handle_reject
