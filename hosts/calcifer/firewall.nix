@@ -90,6 +90,7 @@
                 iifname $GUEST oifname $WAN accept
                 iifname $CLUSTER oifname $WAN accept comment "Nodes and pods to the Internet"
                 iifname $CLUSTER oifname $LAN ip daddr $TOTORO tcp dport 2049 accept comment "NFS (kubelet mounts)"
+                iifname $CLUSTER oifname $LAN ip daddr $TOTORO tcp dport 9100 accept comment "Metrics: totoro's node-exporter"
                 iifname $LAN oifname $CLUSTER jump forward_lan_cluster
                 iifname $WAN oifname $LAN jump forward_wan
                 jump handle_reject

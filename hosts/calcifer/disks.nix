@@ -28,6 +28,15 @@
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ];
+                # Needed by btrbk to create this mountpoint to make snapshots of root subvol
+                mountpoint = "/mnt/btr_pool";
+                mountOptions = [
+                  "nofail"
+                  "rw"
+                  "compress=zstd"
+                  "noatime"
+                  "subvolid=5"
+                ];
                 subvolumes = {
                   "@" = {
                     mountpoint = "/";
