@@ -18,6 +18,8 @@ in
     secrets = {
       jwtSecretFile = config.sops.secrets."authelia/jwt_secret".path;
       storageEncryptionKeyFile = config.sops.secrets."authelia/storage_encryption_key".path;
+      oidcHmacSecretFile = config.sops.secrets."authelia/oidc_hmac_secret".path;
+      oidcIssuerPrivateKeyFile = config.sops.secrets."authelia/oidc_issuer_private_key".path;
     };
     environmentVariables = {
       AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE = "%d/ldap_password";
@@ -104,6 +106,32 @@ in
           }
         ];
       };
+
+      # Login for apps that support OpenID Connect
+      identity_providers.oidc.clients = [
+        {
+          client_id = "vikunja";
+          client_name = "Vikunja";
+          # Digest of the client secret in flux-apps apps/vikunja/secret.yaml
+          client_secret = "$pbkdf2-sha512$310000$aiBGxF2NyrWYaowj.OAOIg$aWXtzI9vFOFF6s3FiXLB/ZJPiYVt0F/.VSa8eOMYgh8sXmYA2QazjeLRTvKZSNYoH35uwBhZ1DQwUN5QHKS5mQ";
+          public = false;
+          authorization_policy = "two_factor";
+          # Vikunja doesn't send PKCE
+          require_pkce = false;
+          pkce_challenge_method = "";
+          redirect_uris = [ "https://vikunja.${domain}/auth/openid/authelia" ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+          ];
+          response_types = [ "code" ];
+          grant_types = [ "authorization_code" ];
+          access_token_signed_response_alg = "none";
+          userinfo_signed_response_alg = "none";
+          token_endpoint_auth_method = "client_secret_basic";
+        }
+      ];
     };
   };
 
@@ -122,5 +150,7 @@ in
     "authelia/storage_encryption_key".sopsFile = ./secrets.yaml;
     "authelia/ldap_password".sopsFile = ./secrets.yaml;
     "authelia/smtp_password".sopsFile = ./secrets.yaml;
+    "authelia/oidc_hmac_secret".sopsFile = ./secrets.yaml;
+    "authelia/oidc_issuer_private_key".sopsFile = ./secrets.yaml;
   };
 }
