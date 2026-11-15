@@ -152,6 +152,7 @@
           modules = [
             ./hosts/totoro
             inputs.disko.nixosModules.disko
+            inputs.sops-nix.nixosModules.sops
           ];
         };
       };
