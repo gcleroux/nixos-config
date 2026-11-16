@@ -67,10 +67,12 @@ PEER_ADDR6="2606:6d00:ffb:6609::${PEER_ADDR##*.}"
 if [[ ! -d "./${PEER_NAME}" ]]; then
     mkdir -p "./${PEER_NAME}"
 
+    # --filename-override picks the .sops.yaml rule by destination path, since
+    # sops would otherwise match /dev/stdin against the rules
     (
         umask 0077
-        wg genkey | sops --encrypt --input-type binary --output-type binary /dev/stdin >"./${PEER_NAME}/private.key"
-        wg genpsk | sops --encrypt --input-type binary --output-type binary /dev/stdin >"./${PEER_NAME}/psk.key"
+        wg genkey | sops --encrypt --filename-override "./${PEER_NAME}/private.key" --input-type binary --output-type binary /dev/stdin >"./${PEER_NAME}/private.key"
+        wg genpsk | sops --encrypt --filename-override "./${PEER_NAME}/psk.key" --input-type binary --output-type binary /dev/stdin >"./${PEER_NAME}/psk.key"
     )
 
     # Derive public key from the *decrypted* private key (never write plaintext to disk)

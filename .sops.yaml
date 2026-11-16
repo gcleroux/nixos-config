@@ -1,21 +1,34 @@
 ---
 keys:
   - &admin age17z388m07ucvsk6t69knt0h8r006m4ejswq8fvfcfyavv45fxr4useyxtm9
+
+  # Coming from hosts /etc/ssh/ssh_host_ed25519_key.pub
   - &calcifer age172c0stpajtlx7kdrjyelf6am9rr5e6fknac3mkn7ut2tzhc5zq0s7nucse
   - &nixos-fw age105ulqzp5ggycef8ry0kgura35taczyxr3cqd5gkgzzvh8sm7h59qanrypj
   - &nixos_worker_01 age1q8trflswqkkrf736xfkcgxuqmzu9yylm6ddq0qwet79n0j7j7pfse09ask
   - &totoro age1gnkh66pk605x43tjqmmg9vueydc7jxf5lxuujmmcts02nhq3na6s0kre48
 
 creation_rules:
-  # totoro's secrets
+  # Calcifer only decrypts services/, its own wireguard key and VPN clients' PSKs
+  - path_regex: hosts/calcifer/(services/|wireguard/calcifer/|wireguard/[^/]+/psk\.key$)
+    key_groups:
+      - age:
+          - *admin
+          - *calcifer
+
   - path_regex: hosts/totoro/
     key_groups:
       - age:
           - *admin
           - *totoro
 
+  - path_regex: home/
+    key_groups:
+      - age:
+          - *admin
+          - *nixos-fw
+
+  # Fallback until a rule above names a host for it
   - key_groups:
       - age:
           - *admin
-          - *calcifer
-          - *nixos-fw
