@@ -1,3 +1,4 @@
+{ lib, ... }:
 {
   # Movies
   fileSystems."/srv/Movies" = {
@@ -95,13 +96,25 @@
   };
 
   services.nfs.server.enable = true;
-  # LAN, and the Kubernetes nodes on VLAN 30 (calcifer only lets them reach port 2049).
-  services.nfs.server.exports = ''
-    /export            10.0.0.0/24(rw,nohide,insecure,no_subtree_check,crossmnt,fsid=0) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check,crossmnt,fsid=0)
-    /export/Appdata    10.0.0.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash)
-    /export/Documents  10.0.0.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check,no_root_squash)
-    /export/Movies     10.0.0.0/24(rw,nohide,insecure,no_subtree_check) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check)
-    /export/Photos     10.0.0.0/24(rw,nohide,insecure,no_subtree_check) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check)
-    /export/Shows      10.0.0.0/24(rw,nohide,insecure,no_subtree_check) 10.0.30.0/24(rw,nohide,insecure,no_subtree_check)
-  '';
+  services.nfs.server.exports =
+    let
+      # Allowed NFS clients
+      trusted =
+        opts:
+        lib.concatMapStringsSep " " (client: "${client}(${opts})") [
+          "10.0.0.0/24" # LAN
+          "10.0.9.101" # nixos-fw VPN
+          "2606:6d00:ffb:6609::101" # nixos-fw VPN
+        ];
+      # The Kubernetes nodes on VLAN 30
+      cluster = opts: "10.0.30.0/24(${opts})";
+    in
+    ''
+      /export            ${trusted "rw,nohide,insecure,no_subtree_check,crossmnt,fsid=0"} ${cluster "ro,no_subtree_check,fsid=0"}
+      /export/Appdata    ${trusted "rw,nohide,insecure,no_subtree_check,no_root_squash"} ${cluster "rw,nohide,no_subtree_check,no_root_squash"}
+      /export/Documents  ${trusted "rw,nohide,insecure,no_subtree_check,no_root_squash"} ${cluster "rw,nohide,no_subtree_check,no_root_squash"}
+      /export/Movies     ${trusted "rw,nohide,insecure,no_subtree_check"} ${cluster "ro,nohide,no_subtree_check"}
+      /export/Photos     ${trusted "rw,nohide,insecure,no_subtree_check"} ${cluster "rw,nohide,no_subtree_check"}
+      /export/Shows      ${trusted "rw,nohide,insecure,no_subtree_check"} ${cluster "ro,nohide,no_subtree_check"}
+    '';
 }
