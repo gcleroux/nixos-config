@@ -55,7 +55,11 @@
   services = {
     openssh = {
       enable = true;
-      settings.PermitRootLogin = "no";
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
       openFirewall = false;
     };
     resolved.enable = false;
