@@ -21,13 +21,18 @@
       # IPv6 is routed, not NATed
       ruleset = ''
         # Zones: every interface is listed exactly once, here.
-        define LAN     = { "br-lan", "wg0" }
+        define LAN     = { "br-lan" }
+        define VPN     = { "wg0" }
         define WAN     = { "ebox0" }
         define GUEST   = { "guest" }
         define CLUSTER = { "cluster" }
 
         # Static IPs on the network
         define TOTORO       = 10.0.0.2
+
+        # VPN peers with the same access as the LAN
+        define VPN_ADMINS4  = { 10.0.9.101, 10.0.9.105 } # nixos-fw, z-fold-8
+        define VPN_ADMINS6  = { 2606:6d00:ffb:6609::101, 2606:6d00:ffb:6609::105 }
 
         # Kubernetes network segments, following this structure
         # 10.0.30.0/24: Nodes (VLAN 30)
@@ -45,9 +50,21 @@
                 ct state vmap { established : accept, related : accept, invalid : drop }
 
                 iifname $LAN accept
+                iifname $VPN jump input_vpn
                 iifname $GUEST jump input_guest
                 iifname $CLUSTER jump input_cluster
                 iifname $WAN jump input_wan
+                jump handle_reject
+            }
+
+            # Other VPN peers only get DNS from the router
+            chain input_vpn {
+                ip saddr $VPN_ADMINS4 accept
+                ip6 saddr $VPN_ADMINS6 accept
+                udp dport 53 accept comment "DNS"
+                tcp dport 53 accept comment "DNS"
+                icmp type echo-request accept
+                icmpv6 type echo-request accept
                 jump handle_reject
             }
 
@@ -85,19 +102,21 @@
 
                 ct state vmap { established : accept, related : accept, invalid : drop }
 
-                iifname $LAN oifname $LAN accept comment "LAN <-> VPN clients"
                 iifname $LAN oifname $WAN accept
+                iifname $VPN oifname $WAN accept comment "Full tunnel to the Internet"
+                iifname $VPN oifname $LAN ip saddr $VPN_ADMINS4 accept
+                iifname $VPN oifname $LAN ip6 saddr $VPN_ADMINS6 accept
                 iifname $GUEST oifname $WAN accept
                 iifname $CLUSTER oifname $WAN accept comment "Nodes and pods to the Internet"
                 iifname $CLUSTER oifname $LAN ip daddr $TOTORO tcp dport 2049 accept comment "NFS (kubelet mounts)"
                 iifname $CLUSTER oifname $LAN ip daddr $TOTORO tcp dport 9100 accept comment "Metrics: totoro's node-exporter"
                 iifname $LAN oifname $CLUSTER jump forward_lan_cluster
+                iifname $VPN oifname $CLUSTER jump forward_vpn_cluster
                 iifname $WAN oifname $LAN jump forward_wan
                 jump handle_reject
             }
 
-            # LAN and VPN to the cluster: admin access to the nodes and the private
-            # gateway's VIPs (routed by BIRD). Pods aren't reachable.
+            # LAN and VPN_ADMINS: admin access to the nodes and the private gateway's VIPs
             chain forward_lan_cluster {
                 ip daddr $CLUSTER4 tcp dport { 22, 6443 } accept comment "ssh, Kubernetes API"
                 ip6 daddr $CLUSTER6 tcp dport { 22, 6443 } accept comment "ssh, Kubernetes API"
@@ -105,6 +124,14 @@
                 ip6 daddr $VIP_PRIVATE6 tcp dport { 80, 443 } accept comment "private gateway"
                 ip daddr $CLUSTER4 icmp type echo-request accept
                 ip6 daddr $CLUSTER6 icmpv6 type echo-request accept
+            }
+
+            # Other VPN peers only reach the apps, through the private gateway
+            chain forward_vpn_cluster {
+                ip saddr $VPN_ADMINS4 jump forward_lan_cluster
+                ip6 saddr $VPN_ADMINS6 jump forward_lan_cluster
+                ip daddr $VIP_PRIVATE4 tcp dport 443 accept comment "private gateway"
+                ip6 daddr $VIP_PRIVATE6 tcp dport 443 accept comment "private gateway"
             }
 
             chain forward_wan {
