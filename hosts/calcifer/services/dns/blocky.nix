@@ -13,7 +13,8 @@
     settings = {
       ports = {
         dns = 53;
-        http = 9102; # Used by metrics exporter
+        # nginx below exposes only /metrics on 9102.
+        http = "127.0.0.1:4000";
       };
       prometheus = {
         enable = true;
@@ -56,6 +57,21 @@
           ];
         };
       };
+    };
+  };
+
+  # Blocky's metrics for VictoriaMetrics, without the rest of its API
+  services.nginx = {
+    enable = true;
+    virtualHosts.blocky-metrics = {
+      listen = [
+        {
+          addr = "0.0.0.0";
+          port = 9102;
+        }
+      ];
+      locations."= /metrics".proxyPass = "http://127.0.0.1:4000";
+      locations."/".return = "404";
     };
   };
 }
