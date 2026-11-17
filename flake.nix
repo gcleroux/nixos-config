@@ -57,7 +57,8 @@
         nixos-fw = {
           deploy = {
             hostname = "localhost";
-            # sudo asks for a password here, unlike the hosts with sshAgentAuth
+            # No root login on the laptop: deploy as guillaume, sudo asks for the password
+            sshUser = "guillaume";
             interactiveSudo = true;
           };
         };
@@ -125,7 +126,7 @@
       nixosConfigurations = inputs.nixpkgs.lib.mapAttrs mkHost hosts;
 
       deploy = {
-        sshUser = "guillaume";
+        sshUser = "root";
         user = "root";
         magicRollback = true;
 
