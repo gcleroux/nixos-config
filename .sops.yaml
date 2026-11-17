@@ -28,6 +28,16 @@ creation_rules:
           - *admin
           - *nixos-fw
 
+  # A user's password hash: every host the user lives on
+  - path_regex: users/guillaume/password\.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *nixos-fw
+          - *calcifer
+          - *nixos_worker_01
+          - *totoro
+
   # Fallback until a rule above names a host for it
   - key_groups:
       - age:

@@ -9,6 +9,9 @@
 let
   cfg = config.host.users;
   account = name: import ./${name}/account.nix;
+  # sops file holding the user's `hashed-password` (from mkpasswd), readable by every host they live on
+  passwordFile = name: ./${name}/password.yaml;
+  hasPassword = name: builtins.pathExists (passwordFile name);
 in
 {
   options.host.users = lib.mkOption {
@@ -29,6 +32,10 @@ in
   };
 
   config = {
+    # Passwords come only from users/<name>/password.yaml, the same on every host;
+    # changes made with `passwd` are reset on the next deploy.
+    users.mutableUsers = false;
+
     users.users = lib.mapAttrs (
       name: user:
       let
@@ -41,7 +48,26 @@ in
         extraGroups = lib.optional user.admin "wheel" ++ user.extraGroups;
         openssh.authorizedKeys.keys = a.sshKeys;
       }
+      // lib.optionalAttrs (hasPassword name) {
+        hashedPasswordFile = config.sops.secrets."${name}-password".path;
+      }
     ) cfg;
+
+    sops.secrets = lib.mapAttrs' (
+      name: _:
+      lib.nameValuePair "${name}-password" {
+        sopsFile = passwordFile name;
+        key = "hashed-password";
+        # Decrypted before users are created
+        neededForUsers = true;
+      }
+    ) (lib.filterAttrs (name: _: hasPassword name) cfg);
+
+    # Without a password, an admin couldn't use sudo
+    assertions = lib.mapAttrsToList (name: user: {
+      assertion = !user.admin || hasPassword name;
+      message = "host.users.${name}.admin needs a password: create users/${name}/password.yaml with a `hashed-password` key.";
+    }) cfg;
 
     # A login shell has to be enabled system-wide
     programs.zsh.enable = lib.mkIf (lib.any (name: (account name).shell == "zsh") (
