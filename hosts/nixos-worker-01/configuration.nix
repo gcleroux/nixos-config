@@ -47,12 +47,6 @@ let
   };
 in
 {
-  nixpkgs = {
-    config.allowUnfree = true;
-    overlays = [
-      outputs.overlays.default
-    ];
-  };
   nix = {
     gc = {
       automatic = true;
