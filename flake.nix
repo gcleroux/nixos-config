@@ -51,10 +51,16 @@
       ];
       forAllSystems = inputs.nixpkgs.lib.genAttrs systems;
 
-      # Every host, configured from hosts/<name>
+      # Every host, configured from hosts/<name>. `deploy` overrides its deploy-rs node.
       hosts = {
         # Framework laptop
-        nixos-fw = { };
+        nixos-fw = {
+          deploy = {
+            hostname = "localhost";
+            # sudo asks for a password here, unlike the hosts with sshAgentAuth
+            interactiveSudo = true;
+          };
+        };
 
         # Framework mainboard
         nixos-worker-01 = {
@@ -64,6 +70,7 @@
         # Router
         calcifer = {
           modules = [ inputs.sops-nix.nixosModules.sops ];
+          deploy.confirmTimeout = 60;
         };
 
         # NAS
@@ -128,27 +135,14 @@
         user = "root";
         magicRollback = true;
 
-        nodes = {
-          nixos-fw = {
-            hostname = "localhost";
-            # sudo asks for a password here, unlike the hosts with sshAgentAuth
-            interactiveSudo = true;
-            profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-fw;
-          };
-          calcifer = {
-            hostname = "calcifer";
-            confirmTimeout = 60;
-            profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.calcifer;
-          };
-          nixos-worker-01 = {
-            hostname = "nixos-worker-01";
-            profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-worker-01;
-          };
-          totoro = {
-            hostname = "totoro";
-            profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.totoro;
-          };
-        };
+        nodes = inputs.nixpkgs.lib.mapAttrs (
+          hostname: host:
+          {
+            inherit hostname;
+            profiles.system.path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.${hostname};
+          }
+          // host.deploy or { }
+        ) hosts;
       };
 
       devShells = forAllSystems (
