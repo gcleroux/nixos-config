@@ -8,5 +8,3 @@
 - [x] Create separate hosts inside repo
 - [x] Manage home-manager as NixOS module
 - [ ] Move home-manager modules out of `home/`
-- [ ] Deploying NixOS with deploy-rs
-- [ ] Use disko to manage disks
