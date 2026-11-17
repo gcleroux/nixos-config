@@ -131,6 +131,36 @@ in
           userinfo_signed_response_alg = "none";
           token_endpoint_auth_method = "client_secret_basic";
         }
+        {
+          client_id = "grafana";
+          client_name = "Grafana";
+          # Digest of the client secret in flux-infra
+          # infra/monitoring/controllers/victoria-metrics/grafana-oidc.yaml
+          client_secret = "$pbkdf2-sha512$310000$mf7hbUKhXHN4bx8tOfaQ/A$6y01FGqzyyxAVm9o2OoxEXhw72OSS4DSc.4XPm6jiGevUSTf4PtvW1OQWMnPu1JfVap.v9YdOjZ8KQf08RFi9A";
+          public = false;
+          authorization_policy = "two_factor";
+          claims_policy = "grafana";
+          require_pkce = true;
+          pkce_challenge_method = "S256";
+          redirect_uris = [ "https://grafana.${domain}/login/generic_oauth" ];
+          scopes = [
+            "openid"
+            "profile"
+            "groups"
+            "email"
+          ];
+          response_types = [ "code" ];
+          grant_types = [ "authorization_code" ];
+          access_token_signed_response_alg = "none";
+          userinfo_signed_response_alg = "none";
+          token_endpoint_auth_method = "client_secret_basic";
+        }
+      ];
+      identity_providers.oidc.claims_policies.grafana.id_token = [
+        "email"
+        "name"
+        "groups"
+        "preferred_username"
       ];
     };
   };
