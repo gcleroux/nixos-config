@@ -83,7 +83,7 @@
             username = "guillaume";
           };
           modules = [
-            ./hosts/common
+            ./hosts/_common
             ./hosts/${hostname}
           ];
         };
