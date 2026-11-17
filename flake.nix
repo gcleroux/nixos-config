@@ -88,6 +88,7 @@
             username = "guillaume";
           };
           modules = [
+            ./hosts/common
             ./hosts/${hostname}
             inputs.disko.nixosModules.disko
           ]
