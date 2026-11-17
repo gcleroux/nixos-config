@@ -124,12 +124,6 @@
     firewall.enable = false;
   };
 
-  # Set your time zone.
-  time.timeZone = "America/Toronto";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_CA.UTF-8";
-
   environment = {
     # Installed packages
     systemPackages = with pkgs; [
