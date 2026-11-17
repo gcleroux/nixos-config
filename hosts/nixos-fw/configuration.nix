@@ -98,14 +98,6 @@
       implementation = "broker";
     };
     fwupd.enable = true;
-    openssh = {
-      enable = true;
-      settings = {
-        PasswordAuthentication = false;
-        KbdInteractiveAuthentication = false;
-      };
-    };
-
     # Thunar services
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images

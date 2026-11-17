@@ -158,4 +158,7 @@
       '';
     };
   };
+
+  # The nftables ruleset above decides who reaches sshd
+  services.openssh.openFirewall = false;
 }
