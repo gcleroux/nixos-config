@@ -4,6 +4,35 @@
   ...
 }:
 {
+  home.packages = [
+    (pkgs.writeShellApplication {
+      name = "way-displays-callback";
+      runtimeInputs = with pkgs; [
+        libnotify
+        way-displays
+        yq-go
+      ];
+      text = ''
+        # Keep the default callback's notification for warnings and errors
+        if [ "''${CALLBACK_LEVEL:-}" != INFO ]; then
+          notify-send "way-displays ''${CALLBACK_LEVEL:-}" "''${CALLBACK_MSG:-}"
+        fi
+
+        state=$(way-displays -y -g)
+        if yq -e '.STATE.HEADS[] | select(.NAME != "eDP-1")' <<<"$state" >/dev/null 2>&1; then
+          scale=1.5
+        else
+          scale=1
+        fi
+
+        current=$(yq '.CFG.SCALE[] | select(.NAME_DESC == "eDP-1") | .SCALE' <<<"$state")
+        if [ "$current" != "$scale" ]; then
+          way-displays -s SCALE eDP-1 "$scale" >/dev/null
+        fi
+      '';
+    })
+  ];
+
   wayland.windowManager.river = {
     enable = true;
     systemd.enable = true;
