@@ -8,17 +8,7 @@
   ...
 }:
 {
-  users.users.${username} = {
-    isNormalUser = true;
-    shell = pkgs.zsh;
-    extraGroups = [
-      "wheel"
-    ];
-    createHome = true;
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICS77iyKWFPGfozY/N0daz6d9uEXhpdSVpsTTIkBbcRg guillaume@nixos-fw"
-    ];
-  };
+  host.users.guillaume.admin = true;
 
   services.resolved.enable = false;
 

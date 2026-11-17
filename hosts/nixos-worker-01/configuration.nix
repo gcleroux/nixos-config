@@ -79,16 +79,9 @@ in
     firewall.enable = false;
   };
 
-  users.users.${username} = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "kubernetes"
-    ];
-    createHome = true;
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICS77iyKWFPGfozY/N0daz6d9uEXhpdSVpsTTIkBbcRg guillaume@nixos-fw"
-    ];
+  host.users.guillaume = {
+    admin = true;
+    extraGroups = [ "kubernetes" ];
   };
 
   # deploy-rs logs in as root: key only, from the LAN or nixos-fw's VPN address

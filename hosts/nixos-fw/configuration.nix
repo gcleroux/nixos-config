@@ -28,21 +28,15 @@
   nix.settings.keep-outputs = true;
 
   # User config
-  users.users.${username} = {
-    isNormalUser = true;
+  host.users.guillaume = {
+    admin = true;
     extraGroups = [
-      "wheel"
       "input"
       "video"
       "docker"
       "libvirtd"
       "qemu-libvirtd"
       "networkmanager"
-    ];
-    shell = pkgs.zsh;
-    # deploy-rs deploys this machine by ssh to localhost
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICS77iyKWFPGfozY/N0daz6d9uEXhpdSVpsTTIkBbcRg guillaume@nixos-fw"
     ];
   };
 

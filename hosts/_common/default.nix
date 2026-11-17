@@ -10,6 +10,7 @@
   imports = [
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
+    ../../users
   ]
   # Option modules (host.*); toggled per host.
   ++ builtins.attrValues outputs.nixosModules;
