@@ -1,5 +1,10 @@
 # Configuration shared by every host
-{ inputs, outputs, ... }:
+{
+  inputs,
+  outputs,
+  hostname,
+  ...
+}:
 {
   imports = [
     inputs.disko.nixosModules.disko
@@ -7,4 +12,6 @@
   ]
   # Option modules (host.*); toggled per host.
   ++ builtins.attrValues outputs.nixosModules;
+
+  networking.hostName = hostname;
 }

@@ -9,7 +9,6 @@
 }:
 {
   networking = {
-    hostName = hostname;
     useNetworkd = true;
     useDHCP = false;
 

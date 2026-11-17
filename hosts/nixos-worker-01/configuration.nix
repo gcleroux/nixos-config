@@ -96,7 +96,6 @@ in
         };
       };
     };
-    hostName = hostname;
 
     hosts = lib.mkForce { };
     extraHosts = "${kubeMasterIP} ${hostname}";
