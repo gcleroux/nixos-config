@@ -8,24 +8,11 @@
   ...
 }:
 {
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-    settings = {
-      # Nix package manager options
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      trusted-users = [
-        "root"
-        username
-      ];
-    };
-  };
+  # deploy-rs copies unsigned store paths to this host as the ssh user
+  nix.settings.trusted-users = [
+    "root"
+    username
+  ];
 
   # Set your time zone.
   time.timeZone = "America/Toronto";

@@ -24,21 +24,8 @@
     virtualisation.enable = true;
   };
 
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-    settings = {
-      # Nix package manager options
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      keep-outputs = true;
-    };
-  };
+  # Keeps build dependencies alive, so calcifer can still be rebuilt offline
+  nix.settings.keep-outputs = true;
 
   # User config
   users.users.${username} = {
