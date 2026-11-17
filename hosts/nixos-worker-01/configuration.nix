@@ -47,9 +47,6 @@ let
   };
 in
 {
-
-  imports = builtins.attrValues outputs.nixosModules;
-
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [

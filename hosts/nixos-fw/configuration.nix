@@ -8,8 +8,6 @@
   ...
 }:
 {
-  imports = builtins.attrValues outputs.nixosModules;
-
   host.services = {
     audio = {
       enable = true;

@@ -63,20 +63,15 @@
         };
 
         # Framework mainboard
-        nixos-worker-01 = {
-          modules = [ inputs.sops-nix.nixosModules.sops ];
-        };
+        nixos-worker-01 = { };
 
         # Router
         calcifer = {
-          modules = [ inputs.sops-nix.nixosModules.sops ];
           deploy.confirmTimeout = 60;
         };
 
         # NAS
-        totoro = {
-          modules = [ inputs.sops-nix.nixosModules.sops ];
-        };
+        totoro = { };
       };
 
       mkHost =
@@ -90,9 +85,7 @@
           modules = [
             ./hosts/common
             ./hosts/${hostname}
-            inputs.disko.nixosModules.disko
-          ]
-          ++ host.modules or [ ];
+          ];
         };
 
       # deploy-rs's activation helpers, but with the deploy-rs package from nixpkgs:
