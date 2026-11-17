@@ -51,6 +51,42 @@
       ];
       forAllSystems = inputs.nixpkgs.lib.genAttrs systems;
 
+      # Every host, configured from hosts/<name>
+      hosts = {
+        # Framework laptop
+        nixos-fw = { };
+
+        # Framework mainboard
+        nixos-worker-01 = {
+          modules = [ inputs.sops-nix.nixosModules.sops ];
+        };
+
+        # Router
+        calcifer = {
+          modules = [ inputs.sops-nix.nixosModules.sops ];
+        };
+
+        # NAS
+        totoro = {
+          modules = [ inputs.sops-nix.nixosModules.sops ];
+        };
+      };
+
+      mkHost =
+        hostname: host:
+        inputs.nixpkgs.lib.nixosSystem {
+          system = host.system or "x86_64-linux";
+          specialArgs = {
+            inherit inputs outputs hostname;
+            username = "guillaume";
+          };
+          modules = [
+            ./hosts/${hostname}
+            inputs.disko.nixosModules.disko
+          ]
+          ++ host.modules or [ ];
+        };
+
       # deploy-rs's activation helpers, but with the deploy-rs package from nixpkgs:
       # it's in the binary cache and matches the `deploy` CLI in the dev shell.
       deployPkgs = import inputs.nixpkgs {
@@ -85,75 +121,7 @@
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
-      nixosConfigurations = {
-        ####################
-        # Framework laptop #
-        ####################
-        nixos-fw = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs outputs;
-            username = "guillaume";
-            hostname = "nixos-fw";
-          };
-          modules = [
-            ./hosts/nixos-fw
-
-            inputs.disko.nixosModules.disko
-          ];
-        };
-
-        #######################
-        # Framework mainboard #
-        #######################
-        nixos-worker-01 = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs outputs;
-            username = "guillaume";
-            hostname = "nixos-worker-01";
-          };
-          modules = [
-            ./hosts/nixos-worker-01
-            inputs.disko.nixosModules.disko
-            inputs.sops-nix.nixosModules.sops
-          ];
-        };
-
-        ##########
-        # Router #
-        ##########
-        calcifer = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs outputs;
-            username = "guillaume";
-            hostname = "calcifer";
-          };
-          modules = [
-            ./hosts/calcifer
-            inputs.disko.nixosModules.disko
-            inputs.sops-nix.nixosModules.sops
-          ];
-        };
-
-        #######
-        # NAS #
-        #######
-        totoro = inputs.nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs outputs;
-            username = "guillaume";
-            hostname = "totoro";
-          };
-          modules = [
-            ./hosts/totoro
-            inputs.disko.nixosModules.disko
-            inputs.sops-nix.nixosModules.sops
-          ];
-        };
-      };
+      nixosConfigurations = inputs.nixpkgs.lib.mapAttrs mkHost hosts;
 
       deploy = {
         sshUser = "guillaume";
