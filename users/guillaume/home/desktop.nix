@@ -25,8 +25,8 @@
 
     ./wm/river
     ./default-apps.nix
-  ]
-  ++ import ./themes;
+    ./themes
+  ];
 
   home.sessionVariables = {
     BROWSER = "firefox";
