@@ -13,10 +13,7 @@ in
     ./services
   ];
 
-  host.users.guillaume = {
-    admin = true;
-    home.enable = false;
-  };
+  host.users.guillaume.admin = true;
   host.services.node-exporter.enable = true;
 
   services.resolved.enable = false;

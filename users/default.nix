@@ -13,9 +13,7 @@ let
   hasPassword = name: builtins.pathExists (passwordFile name);
   # home-manager: users/<name>/home/default.nix always, plus home/<profile>.nix per profile
   profileFile = name: profile: ./${name}/home/${profile}.nix;
-  homeUsers = lib.filterAttrs (
-    name: user: user.home.enable && builtins.pathExists ./${name}/home
-  ) cfg;
+  homeUsers = lib.filterAttrs (name: _: builtins.pathExists ./${name}/home) cfg;
 in
 {
   options.host.users = lib.mkOption {
@@ -38,10 +36,6 @@ in
               "desktop"
             ];
             description = "home-manager profiles for this user on this host, from users/<name>/home/<profile>.nix.";
-          };
-          # Until every host runs home-manager
-          home.enable = lib.mkEnableOption "home-manager for this user" // {
-            default = true;
           };
         };
       }
