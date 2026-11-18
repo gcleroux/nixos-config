@@ -11,12 +11,7 @@
 let
   inherit (inventory.subnets) lan4 guest4;
   inherit (inventory.hosts) totoro nixos-worker-01;
-  gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
-    builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
-  )) 0;
-  guestGatewayIP = builtins.elemAt (lib.strings.splitString "/" (
-    builtins.elemAt config.systemd.network.networks."45-guest".address 0
-  )) 0;
+  addr = inventory.hosts.${hostname};
 in
 {
   services = {
@@ -59,20 +54,20 @@ in
         # Set static IP in DHCP
         no-hosts = true;
         address = [
-          "/${hostname}.lan/${gatewayIP}" # Static IP for router
+          "/${hostname}.lan/${addr.lan4}" # Static IP for router
         ];
         dhcp-host = [
-          gatewayIP # Static IP for router
+          addr.lan4 # Static IP for router
           "b8:2d:28:db:c6:cd,supernote"
         ];
         dhcp-option = [
-          "tag:br-lan,option:dns-server,${gatewayIP}"
-          "tag:guest,option:dns-server,${guestGatewayIP}"
+          "tag:br-lan,option:dns-server,${addr.lan4}"
+          "tag:guest,option:dns-server,${addr.guest4}"
         ];
         host-record = [
           "totoro.lan,${totoro.lan4},${totoro.lan6}" # NAS, static on the host
           "nixos-worker-01.lan,${nixos-worker-01.cluster4},${nixos-worker-01.cluster6}" # K8s node, static on VLAN 30
-          "lldap.lan,${gatewayIP}"
+          "lldap.lan,${addr.lan4}"
           "switch.lan,${lan4}.10"
           "u6-plus.lan,${lan4}.11"
         ];

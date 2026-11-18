@@ -6,7 +6,7 @@
 }:
 let
   addr = inventory.hosts.${hostname};
-  gateway = inventory.hosts.calcifer.cluster4; # router, DNS, BGP peer
+  router = inventory.hosts.calcifer.cluster4;
 in
 {
   networking = {
@@ -21,8 +21,8 @@ in
         };
         ipv4 = {
           method = "manual";
-          address1 = "${addr.cluster4}/24,${gateway}";
-          dns = "${gateway};";
+          address1 = "${addr.cluster4}/24,${router}";
+          dns = "${router};";
           dns-search = "lan;";
         };
         ipv6 = {

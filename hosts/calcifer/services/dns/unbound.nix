@@ -9,9 +9,7 @@
   ...
 }:
 let
-  gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
-    builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
-  )) 0;
+  addr = inventory.hosts.${hostname};
   inherit (inventory.subnets) lan4;
   # 10.0.0 -> 0.0.10.in-addr.arpa
   lanReverseZone =
@@ -41,7 +39,7 @@ in
         server = {
           interface = [
             "127.0.0.1"
-            gatewayIP
+            addr.lan4
           ];
           port = 5335;
           access-control = [
