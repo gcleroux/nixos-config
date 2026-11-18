@@ -15,7 +15,6 @@ in
   host.users.guillaume = {
     admin = true;
     extraGroups = [ "kubernetes" ];
-    home.enable = false;
   };
 
   # deploy-rs logs in as root: key only, from the LAN or nixos-fw's VPN address
