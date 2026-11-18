@@ -15,10 +15,24 @@ let
     # Cluster subnet, VLAN.30
     cluster4 = "10.0.30";
     cluster6 = "2606:6d00:ffb:6630";
+
+    # Kubernetes LoadBalancer IPs, routed to the nodes by BGP: reachable from the LAN and VPN
+    vipPrivate4 = "10.0.40";
+    vipPrivate6 = "2606:6d00:ffb:6640";
+
+    # Internet-facing LoadBalancer IPs, routed to the nodes by BGP
+    vipPublic4 = "10.0.50";
+    vipPublic6 = "2606:6d00:ffb:6650";
   };
 in
 {
   inherit subnets;
+
+  # Kubernetes pod ranges, one /24 and /64 per node: IPv4 is masqueraded, IPv6 routed by BGP
+  pods = {
+    ipv4 = "10.42.0.0/16";
+    ipv6 = "2606:6d00:ffb:6680::/60";
+  };
 
   hosts = {
     calcifer = {

@@ -10,7 +10,7 @@
 }:
 let
   addr = inventory.hosts.${hostname};
-  inherit (inventory.subnets) lan4;
+  inherit (inventory.subnets) lan4 vipPrivate4 vipPrivate6;
   # 10.0.0 -> 0.0.10.in-addr.arpa
   lanReverseZone =
     lib.concatStringsSep "." (lib.reverseList (lib.splitString "." lan4)) + ".in-addr.arpa";
@@ -20,8 +20,8 @@ let
   privateZone = "home.cleroux.dev";
 
   # The private gateway's VIPs, routed to the cluster by BIRD
-  privateGateway4 = "10.0.40.10";
-  privateGateway6 = "2606:6d00:ffb:6640::10";
+  privateGateway4 = "${vipPrivate4}.10";
+  privateGateway6 = "${vipPrivate6}::10";
   privateTTL = "60";
 in
 {

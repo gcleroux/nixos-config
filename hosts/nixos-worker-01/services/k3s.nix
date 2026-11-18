@@ -6,8 +6,9 @@
 }:
 let
   addr = inventory.hosts.${hostname};
+  inherit (inventory) pods;
 
-  podCIDRs = "10.42.0.0/16,2606:6d00:ffb:6680::/60";
+  podCIDRs = "${pods.ipv4},${pods.ipv6}";
   serviceCIDRs = "10.43.0.0/16,fd5e:904f:ae62:43::/112";
 
   ciliumValues = {
@@ -24,8 +25,8 @@ let
     ipv6.enabled = true;
     routingMode = "native";
     autoDirectNodeRoutes = true;
-    ipv4NativeRoutingCIDR = "10.42.0.0/16";
-    ipv6NativeRoutingCIDR = "2606:6d00:ffb:6680::/60";
+    ipv4NativeRoutingCIDR = pods.ipv4;
+    ipv6NativeRoutingCIDR = pods.ipv6;
     bpf.masquerade = true;
     enableIPv4Masquerade = true;
     enableIPv6Masquerade = false;

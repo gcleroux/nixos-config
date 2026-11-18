@@ -1,6 +1,14 @@
 { hostname, inventory, ... }:
 let
-  inherit (inventory.subnets) cluster4 cluster6;
+  inherit (inventory.subnets)
+    cluster4
+    cluster6
+    vipPrivate4
+    vipPrivate6
+    vipPublic4
+    vipPublic6
+    ;
+  inherit (inventory) pods;
   addr = inventory.hosts.${hostname};
 in
 {
@@ -24,11 +32,11 @@ in
       }
 
       # Only VIP host routes and the per-node pod /64s are accepted from the cluster.
-      define CLUSTER_V4 = [ 10.0.40.0/24{32,32}, 10.0.50.0/24{32,32} ];
+      define CLUSTER_V4 = [ ${vipPrivate4}.0/24{32,32}, ${vipPublic4}.0/24{32,32} ];
       define CLUSTER_V6 = [
-        2606:6d00:ffb:6640::/64{128,128},
-        2606:6d00:ffb:6650::/64{128,128},
-        2606:6d00:ffb:6680::/60{64,64}
+        ${vipPrivate6}::/64{128,128},
+        ${vipPublic6}::/64{128,128},
+        ${pods.ipv6}{64,64}
       ];
 
       template bgp cluster_peer {

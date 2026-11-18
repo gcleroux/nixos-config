@@ -9,7 +9,12 @@
   ...
 }:
 let
-  inherit (inventory.subnets) cluster4 cluster6;
+  inherit (inventory.subnets)
+    cluster4
+    cluster6
+    vipPrivate4
+    vipPrivate6
+    ;
   inherit (inventory.hosts) totoro;
   inherit (inventory.vpnPeers) nixos-fw z-fold-8;
 in
@@ -44,8 +49,8 @@ in
         # 10.0.40.0/24: LAN/VPN reachable LB IP
         define CLUSTER4     = ${cluster4}.0/24
         define CLUSTER6     = ${cluster6}::/64
-        define VIP_PRIVATE4 = 10.0.40.0/24
-        define VIP_PRIVATE6 = 2606:6d00:ffb:6640::/64
+        define VIP_PRIVATE4 = ${vipPrivate4}.0/24
+        define VIP_PRIVATE6 = ${vipPrivate6}::/64
 
         table inet filter {
             chain input {
