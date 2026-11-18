@@ -5,7 +5,7 @@ keys:
   # Coming from hosts /etc/ssh/ssh_host_ed25519_key.pub
   - &calcifer age172c0stpajtlx7kdrjyelf6am9rr5e6fknac3mkn7ut2tzhc5zq0s7nucse
   - &nixos-fw age105ulqzp5ggycef8ry0kgura35taczyxr3cqd5gkgzzvh8sm7h59qanrypj
-  - &nixos_worker_01 age1q8trflswqkkrf736xfkcgxuqmzu9yylm6ddq0qwet79n0j7j7pfse09ask
+  - &nixos-worker-01 age1q8trflswqkkrf736xfkcgxuqmzu9yylm6ddq0qwet79n0j7j7pfse09ask
   - &totoro age1gnkh66pk605x43tjqmmg9vueydc7jxf5lxuujmmcts02nhq3na6s0kre48
 
 creation_rules:
@@ -29,7 +29,7 @@ creation_rules:
           - *admin
           - *nixos-fw
           - *calcifer
-          - *nixos_worker_01
+          - *nixos-worker-01
           - *totoro
 
   # A user's home-manager secrets: the hosts with their dev/desktop profiles
