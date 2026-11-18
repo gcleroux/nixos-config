@@ -1,4 +1,6 @@
 {
+  imports = [ ./kubernetes.nix ];
+
   programs.fish = {
     enable = true;
     interactiveShellInit = ''

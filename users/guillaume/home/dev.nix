@@ -1,42 +1,14 @@
-{
-  config,
-  pkgs,
-  hostname,
-  ...
-}:
+{ pkgs, ... }:
 {
   imports = [
     ./programs/direnv
-    ./programs/fish/kubernetes.nix
     ./programs/lazygit
+    ./programs/neovim
     ./programs/ssh
+    ./programs/yazi
   ];
 
-  wrappers.neovim = {
-    enable = true;
-
-    # Which flake nixd should evaluate for option completion is per machine,
-    # so it cannot live in the neovim flake.
-    settings.nixd = {
-      nixpkgs = ''import (builtins.getFlake "/etc/nixos").inputs.nixpkgs { }'';
-      nixos = ''(builtins.getFlake "/etc/nixos").nixosConfigurations.${hostname}.options'';
-      home_manager = ''(builtins.getFlake "/etc/nixos").nixosConfigurations.${hostname}.options.home-manager.users.type.getSubOptions [ ]'';
-    };
-  };
-
-  programs.git.signing = {
-    format = "openpgp";
-    signByDefault = true;
-    key = "32330E3EDCF4D898";
-  };
-
   user.programs.ai.enable = true;
-
-  programs.yazi.enable = true;
-  programs.yazi.shellWrapperName = "yy";
-
-  # This will automatically import SSH keys as age keys
-  sops.age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
 
   home.sessionPath = [ "$HOME/go/bin" ];
 

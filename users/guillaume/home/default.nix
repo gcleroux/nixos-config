@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   imports = [
     ./programs/bat
@@ -33,6 +33,9 @@
       fi
     '';
   };
+
+  # This will automatically import SSH keys as age keys
+  sops.age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
 
   # Installed packages
   home.packages = with pkgs; [

@@ -18,7 +18,8 @@ in
       set -gx KUBECONFIG (
         begin
           string split : -- "$KUBECONFIG" | string match '*/kube-session-*.yaml'
-          ${pkgs.busybox}/bin/find "${config.home.homeDirectory}/.kube/Configs" \
+          test -d "${config.home.homeDirectory}/.kube/Configs"
+          and ${pkgs.busybox}/bin/find "${config.home.homeDirectory}/.kube/Configs" \
             -type f \
             -name '*.yaml' \
           | ${pkgs.busybox}/bin/sort
