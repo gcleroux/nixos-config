@@ -106,7 +106,7 @@
     {
       formatter = forAllSystems (system: inputs.nixpkgs.legacyPackages.${system}.nixfmt-tree);
 
-      overlays = import ./overlays { inherit inputs; };
+      overlays = import ./overlays;
       nixosModules = import ./modules/nixos;
 
       nixosConfigurations = inputs.nixpkgs.lib.mapAttrs mkHost hosts;

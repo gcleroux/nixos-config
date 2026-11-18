@@ -1,13 +1,4 @@
-{
-  inputs,
-  config,
-  lib,
-  pkgs,
-  hostname,
-  outputs,
-  inventory,
-  ...
-}:
+{ inventory, ... }:
 let
   inherit (inventory.cidrs)
     cluster4

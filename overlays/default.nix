@@ -1,4 +1,3 @@
-{ inputs, ... }:
 {
   default = final: prev: {
     # fnott segfaults in wl_pointer_motion when hovering a notification

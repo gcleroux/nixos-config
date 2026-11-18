@@ -1,12 +1,4 @@
-{
-  inputs,
-  config,
-  lib,
-  pkgs,
-  hostname,
-  outputs,
-  ...
-}:
+{ config, ... }:
 {
   services.pppd = {
     enable = true;

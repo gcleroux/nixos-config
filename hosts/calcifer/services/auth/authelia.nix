@@ -1,12 +1,4 @@
-{
-  inputs,
-  config,
-  lib,
-  pkgs,
-  hostname,
-  outputs,
-  ...
-}:
+{ config, ... }:
 let
   domain = "home.cleroux.dev";
   stateDir = "/var/lib/authelia-main";
