@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # TODO: Might want to use icons instead of input/output
 
 get_volume() {

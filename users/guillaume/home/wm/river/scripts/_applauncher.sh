@@ -1,13 +1,11 @@
-#!/usr/bin/env bash
-
 declare -A apps
 
 desktop_file() {
-    fd '\.desktop$' /run/current-system/sw/share/applications 2>/dev/null
-    fd '\.desktop$' /etc/profiles/per-user/guillaume/share/applications 2>/dev/null
-    fd '\.desktop$' /var/lib/flatpak/exports/share/applications 2>/dev/null
-    fd '\.desktop$' "$HOME"/.local/share/applications 2>/dev/null
-    fd '\.desktop$' "$HOME"/.local/share/flatpak/exports/share/applications 2>/dev/null
+    fd '\.desktop$' /run/current-system/sw/share/applications 2>/dev/null || true
+    fd '\.desktop$' /etc/profiles/per-user/guillaume/share/applications 2>/dev/null || true
+    fd '\.desktop$' /var/lib/flatpak/exports/share/applications 2>/dev/null || true
+    fd '\.desktop$' "$HOME"/.local/share/applications 2>/dev/null || true
+    fd '\.desktop$' "$HOME"/.local/share/flatpak/exports/share/applications 2>/dev/null || true
 }
 
 while read -r df; do

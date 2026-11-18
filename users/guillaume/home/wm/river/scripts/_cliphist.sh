@@ -1,4 +1,2 @@
-#!/usr/bin/env bash
-
 # delimiter is needed for fzf otherwise it messes up the display
 cliphist list | fzf -d $'\t' --with-nth 2 | cliphist decode | wl-copy

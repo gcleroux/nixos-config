@@ -1,9 +1,5 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-sed '1,/^### DATA ###$/d' $0 | wofi --show dmenu --normal-window -i | cut -d ' ' -f 1 | tr -d '\n' | wl-copy
-exit
-### DATA ###
+emojis() {
+    cat <<'EOF'
 😀 grinning face face smile happy joy :D grin
 😃 grinning face with big eyes face happy joy haha :D :) smile funny
 😄 grinning face with smiling eyes face happy joy funny haha laugh like :D :) smile
@@ -1874,3 +1870,11 @@ exit
 🪈 flute bamboo music instrument pied piper
 🪯 khanda Sikhism religion
 🛜 wireless wifi internet contactless signal
+EOF
+}
+
+export FZF_DEFAULT_OPTS="-e -i --info=default --layout=reverse --scroll-off=5 --tiebreak=index --bind 'home:first,end:last'"
+selected="$(emojis | fzf -m --prompt="copy emoji(s) to clipboard: " | awk '{print $1}' | tr -d '\n')"
+[ -z "$selected" ] && exit
+
+printf %s "$selected" | wl-copy 2>/dev/null

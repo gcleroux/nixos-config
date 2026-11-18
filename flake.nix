@@ -106,20 +106,6 @@
     in
     {
       overlays = import ./overlays { inherit inputs; };
-
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = import inputs.nixpkgs {
-            inherit system;
-            overlays = [ self.overlays.default ];
-          };
-        in
-        inputs.nixpkgs.lib.packagesFromDirectoryRecursive {
-          callPackage = inputs.nixpkgs.lib.callPackageWith pkgs;
-          directory = ./pkgs;
-        }
-      );
       nixosModules = import ./modules/nixos;
 
       nixosConfigurations = inputs.nixpkgs.lib.mapAttrs mkHost hosts;

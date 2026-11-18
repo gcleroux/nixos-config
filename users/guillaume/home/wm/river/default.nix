@@ -3,6 +3,30 @@
   config,
   ...
 }:
+let
+  # A script from ./scripts, run with the tools it needs on its PATH
+  script =
+    name: runtimeInputs:
+    pkgs.writeShellApplication {
+      inherit name runtimeInputs;
+      text = builtins.readFile ./scripts/${name}.sh;
+    };
+
+  # Media keys
+  volume = script "volume" (with pkgs; [ libnotify wireplumber ]);
+  brightness = script "brightness" (with pkgs; [ brightnessctl libnotify ]);
+
+  # fzf menus, opened in a floating terminal
+  appMenu = script "_applauncher" (with pkgs; [ dex fd fzf ]);
+  clipboardMenu = script "_cliphist" (with pkgs; [ cliphist fzf wl-clipboard ]);
+  emojiMenu = script "_emoji" (with pkgs; [ fzf wl-clipboard ]);
+  launcher = script "launcher" [
+    pkgs.fzf
+    appMenu
+    clipboardMenu
+    emojiMenu
+  ];
+in
 {
   home.packages = with pkgs; [
     lswt
@@ -57,10 +81,10 @@
       riverctl map normal Super D spawn vesktop
       riverctl map normal Super F spawn thunar
       riverctl map normal Control+Alt L spawn swaylock
-      riverctl map normal Super V spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/_cliphist"
-      riverctl map normal Control Space spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/_applauncher"
-      riverctl map normal Control Semicolon spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/_emoji"
-      riverctl map normal Control+Shift Space spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${pkgs.fzf-launcher}/bin/launcher"
+      riverctl map normal Super V spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${clipboardMenu}/bin/_cliphist"
+      riverctl map normal Control Space spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${appMenu}/bin/_applauncher"
+      riverctl map normal Control Semicolon spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${emojiMenu}/bin/_emoji"
+      riverctl map normal Control+Shift Space spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${launcher}/bin/launcher"
 
       # Notifications
       # =============
@@ -181,14 +205,14 @@
       # not have a modifier
       for mode in normal locked; do
       	# Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
-      	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "${pkgs.custom-scripts}/bin/volume --inc-output"
-      	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "${pkgs.custom-scripts}/bin/volume --dec-output"
-      	riverctl map $mode None XF86AudioMute spawn "${pkgs.custom-scripts}/bin/volume --toggle-output"
+      	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "${volume}/bin/volume --inc-output"
+      	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "${volume}/bin/volume --dec-output"
+      	riverctl map $mode None XF86AudioMute spawn "${volume}/bin/volume --toggle-output"
 
       	# Input volume control
-      	riverctl map -repeat $mode Shift XF86AudioRaiseVolume spawn "${pkgs.custom-scripts}/bin/volume --inc-input"
-      	riverctl map -repeat $mode Shift XF86AudioLowerVolume spawn "${pkgs.custom-scripts}/bin/volume --dec-input"
-      	riverctl map $mode Shift XF86AudioMute spawn "${pkgs.custom-scripts}/bin/volume --toggle-input"
+      	riverctl map -repeat $mode Shift XF86AudioRaiseVolume spawn "${volume}/bin/volume --inc-input"
+      	riverctl map -repeat $mode Shift XF86AudioLowerVolume spawn "${volume}/bin/volume --dec-input"
+      	riverctl map $mode Shift XF86AudioMute spawn "${volume}/bin/volume --toggle-input"
 
       	# Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
       	riverctl map $mode None XF86AudioMedia spawn 'playerctl play-pause'
@@ -197,8 +221,8 @@
       	riverctl map $mode None XF86AudioNext spawn 'playerctl next'
 
       	# Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
-      	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "${pkgs.custom-scripts}/bin/brightness --inc"
-      	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "${pkgs.custom-scripts}/bin/brightness --dec"
+      	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "${brightness}/bin/brightness --inc"
+      	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "${brightness}/bin/brightness --dec"
       done
 
       # Set background and border color

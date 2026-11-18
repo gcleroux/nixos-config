@@ -1,12 +1,7 @@
-#!/usr/bin/env sh
-
 export FZF_DEFAULT_OPTS="-e -i -d '_' --with-nth 2.. --info=hidden --layout=reverse --scroll-off=5 --tiebreak=index --bind 'home:first,end:last,tab:down,shift-tab:up'"
-mydir="${0%/*}"
 
-selected="$(
-    fd '^_' "$mydir" --type f --max-depth 1 --exec basename |
-        sort | fzf --prompt='fzf-launcher: '
-)"
+# The menus are on PATH through the launcher's runtimeInputs
+selected="$(printf '%s\n' _applauncher _cliphist _emoji | fzf --prompt='fzf-launcher: ')"
 [ -z "$selected" ] && exit
 
-exec "$mydir/$selected"
+exec "$selected"
