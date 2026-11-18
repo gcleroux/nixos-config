@@ -14,7 +14,8 @@ let
   inherit (inventory.cidrs) lan4 vipPrivate4 vipPrivate6;
   # 10.0.0.0/24 -> 0.0.10.in-addr.arpa
   lanReverseZone =
-    lib.concatStringsSep "." (lib.reverseList (lib.take 3 (lib.splitString "." lan4))) + ".in-addr.arpa";
+    lib.concatStringsSep "." (lib.reverseList (lib.take 3 (lib.splitString "." lan4)))
+    + ".in-addr.arpa";
 
   # Every name under this zone is a hostname on the cluster's private gateway, so
   # a redirect zone answers them all without listing each one

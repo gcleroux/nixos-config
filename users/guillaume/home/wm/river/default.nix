@@ -13,13 +13,30 @@ let
     };
 
   # Media keys
-  volume = script "volume" (with pkgs; [ libnotify wireplumber ]);
-  brightness = script "brightness" (with pkgs; [ brightnessctl libnotify ]);
+  volume = script "volume" [
+    pkgs.libnotify
+    pkgs.wireplumber
+  ];
+  brightness = script "brightness" [
+    pkgs.brightnessctl
+    pkgs.libnotify
+  ];
 
   # fzf menus, opened in a floating terminal
-  appMenu = script "_applauncher" (with pkgs; [ dex fd fzf ]);
-  clipboardMenu = script "_cliphist" (with pkgs; [ cliphist fzf wl-clipboard ]);
-  emojiMenu = script "_emoji" (with pkgs; [ fzf wl-clipboard ]);
+  appMenu = script "_applauncher" [
+    pkgs.dex
+    pkgs.fd
+    pkgs.fzf
+  ];
+  clipboardMenu = script "_cliphist" [
+    pkgs.cliphist
+    pkgs.fzf
+    pkgs.wl-clipboard
+  ];
+  emojiMenu = script "_emoji" [
+    pkgs.fzf
+    pkgs.wl-clipboard
+  ];
   launcher = script "launcher" [
     pkgs.fzf
     appMenu
