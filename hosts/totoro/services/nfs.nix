@@ -2,102 +2,36 @@
 let
   inherit (inventory.cidrs) lan4 cluster4;
   inherit (inventory.vpnPeers) nixos-fw;
+
+  # Each share is the btrfs subvolume @<name> of a disk, mounted in /srv and bind-mounted into /export
+  shares = {
+    Appdata = "c711808d-120c-4c5b-9cf1-07794b061681";
+    Documents = "c711808d-120c-4c5b-9cf1-07794b061681";
+    Movies = "717530ad-efae-402a-a397-cae119b2b1d4";
+    Photos = "717530ad-efae-402a-a397-cae119b2b1d4";
+    Shows = "717530ad-efae-402a-a397-cae119b2b1d4";
+  };
 in
 {
-  # Movies
-  fileSystems."/srv/Movies" = {
-    device = "/dev/disk/by-uuid/717530ad-efae-402a-a397-cae119b2b1d4";
-    fsType = "btrfs";
-    options = [
-      "users"
-      "nofail"
-      "rw"
-      "noatime"
-      "compress=zstd"
-      "subvol=@movies"
-    ];
-  };
-  fileSystems."/export/Movies" = {
-    device = "/srv/Movies";
-    fsType = "none";
-    options = [ "bind" ];
-  };
-
-  # Shows
-  fileSystems."/srv/Shows" = {
-    device = "/dev/disk/by-uuid/717530ad-efae-402a-a397-cae119b2b1d4";
-    fsType = "btrfs";
-    options = [
-      "users"
-      "nofail"
-      "rw"
-      "noatime"
-      "compress=zstd"
-      "subvol=@shows"
-    ];
-  };
-  fileSystems."/export/Shows" = {
-    device = "/srv/Shows";
-    fsType = "none";
-    options = [ "bind" ];
-  };
-
-  # Photos
-  fileSystems."/srv/Photos" = {
-    device = "/dev/disk/by-uuid/717530ad-efae-402a-a397-cae119b2b1d4";
-    fsType = "btrfs";
-    options = [
-      "users"
-      "nofail"
-      "rw"
-      "noatime"
-      "compress=zstd"
-      "subvol=@photos"
-    ];
-  };
-  fileSystems."/export/Photos" = {
-    device = "/srv/Photos";
-    fsType = "none";
-    options = [ "bind" ];
-  };
-
-  # App data
-  fileSystems."/srv/Appdata" = {
-    device = "/dev/disk/by-uuid/c711808d-120c-4c5b-9cf1-07794b061681";
-    fsType = "btrfs";
-    options = [
-      "users"
-      "nofail"
-      "rw"
-      "noatime"
-      "compress=zstd"
-      "subvol=@appdata"
-    ];
-  };
-  fileSystems."/export/Appdata" = {
-    device = "/srv/Appdata";
-    fsType = "none";
-    options = [ "bind" ];
-  };
-
-  # Documents
-  fileSystems."/srv/Documents" = {
-    device = "/dev/disk/by-uuid/c711808d-120c-4c5b-9cf1-07794b061681";
-    fsType = "btrfs";
-    options = [
-      "users"
-      "nofail"
-      "rw"
-      "noatime"
-      "compress=zstd"
-      "subvol=@documents"
-    ];
-  };
-  fileSystems."/export/Documents" = {
-    device = "/srv/Documents";
-    fsType = "none";
-    options = [ "bind" ];
-  };
+  fileSystems = lib.concatMapAttrs (name: uuid: {
+    "/srv/${name}" = {
+      device = "/dev/disk/by-uuid/${uuid}";
+      fsType = "btrfs";
+      options = [
+        "users"
+        "nofail"
+        "rw"
+        "noatime"
+        "compress=zstd"
+        "subvol=@${lib.toLower name}"
+      ];
+    };
+    "/export/${name}" = {
+      device = "/srv/${name}";
+      fsType = "none";
+      options = [ "bind" ];
+    };
+  }) shares;
 
   services.nfs.server.enable = true;
   services.nfs.server.exports =
