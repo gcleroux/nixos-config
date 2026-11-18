@@ -170,15 +170,3 @@
     style = ./style.css;
   };
 }
-
-# "custom/launcher": {
-#   "format": "",
-#   "on-click": "wofi --show drun -I -a",
-#   "tooltip-format": "sudo pacman -Q linux",
-#   "tooltip": false,
-# },
-# "custom/powermenu": {
-#   "format": "",
-#   "on-click": "~/.config/rofi/powermenu.sh",
-#   "tooltip": false
-# },

@@ -6,6 +6,4 @@
     defaultCacheTtl = 28800;
     pinentry.package = pkgs.pinentry-gnome3;
   };
-
-  # home.packages = [ pkgs.gcr ];
 }

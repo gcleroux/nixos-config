@@ -7,7 +7,6 @@
     pavucontrol
     qbittorrent
     signal-desktop
-    simplex-tz-fix
     slack
   ];
 }

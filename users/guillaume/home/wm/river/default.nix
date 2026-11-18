@@ -5,7 +5,6 @@
 }:
 {
   home.packages = with pkgs; [
-    clipboard-jh
     lswt
     wbg
     way-displays
