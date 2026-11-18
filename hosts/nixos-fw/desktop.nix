@@ -50,4 +50,16 @@
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
   };
+
+  fonts.packages = with pkgs; [
+    nerd-fonts.cousine
+    nerd-fonts.hack
+    nerd-fonts.fira-code
+    nerd-fonts.noto
+
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    noto-fonts-color-emoji
+  ];
 }

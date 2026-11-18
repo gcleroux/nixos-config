@@ -5,23 +5,9 @@
     ./disks.nix
     ./interfaces.nix
     ./desktop.nix
-  ];
 
-  host.services = {
-    audio = {
-      enable = true;
-      bluetooth.enable = true;
-    };
-    backups.enable = true;
-    fonts.enable = true;
-    gaming.enable = true;
-    greeter.enable = true;
-    keyring.enable = true;
-    polkit.enable = true;
-    powersave.enable = true;
-    printing.enable = true;
-    virtualisation.enable = true;
-  };
+    ./services
+  ];
 
   # Keeps build dependencies alive, so calcifer can still be rebuilt offline
   nix.settings.keep-outputs = true;
