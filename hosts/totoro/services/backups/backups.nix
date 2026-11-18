@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inventory,
+  ...
+}:
 let
   # Publishes when the newest copy of calcifer was taken, for alerts
   backupAgeMetric = pkgs.writeShellScript "btrbk-calcifer-metric" ''
@@ -38,7 +43,7 @@ in
       target_preserve_min = "latest";
       target_preserve = "14d 8w 12m";
       incremental_clones = "no";
-      volume."ssh://10.0.0.1/mnt/btr_pool" = {
+      volume."ssh://${inventory.hosts.calcifer.lan4}/mnt/btr_pool" = {
         target = "/srv/Backups/calcifer";
         subvolume."@" = {
           snapshot_dir = "@snapshots";

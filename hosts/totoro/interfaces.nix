@@ -5,8 +5,13 @@
   pkgs,
   hostname,
   outputs,
+  inventory,
   ...
 }:
+let
+  addr = inventory.hosts.${hostname};
+  router = inventory.hosts.calcifer.lan4;
+in
 {
   networking = {
     useNetworkd = true;
@@ -72,11 +77,11 @@
         # Static, below calcifer's DHCP pool: the cluster's firewall rule for NFS
         # names this address. IPv6 still accepts calcifer's RA for its routes.
         address = [
-          "10.0.0.2/24"
-          "2606:6d00:ffb:6600::2/64"
+          "${addr.lan4}/24"
+          "${addr.lan6}/64"
         ];
-        gateway = [ "10.0.0.1" ];
-        dns = [ "10.0.0.1" ];
+        gateway = [ router ];
+        dns = [ router ];
         domains = [ "lan" ];
         networkConfig = {
           IPv4ReversePathFilter = "no";

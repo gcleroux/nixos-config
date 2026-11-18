@@ -1,4 +1,8 @@
-{ lib, ... }:
+{ lib, inventory, ... }:
+let
+  inherit (inventory.subnets) lan4 cluster4;
+  inherit (inventory.vpnPeers) nixos-fw;
+in
 {
   # Movies
   fileSystems."/srv/Movies" = {
@@ -102,12 +106,12 @@
       trusted =
         opts:
         lib.concatMapStringsSep " " (client: "${client}(${opts})") [
-          "10.0.0.0/24" # LAN
-          "10.0.9.101" # nixos-fw VPN
-          "2606:6d00:ffb:6609::101" # nixos-fw VPN
+          "${lan4}.0/24"
+          nixos-fw.ipv4
+          nixos-fw.ipv6
         ];
       # The Kubernetes nodes on VLAN 30
-      cluster = opts: "10.0.30.0/24(${opts})";
+      cluster = opts: "${cluster4}.0/24(${opts})";
     in
     ''
       /export            ${trusted "rw,nohide,insecure,no_subtree_check,crossmnt,fsid=0"} ${cluster "ro,no_subtree_check,fsid=0"}

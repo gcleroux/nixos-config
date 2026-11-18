@@ -5,8 +5,14 @@
   pkgs,
   hostname,
   outputs,
+  inventory,
   ...
 }:
+let
+  inherit (inventory.subnets) cluster4 cluster6;
+  inherit (inventory.hosts) totoro;
+  inherit (inventory.vpnPeers) nixos-fw z-fold-8;
+in
 {
   networking = {
     useNetworkd = true;
@@ -27,17 +33,17 @@
         define CLUSTER = { "cluster" }
 
         # Static IPs on the network
-        define TOTORO       = 10.0.0.2
+        define TOTORO       = ${totoro.lan4}
 
         # VPN peers with the same access as the LAN
-        define VPN_ADMINS4  = { 10.0.9.101, 10.0.9.105 } # nixos-fw, z-fold-8
-        define VPN_ADMINS6  = { 2606:6d00:ffb:6609::101, 2606:6d00:ffb:6609::105 }
+        define VPN_ADMINS4  = { ${nixos-fw.ipv4}, ${z-fold-8.ipv4} } # nixos-fw, z-fold-8
+        define VPN_ADMINS6  = { ${nixos-fw.ipv6}, ${z-fold-8.ipv6} }
 
         # Kubernetes network segments, following this structure
         # 10.0.30.0/24: Nodes (VLAN 30)
         # 10.0.40.0/24: LAN/VPN reachable LB IP
-        define CLUSTER4     = 10.0.30.0/24
-        define CLUSTER6     = 2606:6d00:ffb:6630::/64
+        define CLUSTER4     = ${cluster4}.0/24
+        define CLUSTER6     = ${cluster6}::/64
         define VIP_PRIVATE4 = 10.0.40.0/24
         define VIP_PRIVATE6 = 2606:6d00:ffb:6640::/64
 

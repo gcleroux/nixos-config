@@ -9,13 +9,8 @@
   ...
 }:
 let
-  inherit (inventory.subnets)
-    lan4
-    lan6
-    guest4
-    cluster4
-    cluster6
-    ;
+  inherit (inventory.subnets) lan4 guest4;
+  inherit (inventory.hosts) totoro nixos-worker-01;
   gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
     builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
   )) 0;
@@ -75,8 +70,8 @@ in
           "tag:guest,option:dns-server,${guestGatewayIP}"
         ];
         host-record = [
-          "totoro.lan,${lan4}.2,${lan6}::2" # NAS, static on the host
-          "nixos-worker-01.lan,${cluster4}.10,${cluster6}::10" # K8s node, static on VLAN 30
+          "totoro.lan,${totoro.lan4},${totoro.lan6}" # NAS, static on the host
+          "nixos-worker-01.lan,${nixos-worker-01.cluster4},${nixos-worker-01.cluster6}" # K8s node, static on VLAN 30
           "lldap.lan,${gatewayIP}"
           "switch.lan,${lan4}.10"
           "u6-plus.lan,${lan4}.11"

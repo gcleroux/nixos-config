@@ -1,3 +1,8 @@
+{ hostname, inventory, ... }:
+let
+  inherit (inventory.subnets) cluster4 cluster6;
+  addr = inventory.hosts.${hostname};
+in
 {
   # BGP with the Kubernetes nodes on VLAN 30 (Cilium's BGP control plane): they
   # announce the LoadBalancer VIPs and their pod /64s, calcifer routes them and
@@ -5,7 +10,7 @@
   services.bird = {
     enable = true;
     config = ''
-      router id 10.0.30.1;
+      router id ${addr.cluster4};
 
       # Interface state, needed to resolve the directly connected next hops.
       protocol device {}
@@ -33,15 +38,15 @@
       # Any node in cluster VLAN 30 (10.0.30.10, .11, ...) may peer: calcifer listens,
       # and each node that connects gets its own session (nodes_v4_1, ...).
       protocol bgp nodes_v4 from cluster_peer {
-        local 10.0.30.1 as 65000;
-        neighbor range 10.0.30.0/24 as 65030;
+        local ${addr.cluster4} as 65000;
+        neighbor range ${cluster4}.0/24 as 65030;
         dynamic name "nodes_v4_";
         ipv4 { import where net ~ CLUSTER_V4; export none; };
       }
 
       protocol bgp nodes_v6 from cluster_peer {
-        local 2606:6d00:ffb:6630::1 as 65000;
-        neighbor range 2606:6d00:ffb:6630::/64 as 65030;
+        local ${addr.cluster6} as 65000;
+        neighbor range ${cluster6}::/64 as 65030;
         dynamic name "nodes_v6_";
         ipv6 { import where net ~ CLUSTER_V6; export none; };
       }

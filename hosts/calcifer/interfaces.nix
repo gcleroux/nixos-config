@@ -9,13 +9,11 @@
   ...
 }:
 let
-  inherit (inventory.subnets)
-    lan4
-    guest4
-    vpn4
-    vpn6
-    cluster4
-    ;
+  addr = inventory.hosts.${hostname};
+  peerIPs = name: [
+    "${inventory.vpnPeers.${name}.ipv4}/32"
+    "${inventory.vpnPeers.${name}.ipv6}/128"
+  ];
 in
 {
   systemd.network = {
@@ -109,50 +107,32 @@ in
           {
             PublicKey = builtins.readFile ./wireguard/s24-ultra/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/s24-ultra/psk.key".path;
-            AllowedIPs = [
-              "${vpn4}.100/32"
-              "${vpn6}::100/128"
-            ];
+            AllowedIPs = peerIPs "s24-ultra";
           }
           {
             PublicKey = builtins.readFile ./wireguard/nixos-fw/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/nixos-fw/psk.key".path;
-            AllowedIPs = [
-              "${vpn4}.101/32"
-              "${vpn6}::101/128"
-            ];
+            AllowedIPs = peerIPs "nixos-fw";
           }
           {
             PublicKey = builtins.readFile ./wireguard/iphone-lapin/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/iphone-lapin/psk.key".path;
-            AllowedIPs = [
-              "${vpn4}.102/32"
-              "${vpn6}::102/128"
-            ];
+            AllowedIPs = peerIPs "iphone-lapin";
           }
           {
             PublicKey = builtins.readFile ./wireguard/mac-lapin/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/mac-lapin/psk.key".path;
-            AllowedIPs = [
-              "${vpn4}.103/32"
-              "${vpn6}::103/128"
-            ];
+            AllowedIPs = peerIPs "mac-lapin";
           }
           {
             PublicKey = builtins.readFile ./wireguard/s23-julie/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/s23-julie/psk.key".path;
-            AllowedIPs = [
-              "${vpn4}.104/32"
-              "${vpn6}::104/128"
-            ];
+            AllowedIPs = peerIPs "s23-julie";
           }
           {
             PublicKey = builtins.readFile ./wireguard/z-fold-8/public.key;
             PresharedKeyFile = config.sops.secrets."wireguard/z-fold-8/psk.key".path;
-            AllowedIPs = [
-              "${vpn4}.105/32"
-              "${vpn6}::105/128"
-            ];
+            AllowedIPs = peerIPs "z-fold-8";
           }
         ];
       };
@@ -273,7 +253,7 @@ in
           "cluster"
         ];
         address = [
-          "${lan4}.1/24"
+          "${addr.lan4}/24"
         ];
         networkConfig = {
           IPv4ReversePathFilter = "no";
@@ -291,7 +271,7 @@ in
       };
       "45-guest" = {
         matchConfig.Name = "guest";
-        address = [ "${guest4}.1/24" ];
+        address = [ "${addr.guest4}/24" ];
         networkConfig = {
           IPv4Forwarding = true;
           ConfigureWithoutCarrier = true;
@@ -309,7 +289,7 @@ in
       };
       "46-cluster" = {
         matchConfig.Name = "cluster";
-        address = [ "${cluster4}.1/24" ];
+        address = [ "${addr.cluster4}/24" ];
         networkConfig = {
           IPv4Forwarding = true;
           ConfigureWithoutCarrier = true;
@@ -328,8 +308,8 @@ in
       "50-wg0" = {
         matchConfig.Name = "wg0";
         address = [
-          "${vpn4}.1/24"
-          "${vpn6}::1/64"
+          "${addr.vpn4}/24"
+          "${addr.vpn6}/64"
         ];
         networkConfig = {
           IPv4Forwarding = true;

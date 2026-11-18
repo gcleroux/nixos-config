@@ -10,14 +10,14 @@
   username,
   hostname,
   outputs,
+  inventory,
   ...
 }:
 let
-  # Static on cluster VLAN 30, where node addresses start at .10 / ::10. The IPv6
-  # /64 comes from the static /56, so the dual-stack node IP never changes.
-  kubeMasterIP = "10.0.30.10";
-  kubeMasterIP6 = "2606:6d00:ffb:6630::10";
-  clusterGateway = "10.0.30.1"; # calcifer: router, DNS, BGP peer
+  inherit (inventory.subnets) lan4 lan6;
+  inherit (inventory.vpnPeers) nixos-fw;
+  addr = inventory.hosts.${hostname};
+  gateway = inventory.hosts.calcifer.cluster4; # router, DNS, BGP peer
 
   podCIDRs = "10.42.0.0/16,2606:6d00:ffb:6680::/60";
   serviceCIDRs = "10.43.0.0/16,fd5e:904f:ae62:43::/112";
@@ -59,13 +59,13 @@ in
         };
         ipv4 = {
           method = "manual";
-          address1 = "${kubeMasterIP}/24,${clusterGateway}";
-          dns = "${clusterGateway};";
+          address1 = "${addr.cluster4}/24,${gateway}";
+          dns = "${gateway};";
           dns-search = "lan;";
         };
         ipv6 = {
           method = "auto";
-          address1 = "${kubeMasterIP6}/64";
+          address1 = "${addr.cluster6}/64";
           ip6-privacy = 0;
           ignore-auto-dns = true;
         };
@@ -73,7 +73,7 @@ in
     };
 
     hosts = lib.mkForce { };
-    extraHosts = "${kubeMasterIP} ${hostname}";
+    extraHosts = "${addr.cluster4} ${hostname}";
 
     # Disable firewall for faster deployment
     firewall.enable = false;
@@ -87,7 +87,7 @@ in
   # deploy-rs logs in as root: key only, from the LAN or nixos-fw's VPN address
   services.openssh.settings.PermitRootLogin = "prohibit-password";
   users.users.root.openssh.authorizedKeys.keys = [
-    ''from="10.0.0.0/24,2606:6d00:ffb:6600::/64,10.0.9.101,2606:6d00:ffb:6609::101" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICS77iyKWFPGfozY/N0daz6d9uEXhpdSVpsTTIkBbcRg guillaume@nixos-fw''
+    ''from="${lan4}.0/24,${lan6}::/64,${nixos-fw.ipv4},${nixos-fw.ipv6}" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICS77iyKWFPGfozY/N0daz6d9uEXhpdSVpsTTIkBbcRg guillaume@nixos-fw''
   ];
 
   environment = {
@@ -115,7 +115,7 @@ in
     enable = true;
     role = "server";
     package = pkgs.k3s_1_37; # same Kubernetes minor as the cluster it replaces
-    nodeIP = "${kubeMasterIP},${kubeMasterIP6}";
+    nodeIP = "${addr.cluster4},${addr.cluster6}";
     disable = [
       "traefik"
       "servicelb"
