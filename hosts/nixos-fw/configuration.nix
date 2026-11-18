@@ -75,11 +75,6 @@
       ];
     };
 
-    fish.enable = true;
-    zsh = {
-      enable = true;
-      syntaxHighlighting.enable = true;
-    };
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -145,8 +140,6 @@
       wl-clipboard
       xdg-utils
     ];
-
-    pathsToLink = [ "/share/zsh" ];
 
     sessionVariables = {
       NIXOS_OZONE_WL = "1";

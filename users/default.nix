@@ -3,7 +3,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -44,7 +43,6 @@ in
       {
         isNormalUser = true;
         inherit (a) uid;
-        shell = pkgs.${a.shell};
         extraGroups = lib.optional user.admin "wheel" ++ user.extraGroups;
         openssh.authorizedKeys.keys = a.sshKeys;
       }
@@ -68,10 +66,5 @@ in
       assertion = !user.admin || hasPassword name;
       message = "host.users.${name}.admin needs a password: create users/${name}/password.yaml with a `hashed-password` key.";
     }) cfg;
-
-    # A login shell has to be enabled system-wide
-    programs.zsh.enable = lib.mkIf (lib.any (name: (account name).shell == "zsh") (
-      lib.attrNames cfg
-    )) true;
   };
 }

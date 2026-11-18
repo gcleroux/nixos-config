@@ -45,6 +45,9 @@
     };
   };
 
+  # The interactive shell. Login shells stay bash, which hands over to fish.
+  programs.fish.enable = true;
+
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_CA.UTF-8";
 }
