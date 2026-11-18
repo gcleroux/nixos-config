@@ -1,24 +1,8 @@
+{ config, lib, ... }:
 {
-  config,
-  lib,
-  ...
-}:
-let
-  cfg = config.host.services.node-exporter;
-in
-with lib;
-{
-  options = {
-    host.services.node-exporter = {
-      enable = mkOption {
-        default = false;
-        type = with types; bool;
-        description = "Enables the Prometheus node exporter";
-      };
-    };
-  };
+  options.host.services.node-exporter.enable = lib.mkEnableOption "the Prometheus node exporter";
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf config.host.services.node-exporter.enable {
     services.prometheus.exporters.node = {
       enable = true;
       port = 9100;
