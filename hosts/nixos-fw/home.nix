@@ -27,10 +27,9 @@
     users.${username} = {
       imports = [
         ../../users/guillaume/home
+        ../../users/guillaume/home/dev.nix
         ../../users/guillaume/home/desktop.nix
       ];
-
-      user.programs.ai.enable = true;
     };
   };
 }

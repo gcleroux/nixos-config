@@ -1,7 +1,6 @@
 {
   pkgs,
   username,
-  hostname,
   inputs,
   outputs,
   ...
@@ -16,27 +15,11 @@
     ++ [
       ./programs/bat
       ./programs/bottom
-      ./programs/direnv
       ./programs/fish
-      ./programs/foot
       ./programs/fzf
       ./programs/git
-      ./programs/lazygit
-      ./programs/ssh
       ./programs/starship
     ];
-
-  wrappers.neovim = {
-    enable = true;
-
-    # Which flake nixd should evaluate for option completion is per machine,
-    # so it cannot live in the neovim flake.
-    settings.nixd = {
-      nixpkgs = ''import (builtins.getFlake "/etc/nixos").inputs.nixpkgs { }'';
-      nixos = ''(builtins.getFlake "/etc/nixos").nixosConfigurations.${hostname}.options'';
-      home_manager = ''(builtins.getFlake "/etc/nixos").nixosConfigurations.${hostname}.options.home-manager.users.type.getSubOptions [ ]'';
-    };
-  };
 
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -49,8 +32,6 @@
   };
   programs.eza.enable = true;
   programs.ripgrep.enable = true;
-  programs.yazi.enable = true;
-  programs.yazi.shellWrapperName = "yy";
   # programs.zellij.enable = true;
   programs.zoxide.enable = true;
 
@@ -65,41 +46,18 @@
     '';
   };
 
-  # This will automatically import SSH keys as age keys
-  sops.age.sshKeyPaths = [ "/home/${username}/.ssh/id_ed25519" ];
-
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = username;
   home.homeDirectory = "/home/${username}";
-  home.sessionPath = [ "$HOME/go/bin" ];
-  home.sessionVariables = {
-    TERMINAL = "foot";
-  };
 
   # Installed packages
   home.packages = with pkgs; [
-    age
-    clipboard-jh
     dig
     fd
-    fluxcd
-    fusee-nano
-    gh
-    gnumake
-    go
-    hey
     inetutils
     jq
-    k9s
     killall
-    kubectl
-    kubelogin-oidc
-    kubernetes-helm
-    kubie
-    kustomize
-    rclone
-    sops
     traceroute
     yq-go
   ];

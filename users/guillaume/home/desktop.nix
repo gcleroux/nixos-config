@@ -3,6 +3,7 @@
   imports = [
     ./programs/aerc
     ./programs/firefox
+    ./programs/foot
     ./programs/mpv
     ./programs/rbw
     ./programs/spotify-player
@@ -39,6 +40,7 @@
 
   home.sessionVariables = {
     BROWSER = "firefox";
+    TERMINAL = "foot";
 
     # gnome-keyring needed env vars
     GNOME_KEYRING_CONTROL = "$XDG_RUNTIME_DIR/keyring";
@@ -46,6 +48,7 @@
   };
 
   home.packages = with pkgs; [
+    clipboard-jh
     jellyfin-desktop
     libreoffice
     lswt
