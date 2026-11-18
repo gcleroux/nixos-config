@@ -12,7 +12,10 @@ in
     ./services
   ];
 
-  host.users.guillaume.admin = true;
+  host.users.guillaume = {
+    admin = true;
+    home.enable = false;
+  };
   host.services.node-exporter.enable = true;
 
   # deploy-rs logs in as root: key only, from the LAN or nixos-fw's VPN address

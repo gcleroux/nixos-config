@@ -11,6 +11,11 @@ let
   # sops file holding the user's `hashed-password` (from mkpasswd), readable by every host they live on
   passwordFile = name: ./${name}/password.yaml;
   hasPassword = name: builtins.pathExists (passwordFile name);
+  # home-manager: users/<name>/home/default.nix always, plus home/<profile>.nix per profile
+  profileFile = name: profile: ./${name}/home/${profile}.nix;
+  homeUsers = lib.filterAttrs (
+    name: user: user.home.enable && builtins.pathExists ./${name}/home
+  ) cfg;
 in
 {
   options.host.users = lib.mkOption {
@@ -24,6 +29,19 @@ in
             type = with lib.types; listOf str;
             default = [ ];
             description = "Groups for this user on this host, on top of wheel.";
+          };
+          profiles = lib.mkOption {
+            type = with lib.types; listOf str;
+            default = [ ];
+            example = [
+              "dev"
+              "desktop"
+            ];
+            description = "home-manager profiles for this user on this host, from users/<name>/home/<profile>.nix.";
+          };
+          # Until every host runs home-manager
+          home.enable = lib.mkEnableOption "home-manager for this user" // {
+            default = true;
           };
         };
       }
@@ -61,10 +79,29 @@ in
       }
     ) (lib.filterAttrs (name: _: hasPassword name) cfg);
 
-    # Without a password, an admin couldn't use sudo
-    assertions = lib.mapAttrsToList (name: user: {
-      assertion = !user.admin || hasPassword name;
-      message = "host.users.${name}.admin needs a password: create users/${name}/password.yaml with a `hashed-password` key.";
-    }) cfg;
+    home-manager.users = lib.mapAttrs (name: user: {
+      # A missing profile is reported by the assertion below rather than an import error
+      imports = [
+        ./${name}/home
+      ]
+      ++ map (profileFile name) (lib.filter (p: builtins.pathExists (profileFile name p)) user.profiles);
+      home.stateVersion = config.system.stateVersion;
+    }) homeUsers;
+
+    assertions =
+      # Without a password, an admin couldn't use sudo
+      lib.mapAttrsToList (name: user: {
+        assertion = !user.admin || hasPassword name;
+        message = "host.users.${name}.admin needs a password: create users/${name}/password.yaml with a `hashed-password` key.";
+      }) cfg
+      ++ lib.concatLists (
+        lib.mapAttrsToList (
+          name: user:
+          map (profile: {
+            assertion = builtins.pathExists (profileFile name profile);
+            message = "host.users.${name}.profiles: users/${name}/home/${profile}.nix doesn't exist.";
+          }) user.profiles
+        ) homeUsers
+      );
   };
 }

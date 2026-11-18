@@ -4,16 +4,40 @@
   outputs,
   lib,
   hostname,
+  username,
   ...
 }:
 {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
+    inputs.home-manager.nixosModules.home-manager
     ../../users
   ]
   # Option modules (host.*); toggled per host.
   ++ builtins.attrValues outputs.nixosModules;
+
+  # Each user's config comes from users/<name>/home/, see users/default.nix
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "backup";
+    sharedModules = [
+      inputs.sops-nix.homeManagerModules.sops
+      # Neovim lives in its own flake: plugins, config and tooling in one package
+      inputs.neovim-flake.homeModules.default
+    ]
+    # Option modules (user.*); toggled per user.
+    ++ builtins.attrValues outputs.homeManagerModules;
+    extraSpecialArgs = {
+      inherit
+        inputs
+        outputs
+        username
+        hostname
+        ;
+    };
+  };
 
   nixpkgs = {
     config.allowUnfree = true;

@@ -5,7 +5,6 @@
     ./disks.nix
     ./interfaces.nix
     ./desktop.nix
-    ./home.nix
   ];
 
   host.services = {
@@ -30,6 +29,10 @@
   # User config
   host.users.guillaume = {
     admin = true;
+    profiles = [
+      "dev"
+      "desktop"
+    ];
     extraGroups = [
       "input"
       "video"

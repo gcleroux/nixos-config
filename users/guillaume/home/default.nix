@@ -1,25 +1,17 @@
 {
   pkgs,
   username,
-  inputs,
-  outputs,
   ...
 }:
 {
-  imports =
-    # Option modules (user.*); toggled per host.
-    builtins.attrValues outputs.homeManagerModules
-    # Neovim lives in its own flake: plugins, config and tooling in one package
-    ++ [ inputs.neovim-flake.homeModules.default ]
-    # Always-on, headless-safe configuration.
-    ++ [
-      ./programs/bat
-      ./programs/bottom
-      ./programs/fish
-      ./programs/fzf
-      ./programs/git
-      ./programs/starship
-    ];
+  imports = [
+    ./programs/bat
+    ./programs/bottom
+    ./programs/fish
+    ./programs/fzf
+    ./programs/git
+    ./programs/starship
+  ];
 
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -61,14 +53,4 @@
     traceroute
     yq-go
   ];
-
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "23.05";
 }
