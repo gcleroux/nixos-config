@@ -6,6 +6,5 @@
 
     ./backups.nix
     ./bird.nix
-    ./node-exporter.nix
   ];
 }

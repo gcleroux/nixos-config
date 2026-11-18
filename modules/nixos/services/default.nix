@@ -6,6 +6,7 @@
     ./gaming.nix
     ./greeter.nix
     ./keyring.nix
+    ./node-exporter.nix
     ./polkit.nix
     ./powersave.nix
     ./printing.nix

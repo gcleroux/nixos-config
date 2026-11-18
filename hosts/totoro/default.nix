@@ -13,6 +13,7 @@ in
   ];
 
   host.users.guillaume.admin = true;
+  host.services.node-exporter.enable = true;
 
   # deploy-rs logs in as root: key only, from the LAN or nixos-fw's VPN address
   services.openssh.settings.PermitRootLogin = "prohibit-password";

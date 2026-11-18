@@ -14,6 +14,7 @@ in
   ];
 
   host.users.guillaume.admin = true;
+  host.services.node-exporter.enable = true;
 
   services.resolved.enable = false;
 

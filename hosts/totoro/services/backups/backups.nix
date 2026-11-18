@@ -60,6 +60,11 @@ in
   # runs as root, since only root can list /srv/Backups
   systemd.services.btrbk-calcifer.serviceConfig.ExecStartPost = "+${backupAgeMetric}";
 
+  services.prometheus.exporters.node.extraFlags = [
+    "--collector.textfile.directory=/var/lib/node-exporter-textfile"
+  ];
+  systemd.tmpfiles.rules = [ "d /var/lib/node-exporter-textfile 0755 root root -" ];
+
   sops.secrets."btrbk/ssh_key" = {
     sopsFile = ./secrets.yaml;
     owner = "btrbk";
