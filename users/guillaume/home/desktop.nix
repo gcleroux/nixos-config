@@ -18,6 +18,7 @@
     ./services/cliphist
     ./services/fnott
     ./services/gpg-agent
+    ./services/kanshi
     ./services/mpris-proxy
     ./services/network-manager-applet
     ./services/playerctld
