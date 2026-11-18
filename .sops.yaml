@@ -32,8 +32,8 @@ creation_rules:
           - *nixos_worker_01
           - *totoro
 
-  # Must come after the password rule: sops uses the first match
-  - path_regex: users/guillaume/
+  # A user's home-manager secrets: the hosts with their dev/desktop profiles
+  - path_regex: users/guillaume/home/
     key_groups:
       - age:
           - *admin
