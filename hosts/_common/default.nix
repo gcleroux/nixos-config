@@ -4,7 +4,6 @@
   outputs,
   lib,
   hostname,
-  username,
   ...
 }:
 {
@@ -33,7 +32,6 @@
       inherit
         inputs
         outputs
-        username
         hostname
         ;
     };

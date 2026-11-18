@@ -1,6 +1,6 @@
 {
+  config,
   pkgs,
-  username,
   hostname,
   ...
 }:
@@ -36,7 +36,7 @@
   programs.yazi.shellWrapperName = "yy";
 
   # This will automatically import SSH keys as age keys
-  sops.age.sshKeyPaths = [ "/home/${username}/.ssh/id_ed25519" ];
+  sops.age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
 
   home.sessionPath = [ "$HOME/go/bin" ];
 

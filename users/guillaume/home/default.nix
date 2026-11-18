@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, ... }:
 {
   imports = [
     ./programs/bat
@@ -37,11 +33,6 @@
       fi
     '';
   };
-
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = username;
-  home.homeDirectory = "/home/${username}";
 
   # Installed packages
   home.packages = with pkgs; [

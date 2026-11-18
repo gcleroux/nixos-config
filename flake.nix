@@ -81,7 +81,6 @@
           system = host.system or "x86_64-linux";
           specialArgs = {
             inherit inputs outputs hostname;
-            username = "guillaume";
             inventory = import ./hosts/inventory.nix;
           };
           modules = [
