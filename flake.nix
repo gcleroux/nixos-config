@@ -82,6 +82,7 @@
           specialArgs = {
             inherit inputs outputs hostname;
             username = "guillaume";
+            inventory = import ./hosts/inventory.nix;
           };
           modules = [
             ./hosts/_common

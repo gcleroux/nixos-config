@@ -5,13 +5,14 @@
   pkgs,
   hostname,
   outputs,
+  inventory,
   ...
 }:
 let
   gatewayIP = builtins.elemAt (lib.strings.splitString "/" (
     builtins.elemAt config.systemd.network.networks."40-br-lan".address 0
   )) 0;
-  inherit (import ../../subnets.nix) lan4;
+  inherit (inventory.subnets) lan4;
   # 10.0.0 -> 0.0.10.in-addr.arpa
   lanReverseZone =
     lib.concatStringsSep "." (lib.reverseList (lib.splitString "." lan4)) + ".in-addr.arpa";

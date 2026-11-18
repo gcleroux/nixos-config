@@ -5,10 +5,11 @@
   pkgs,
   hostname,
   outputs,
+  inventory,
   ...
 }:
 let
-  inherit (import ./subnets.nix)
+  inherit (inventory.subnets)
     lan4
     guest4
     vpn4
