@@ -37,6 +37,8 @@ let
     pkgs.fzf
     pkgs.wl-clipboard
   ];
+  kanshictl = "${config.services.kanshi.package}/bin/kanshictl";
+
   launcher = script "launcher" [
     pkgs.fzf
     appMenu
@@ -212,6 +214,11 @@ in
       	# Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
       	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "${brightness}/bin/brightness --inc"
       	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "${brightness}/bin/brightness --dec"
+
+        # Lid closed while docked: turn off eDP-1. Undocked, the switch doesn't match and logind suspends.
+        # Opening it lets kanshi pick the profile for the connected outputs again.
+        riverctl map-switch $mode lid close spawn "${kanshictl} switch docked-lid-closed"
+        riverctl map-switch $mode lid open spawn "${kanshictl} reload"
       done
 
       # Set background and border color
