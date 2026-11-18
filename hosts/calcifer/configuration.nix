@@ -27,7 +27,7 @@
       conntrack-tools
       dnsutils
       ethtool
-      foot
+      foot.terminfo
       git
       iputils
       neovim

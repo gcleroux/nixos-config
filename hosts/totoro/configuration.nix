@@ -21,7 +21,7 @@
     systemPackages = with pkgs; [
       bottom
       btrbk
-      foot
+      foot.terminfo
       git
       gptfdisk
       iputils

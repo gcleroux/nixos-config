@@ -95,7 +95,7 @@ in
     systemPackages = with pkgs; [
       bottom
       clinfo
-      foot
+      foot.terminfo
       fluxcd
       git
       glib
