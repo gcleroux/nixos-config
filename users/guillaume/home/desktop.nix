@@ -29,21 +29,11 @@
   services.network-manager-applet.enable = true;
   services.mpris-proxy.enable = true;
 
-  services.gnome-keyring = {
-    enable = true;
-    components = [
-      "pkcs11"
-      "secrets"
-      "ssh"
-    ];
-  };
-
   home.sessionVariables = {
     BROWSER = "firefox";
     TERMINAL = "foot";
 
-    # gnome-keyring needed env vars
-    GNOME_KEYRING_CONTROL = "$XDG_RUNTIME_DIR/keyring";
+    # gcr's ssh agent only exports this to systemd's user environment, which river doesn't inherit
     SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
   };
 

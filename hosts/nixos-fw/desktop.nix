@@ -33,11 +33,6 @@
         thunar-volman
       ];
     };
-
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
   };
 
   services = {

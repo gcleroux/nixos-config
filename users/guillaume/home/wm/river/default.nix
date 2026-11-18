@@ -44,7 +44,6 @@
       # Autostart programs
       # ==================
       riverctl spawn "way-displays > /tmp/way-displays.$XDG_VTNR.$USER.log 2>&1"
-      riverctl spawn "wl-paste --watch cliphist store"
       riverctl spawn "wbg -s ~/Pictures/Wallpapers/murky_peaks.jpg"
 
       # Programs keybinds
