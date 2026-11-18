@@ -26,8 +26,8 @@
 
     users.${username} = {
       imports = [
-        ../../home/users/guillaume.nix
-        ../../home/profiles/desktop.nix
+        ../../users/guillaume/home.nix
+        ../../users/guillaume/desktop.nix
       ];
 
       user.programs.ai.enable = true;

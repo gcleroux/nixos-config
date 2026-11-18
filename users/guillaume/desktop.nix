@@ -1,25 +1,25 @@
 { pkgs, ... }:
 {
   imports = [
-    ../programs/aerc
-    ../programs/firefox
-    ../programs/mpv
-    ../programs/rbw
-    ../programs/spotify-player
-    ../programs/swaylock
-    ../programs/waybar
-    ../programs/wofi
+    ./programs/aerc
+    ./programs/firefox
+    ./programs/mpv
+    ./programs/rbw
+    ./programs/spotify-player
+    ./programs/swaylock
+    ./programs/waybar
+    ./programs/wofi
 
-    ../services/cliphist
-    ../services/fnott
-    ../services/gpg-agent
-    ../services/gromit-mpx
-    ../services/swayidle
+    ./services/cliphist
+    ./services/fnott
+    ./services/gpg-agent
+    ./services/gromit-mpx
+    ./services/swayidle
 
-    ../wm/river
-    ../default-apps.nix
+    ./wm/river
+    ./default-apps.nix
   ]
-  ++ import ../themes;
+  ++ import ./themes;
 
   programs.imv.enable = true;
 

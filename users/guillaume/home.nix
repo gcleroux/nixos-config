@@ -14,16 +14,16 @@
     ++ [ inputs.neovim-flake.homeModules.default ]
     # Always-on, headless-safe configuration.
     ++ [
-      ../programs/bat
-      ../programs/bottom
-      ../programs/direnv
-      ../programs/fish
-      ../programs/foot
-      ../programs/fzf
-      ../programs/git
-      ../programs/lazygit
-      ../programs/ssh
-      ../programs/starship
+      ./programs/bat
+      ./programs/bottom
+      ./programs/direnv
+      ./programs/fish
+      ./programs/foot
+      ./programs/fzf
+      ./programs/git
+      ./programs/lazygit
+      ./programs/ssh
+      ./programs/starship
     ];
 
   wrappers.neovim = {

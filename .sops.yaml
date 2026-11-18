@@ -22,12 +22,6 @@ creation_rules:
           - *admin
           - *totoro
 
-  - path_regex: home/
-    key_groups:
-      - age:
-          - *admin
-          - *nixos-fw
-
   # A user's password hash: every host the user lives on
   - path_regex: users/guillaume/password\.yaml$
     key_groups:
@@ -37,6 +31,13 @@ creation_rules:
           - *calcifer
           - *nixos_worker_01
           - *totoro
+
+  # Must come after the password rule: sops uses the first match
+  - path_regex: users/guillaume/
+    key_groups:
+      - age:
+          - *admin
+          - *nixos-fw
 
   # Fallback until a rule above names a host for it
   - key_groups:
