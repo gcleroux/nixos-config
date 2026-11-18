@@ -4,7 +4,12 @@
   ...
 }:
 {
-  home.packages = [
+  home.packages = with pkgs; [
+    clipboard-jh
+    lswt
+    wbg
+    way-displays
+    wlr-randr
     (pkgs.writeShellApplication {
       name = "way-displays-callback";
       runtimeInputs = with pkgs; [
@@ -244,5 +249,10 @@
       riverctl default-layout rivertile
       rivertile -view-padding 6 -outer-padding 6 -main-ratio 0.5 &
     '';
+  };
+
+  # https://codeberg.org/river/wiki#workaround-for-firefox
+  dconf.settings."org/gnome/desktop/wm/preferences" = {
+    button-layout = "";
   };
 }

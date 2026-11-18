@@ -1,25 +1,17 @@
-{ pkgs, ... }:
 {
   imports = [
     ./programs/ai
     ./programs/direnv
+    ./programs/fusee-nano
+    ./programs/gh
+    ./programs/go
+    ./programs/hey
     ./programs/kubernetes
     ./programs/lazygit
     ./programs/neovim
+    ./programs/rclone
+    ./programs/sops
     ./programs/ssh
     ./programs/yazi
-  ];
-
-  home.sessionPath = [ "$HOME/go/bin" ];
-
-  home.packages = with pkgs; [
-    age
-    fusee-nano
-    gh
-    gnumake
-    go
-    hey
-    rclone
-    sops
   ];
 }
