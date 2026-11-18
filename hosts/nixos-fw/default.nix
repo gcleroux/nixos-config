@@ -37,19 +37,15 @@
     systemPackages = with pkgs; [
       brightnessctl
       clinfo
-      coreutils
       dex
       file-roller
       gcc
       gdb
-      git
       glib
       grim
       imagemagick
       libnotify
-      mesa
       mesa-demos
-      networkmanagerapplet
       nfs-utils
       openconnect
       openvpn
@@ -57,7 +53,6 @@
       pciutils
       playerctl
       powerstat
-      rtkit
       slurp
       tpm2-tss
       unzip
