@@ -1,0 +1,2 @@
+# Separate dotted keys (host.users…, host.services…) read better than one nested block
+disabled = [ "repeated_keys" ]

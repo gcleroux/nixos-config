@@ -106,6 +106,25 @@
     {
       formatter = forAllSystems (system: inputs.nixpkgs.legacyPackages.${system}.nixfmt-tree);
 
+      # `nix flake check`: deploy-rs's checks (they build every host), lint and formatting
+      checks.x86_64-linux =
+        let
+          pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+          lint =
+            name: command:
+            pkgs.runCommand name { } ''
+              cd ${self}
+              ${command}
+              touch $out
+            '';
+        in
+        deployPkgs.deploy-rs.lib.deployChecks self.deploy
+        // {
+          deadnix = lint "deadnix" "${pkgs.deadnix}/bin/deadnix --fail --no-lambda-arg .";
+          statix = lint "statix" "${pkgs.statix}/bin/statix check .";
+          formatting = lint "formatting" "${pkgs.nixfmt}/bin/nixfmt --check $(find . -name '*.nix')";
+        };
+
       overlays = import ./overlays;
       nixosModules = import ./modules/nixos;
 
