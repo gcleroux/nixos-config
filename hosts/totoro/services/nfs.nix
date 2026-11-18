@@ -1,6 +1,6 @@
 { lib, inventory, ... }:
 let
-  inherit (inventory.subnets) lan4 cluster4;
+  inherit (inventory.cidrs) lan4 cluster4;
   inherit (inventory.vpnPeers) nixos-fw;
 in
 {
@@ -106,12 +106,12 @@ in
       trusted =
         opts:
         lib.concatMapStringsSep " " (client: "${client}(${opts})") [
-          "${lan4}.0/24"
+          lan4
           nixos-fw.ipv4
           nixos-fw.ipv6
         ];
       # The Kubernetes nodes on VLAN 30
-      cluster = opts: "${cluster4}.0/24(${opts})";
+      cluster = opts: "${cluster4}(${opts})";
     in
     ''
       /export            ${trusted "rw,nohide,insecure,no_subtree_check,crossmnt,fsid=0"} ${cluster "ro,no_subtree_check,fsid=0"}

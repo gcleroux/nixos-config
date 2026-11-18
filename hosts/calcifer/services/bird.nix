@@ -1,14 +1,14 @@
 { hostname, inventory, ... }:
 let
-  inherit (inventory.subnets)
+  inherit (inventory.cidrs)
     cluster4
     cluster6
     vipPrivate4
     vipPrivate6
     vipPublic4
     vipPublic6
+    pods6
     ;
-  inherit (inventory) pods;
   addr = inventory.hosts.${hostname};
 in
 {
@@ -32,11 +32,11 @@ in
       }
 
       # Only VIP host routes and the per-node pod /64s are accepted from the cluster.
-      define CLUSTER_V4 = [ ${vipPrivate4}.0/24{32,32}, ${vipPublic4}.0/24{32,32} ];
+      define CLUSTER_V4 = [ ${vipPrivate4}{32,32}, ${vipPublic4}{32,32} ];
       define CLUSTER_V6 = [
-        ${vipPrivate6}::/64{128,128},
-        ${vipPublic6}::/64{128,128},
-        ${pods.ipv6}{64,64}
+        ${vipPrivate6}{128,128},
+        ${vipPublic6}{128,128},
+        ${pods6}{64,64}
       ];
 
       template bgp cluster_peer {
@@ -47,14 +47,14 @@ in
       # and each node that connects gets its own session (nodes_v4_1, ...).
       protocol bgp nodes_v4 from cluster_peer {
         local ${addr.cluster4} as 65000;
-        neighbor range ${cluster4}.0/24 as 65030;
+        neighbor range ${cluster4} as 65030;
         dynamic name "nodes_v4_";
         ipv4 { import where net ~ CLUSTER_V4; export none; };
       }
 
       protocol bgp nodes_v6 from cluster_peer {
         local ${addr.cluster6} as 65000;
-        neighbor range ${cluster6}::/64 as 65030;
+        neighbor range ${cluster6} as 65030;
         dynamic name "nodes_v6_";
         ipv6 { import where net ~ CLUSTER_V6; export none; };
       }

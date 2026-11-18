@@ -9,7 +9,7 @@
   ...
 }:
 let
-  inherit (inventory.subnets)
+  inherit (inventory.cidrs)
     cluster4
     cluster6
     vipPrivate4
@@ -47,10 +47,10 @@ in
         # Kubernetes network segments, following this structure
         # 10.0.30.0/24: Nodes (VLAN 30)
         # 10.0.40.0/24: LAN/VPN reachable LB IP
-        define CLUSTER4     = ${cluster4}.0/24
-        define CLUSTER6     = ${cluster6}::/64
-        define VIP_PRIVATE4 = ${vipPrivate4}.0/24
-        define VIP_PRIVATE6 = ${vipPrivate6}::/64
+        define CLUSTER4     = ${cluster4}
+        define CLUSTER6     = ${cluster6}
+        define VIP_PRIVATE4 = ${vipPrivate4}
+        define VIP_PRIVATE6 = ${vipPrivate6}
 
         table inet filter {
             chain input {

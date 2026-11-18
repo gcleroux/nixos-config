@@ -9,7 +9,8 @@
   ...
 }:
 let
-  inherit (inventory.subnets) lan4 guest4;
+  inherit (inventory) ip;
+  inherit (inventory.cidrs) lan4 guest4;
   inherit (inventory.hosts) totoro nixos-worker-01;
   addr = inventory.hosts.${hostname};
 in
@@ -35,8 +36,8 @@ in
         # The leading word is a dnsmasq *tag* (set:<tag>), not an interface binding;
         # dnsmasq picks the range matching the subnet of the receiving interface.
         dhcp-range = [
-          "br-lan,${lan4}.100,${lan4}.250,12h"
-          "set:guest,${guest4}.100,${guest4}.250,4h"
+          "br-lan,${ip lan4 100},${ip lan4 250},12h"
+          "set:guest,${ip guest4 100},${ip guest4 250},4h"
         ];
         dhcp-lease-max = 300; # Global across all ranges
         interface = [
@@ -68,8 +69,8 @@ in
           "totoro.lan,${totoro.lan4},${totoro.lan6}" # NAS, static on the host
           "nixos-worker-01.lan,${nixos-worker-01.cluster4},${nixos-worker-01.cluster6}" # K8s node, static on VLAN 30
           "lldap.lan,${addr.lan4}"
-          "switch.lan,${lan4}.10"
-          "u6-plus.lan,${lan4}.11"
+          "switch.lan,${ip lan4 10}"
+          "u6-plus.lan,${ip lan4 11}"
         ];
       };
     };

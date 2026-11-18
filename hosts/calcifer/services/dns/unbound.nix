@@ -10,18 +10,19 @@
 }:
 let
   addr = inventory.hosts.${hostname};
-  inherit (inventory.subnets) lan4 vipPrivate4 vipPrivate6;
-  # 10.0.0 -> 0.0.10.in-addr.arpa
+  inherit (inventory) ip;
+  inherit (inventory.cidrs) lan4 vipPrivate4 vipPrivate6;
+  # 10.0.0.0/24 -> 0.0.10.in-addr.arpa
   lanReverseZone =
-    lib.concatStringsSep "." (lib.reverseList (lib.splitString "." lan4)) + ".in-addr.arpa";
+    lib.concatStringsSep "." (lib.reverseList (lib.take 3 (lib.splitString "." lan4))) + ".in-addr.arpa";
 
   # Every name under this zone is a hostname on the cluster's private gateway, so
   # a redirect zone answers them all without listing each one
   privateZone = "home.cleroux.dev";
 
   # The private gateway's VIPs, routed to the cluster by BIRD
-  privateGateway4 = "${vipPrivate4}.10";
-  privateGateway6 = "${vipPrivate6}::10";
+  privateGateway4 = ip vipPrivate4 10;
+  privateGateway6 = ip vipPrivate6 10;
   privateTTL = "60";
 in
 {
