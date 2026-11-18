@@ -20,6 +20,6 @@
     MANPAGER = "nvim +Man!";
   };
 
-  # This will automatically import SSH keys as age keys
-  sops.age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
+  # The admin age key (.sops.yaml) decrypts the home-manager secrets
+  sops.age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
 }
