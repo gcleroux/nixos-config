@@ -25,15 +25,9 @@
       inputs.sops-nix.homeManagerModules.sops
       # Neovim lives in its own flake: plugins, config and tooling in one package
       inputs.neovim-flake.homeModules.default
-    ]
-    # Option modules (user.*); toggled per user.
-    ++ builtins.attrValues outputs.homeManagerModules;
+    ];
     extraSpecialArgs = {
-      inherit
-        inputs
-        outputs
-        hostname
-        ;
+      inherit inputs hostname;
     };
   };
 

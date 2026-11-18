@@ -121,7 +121,6 @@
         }
       );
       nixosModules = import ./modules/nixos;
-      homeManagerModules = import ./modules/home-manager;
 
       nixosConfigurations = inputs.nixpkgs.lib.mapAttrs mkHost hosts;
 

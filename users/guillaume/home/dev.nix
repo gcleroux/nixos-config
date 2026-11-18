@@ -1,14 +1,13 @@
 { pkgs, ... }:
 {
   imports = [
+    ./programs/ai
     ./programs/direnv
     ./programs/lazygit
     ./programs/neovim
     ./programs/ssh
     ./programs/yazi
   ];
-
-  user.programs.ai.enable = true;
 
   home.sessionPath = [ "$HOME/go/bin" ];
 
