@@ -10,34 +10,37 @@ let
 in
 {
   networking = {
-    networkmanager = {
-      enable = true;
-      ensureProfiles.profiles.lan = {
-        connection = {
-          id = "lan";
-          type = "ethernet";
-          interface-name = "enp0s13f0u1";
-          autoconnect-priority = 10;
-        };
-        ipv4 = {
-          method = "manual";
-          address1 = "${addr.cluster4}/24,${router}";
-          dns = "${router};";
-          dns-search = "lan;";
-        };
-        ipv6 = {
-          method = "auto";
-          address1 = "${addr.cluster6}/64";
-          ip6-privacy = 0;
-          ignore-auto-dns = true;
-        };
-      };
-    };
+    useNetworkd = true;
+    useDHCP = false;
+
+    # A plain resolv.conf, without systemd-resolved's 127.0.0.53 stub that pods can't reach
+    nameservers = [ router ];
+    search = [ "lan" ];
 
     hosts = lib.mkForce { };
     extraHosts = "${addr.cluster4} ${hostname}";
 
     # Disable firewall for faster deployment
     firewall.enable = false;
+  };
+
+  services.resolved.enable = false;
+  systemd.network = {
+    # Cilium installs its own routes and routing rules
+    config.networkConfig = {
+      ManageForeignRoutes = false;
+      ManageForeignRoutingPolicyRules = false;
+    };
+
+    # The USB Ethernet adapter: its name depends on the port it's plugged into
+    networks."30-lan" = {
+      matchConfig.PermanentMACAddress = "4c:ea:41:67:19:c8";
+      address = [
+        "${addr.cluster4}/24"
+        "${addr.cluster6}/64"
+      ];
+      gateway = [ router ];
+      linkConfig.RequiredForOnline = "routable";
+    };
   };
 }
