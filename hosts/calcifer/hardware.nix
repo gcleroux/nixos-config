@@ -21,10 +21,6 @@
     };
     # Kernel config
     kernelModules = [ "kvm-intel" ];
-    kernelParams = [
-      "quiet"
-      "splash"
-    ];
     kernel.sysctl = {
       "net.ipv4.conf.all.forwarding" = true;
       # "net.ipv4.conf.default.rp_filter" = 1;

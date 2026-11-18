@@ -22,10 +22,6 @@
     };
     # Kernel config
     kernelModules = [ ];
-    kernelParams = [
-      "quiet"
-      "splash"
-    ];
 
     initrd = {
       availableKernelModules = [
