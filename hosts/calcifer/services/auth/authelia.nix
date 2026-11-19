@@ -31,7 +31,7 @@ in
 
       authentication_backend.ldap = {
         implementation = "lldap";
-        address = "ldap://${lldap.ldap_host}:${toString lldap.ldap_port}";
+        address = "ldap://127.0.0.1:${toString lldap.ldap_port}";
         base_dn = lldap.ldap_base_dn;
         user = "uid=authelia,ou=people,${lldap.ldap_base_dn}";
       };

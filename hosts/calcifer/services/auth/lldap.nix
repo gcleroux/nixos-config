@@ -11,7 +11,9 @@ in
     enable = true;
     settings = {
       ldap_base_dn = "dc=cleroux,dc=dev";
-      ldap_host = "127.0.0.1";
+      # Every interface: Jellyfin and Calibre-web reach it over the cluster VLAN, and
+      # calcifer's firewall drops it from everywhere else
+      ldap_host = "0.0.0.0";
       # calcifer's firewall opens this port to the private gateway
       http_port = 17170;
       http_url = "https://lldap.home.cleroux.dev";
@@ -39,6 +41,7 @@ in
 
   # Service accounts, which the NixOS module can't declare. Authelia binds as
   # `authelia`, and lldap_password_manager lets it reset users' passwords.
+  # Jellyfin and Calibre-web look users up as the read-only `ldap-reader`.
   systemd.services.lldap-bootstrap = {
     description = "Create LLDAP's service accounts";
     after = [ "lldap.service" ];
@@ -61,6 +64,7 @@ in
       LoadCredential = [
         "admin_pass:${config.sops.secrets."lldap/admin_pass".path}"
         "authelia_pass:${config.sops.secrets."authelia/ldap_password".path}"
+        "reader_pass:${config.sops.secrets."lldap/reader_password".path}"
       ];
     };
     script = ''
@@ -82,11 +86,21 @@ in
       fi
       LLDAP_USER_PASSWORD=$(< "$CREDENTIALS_DIRECTORY/authelia_pass") \
         lldap_set_password -b "$LLDAP_HTTPURL" --token "$LLDAP_TOKEN" -u authelia
+
+      if ! lldap-cli user list uid | grep -qx ldap-reader; then
+        lldap-cli user add ldap-reader ldap-reader@cleroux.dev -d "LDAP reader"
+      fi
+      if ! lldap-cli user group list ldap-reader | grep -qx lldap_strict_readonly; then
+        lldap-cli user group add ldap-reader lldap_strict_readonly
+      fi
+      LLDAP_USER_PASSWORD=$(< "$CREDENTIALS_DIRECTORY/reader_pass") \
+        lldap_set_password -b "$LLDAP_HTTPURL" --token "$LLDAP_TOKEN" -u ldap-reader
     '';
   };
 
   sops.secrets = {
     "lldap/admin_pass".sopsFile = ./secrets.yaml;
     "lldap/key_seed".sopsFile = ./secrets.yaml;
+    "lldap/reader_password".sopsFile = ./secrets.yaml;
   };
 }

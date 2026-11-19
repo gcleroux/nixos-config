@@ -43,6 +43,9 @@ in
                 iif "lo" accept
                 ct state vmap { established : accept, related : accept, invalid : drop }
 
+                # LLDAP's LDAP listens everywhere but only serves the cluster
+                tcp dport 3890 iifname != $CLUSTER drop
+
                 iifname $LAN accept
                 iifname $VPN jump input_vpn
                 iifname $GUEST jump input_guest
@@ -77,6 +80,7 @@ in
                 ip6 saddr $CLUSTER6 tcp dport 179 accept comment "BGP from the nodes (BIRD)"
                 tcp dport 9100-9103 accept comment "Metrics: node-exporter, unbound, blocky, dnsmasq"
                 ip saddr $CLUSTER4 tcp dport { 9091, 17170 } accept comment "Authelia, LLDAP web UI (private gateway)"
+                ip saddr $CLUSTER4 tcp dport 3890 accept comment "LDAP for Jellyfin and Calibre-web"
                 icmp type echo-request accept
                 icmpv6 type { echo-request, nd-router-solicit, nd-neighbor-solicit, nd-neighbor-advert } accept
                 jump handle_reject
