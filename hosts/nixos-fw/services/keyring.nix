@@ -1,11 +1,5 @@
 {
+  # Unlocked at login: greetd's PAM stack includes login, which this module hooks
   services.gnome.gnome-keyring.enable = true;
   programs.seahorse.enable = true;
-
-  # Unlock gnome-keyring on login
-  security.pam.services = {
-    greetd.enableGnomeKeyring = true;
-    greetd-password.enableGnomeKeyring = true;
-    login.enableGnomeKeyring = true;
-  };
 }

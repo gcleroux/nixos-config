@@ -46,7 +46,6 @@
       imagemagick
       libnotify
       mesa-demos
-      nfs-utils
       openconnect
       openvpn
       p7zip
@@ -56,7 +55,6 @@
       unzip
       wdisplays
       wl-clipboard
-      xdg-utils
     ];
   };
 

@@ -1,62 +1,16 @@
-{ pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [ btrbk ];
-
-  # Backup tool setup for the /home directory
+  # Snapshots of /home: every day, kept 14 days, then weekly for 5 weeks and monthly for 3 months
   #TODO: Exclude ~/Downloads from backup
-  services.btrbk = {
-    instances = {
-      daily = {
-        onCalendar = "daily";
-        settings = {
-          snapshot_preserve = "14d";
-          snapshot_preserve_min = "7d";
-          volume = {
-            "/" = {
-              subvolume = {
-                "home" = {
-                  snapshot_create = "always";
-                };
-              };
-              snapshot_dir = "/.snapshots/daily";
-            };
-          };
-        };
-      };
-      weekly = {
-        onCalendar = "weekly";
-        settings = {
-          snapshot_preserve = "5w";
-          snapshot_preserve_min = "3w";
-          volume = {
-            "/" = {
-              subvolume = {
-                "home" = {
-                  snapshot_create = "always";
-                };
-              };
-              snapshot_dir = "/.snapshots/weekly";
-            };
-          };
-        };
-      };
-      monthly = {
-        onCalendar = "monthly";
-        settings = {
-          snapshot_preserve = "3m";
-          snapshot_preserve_min = "2m";
-          volume = {
-            "/" = {
-              subvolume = {
-                "home" = {
-                  snapshot_create = "always";
-                };
-              };
-              snapshot_dir = "/.snapshots/monthly";
-            };
-          };
-        };
+  services.btrbk.instances.home = {
+    onCalendar = "daily";
+    settings = {
+      snapshot_preserve_min = "7d";
+      snapshot_preserve = "14d 5w 3m";
+      volume."/" = {
+        snapshot_dir = "/.snapshots/home";
+        subvolume.home.snapshot_create = "always";
       };
     };
   };
+  systemd.tmpfiles.rules = [ "d /.snapshots/home 0755 root root -" ];
 }
