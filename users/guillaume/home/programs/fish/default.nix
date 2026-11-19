@@ -18,7 +18,6 @@
       biff = "batdiff";
       brep = "batgrep";
 
-      f = "yazi";
       v = "nvim";
 
       gc = "git clone";
