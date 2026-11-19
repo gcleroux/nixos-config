@@ -127,6 +127,70 @@ in
           pkce_challenge_method = "S256";
           redirect_uris = [ "https://grafana.${domain}/login/generic_oauth" ];
         }
+        {
+          client_id = "mealie";
+          client_name = "Mealie";
+          # Digest of the client secret in flux-apps apps/mealie/oidc-secret.yaml
+          client_secret = "$pbkdf2-sha512$310000$6DPlI/8UGQ.1p7fki7pfYQ$tO87YY1MCLJoo.5/d2L5kFLMcRCvOyBoSM2zYBuWV9KUKOgrEZAcJKvYK9SvIl7uNgUMIy5ul1lwOcjtIoIybw";
+          authorization_policy = "two_factor";
+          require_pkce = true;
+          pkce_challenge_method = "S256";
+          redirect_uris = [ "https://mealie.${domain}/login" ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+          ];
+        }
+        {
+          client_id = "paperless";
+          client_name = "Paperless";
+          # Digest of the client secret in flux-apps apps/paperless-ngx/oidc-secret.yaml
+          client_secret = "$pbkdf2-sha512$310000$6bHF/fLmqhwAJ52EtRXyMg$pDVZoInpYrido35Jn1JYg7Gp0V3HpyQtXrxlQy8ENXdD8ENBa1Z07rVYBW1Q1dg.Wh93ZO3R7zbi49CqHZcp5w";
+          authorization_policy = "two_factor";
+          require_pkce = true;
+          pkce_challenge_method = "S256";
+          redirect_uris = [ "https://paperless.${domain}/accounts/oidc/authelia/login/callback/" ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+          ];
+        }
+        {
+          client_id = "actual";
+          client_name = "Actual";
+          # Digest of the client secret in flux-apps apps/actual-server/oidc-secret.yaml
+          client_secret = "$pbkdf2-sha512$310000$a9UnG1q9G51lg4wbyjfdBg$T3nNBQTFkPaOG7/4H/YCNCJwCDoIYGpcB.bBmJ4Hp62tYuUFKfLD8JfifzaBcBxjV71Wryjd4Sl51qt1JmOO8Q";
+          authorization_policy = "two_factor";
+          require_pkce = true;
+          pkce_challenge_method = "S256";
+          redirect_uris = [ "https://actual.${domain}/openid/callback" ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+          ];
+        }
+        {
+          client_id = "audiobookshelf";
+          client_name = "Audiobookshelf";
+          # Digest of the client secret in Audiobookshelf's own settings (its database)
+          client_secret = "$pbkdf2-sha512$310000$k2D7Ek5Cg845WC5esd/7ow$L789rrwGTf3dQlBJCzdFkBdlSoxWAmbDUGFKAL.C166Ld70A3SmnKKmZRYp6TxnSHxDq9wT5lrjgItKZuF3krQ";
+          authorization_policy = "two_factor";
+          require_pkce = true;
+          pkce_challenge_method = "S256";
+          redirect_uris = [
+            "https://audiobookshelf.${domain}/auth/openid/callback"
+            # The phone app's login; Audiobookshelf then hands over to audiobookshelf://oauth
+            "https://audiobookshelf.${domain}/auth/openid/mobile-redirect"
+          ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+          ];
+        }
       ];
       identity_providers.oidc.claims_policies.grafana.id_token = [
         "email"
