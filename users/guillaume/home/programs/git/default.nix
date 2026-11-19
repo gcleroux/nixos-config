@@ -1,11 +1,6 @@
 {
   programs.git = {
     enable = true;
-    signing = {
-      format = "openpgp";
-      signByDefault = true;
-      key = "32330E3EDCF4D898";
-    };
     settings = {
       user = {
         name = "Guillaume Cléroux";
@@ -70,6 +65,7 @@
 
   programs.delta = {
     enable = true;
+    enableGitIntegration = true;
     options.navigate = true;
   };
 }
