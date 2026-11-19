@@ -4,7 +4,6 @@
     ./dns
     ./ppp
 
-    ./backups.nix
     ./bird.nix
   ];
 }
