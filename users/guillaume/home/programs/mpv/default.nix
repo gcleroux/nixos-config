@@ -28,7 +28,7 @@
     };
 
     config = {
-      profile = "gpu-hq";
+      profile = "high-quality";
       hwdec = "vaapi,auto-safe";
       gpu-context = "wayland";
       force-window = true;

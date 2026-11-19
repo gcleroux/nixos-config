@@ -3,18 +3,8 @@
     enable = true;
     enableDefaultConfig = false;
 
-    settings."*" = {
-      forwardAgent = false;
-      addKeysToAgent = "no";
-      compression = false;
-      serverAliveInterval = 0;
-      serverAliveCountMax = 3;
-      hashKnownHosts = false;
-      userKnownHostsFile = "~/.ssh/known_hosts";
-      controlMaster = "no";
-      controlPath = "~/.ssh/master-%r@%n:%p";
-      controlPersist = "no";
-    };
+    # Never forward the agent, unless a host in the includes (read first) asks for it
+    settings."*".ForwardAgent = false;
 
     includes = [
       "hosts/pinax"
@@ -35,5 +25,4 @@
     mode = "0400";
     format = "binary";
   };
-
 }

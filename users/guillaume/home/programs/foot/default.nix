@@ -5,9 +5,8 @@
     settings = {
       main = {
         shell = "${pkgs.fish}/bin/fish";
-        term = "foot";
         font = "Cousine Nerd Font Mono:size=16";
-        include = pkgs.foot.src + "/themes/nord";
+        include = "${pkgs.foot.themes}/share/foot/themes/nord";
       };
       scrollback.indicator-position = "none";
       key-bindings = {

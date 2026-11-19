@@ -1,15 +1,11 @@
 {
-  xdg.configFile = {
-    "swaylock/swaylock.png".source = ./swaylock.png;
-  };
-
   programs.swaylock = {
     enable = true;
     settings = {
       daemonize = true;
       ignore-empty-password = true;
       indicator-caps-lock = true;
-      image = "$HOME/.config/swaylock/swaylock.png";
+      image = "${./swaylock.png}";
       scaling = "fill";
       font = "Cousine Nerd Font Mono";
       font-size = "20";
