@@ -140,6 +140,7 @@ in
             "openid"
             "profile"
             "email"
+            "groups"
           ];
         }
         {
