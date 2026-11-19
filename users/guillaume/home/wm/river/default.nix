@@ -49,7 +49,6 @@ in
 {
   home.packages = with pkgs; [
     lswt
-    wbg
     wlr-randr
   ];
 
@@ -62,10 +61,6 @@ in
       XCURSOR_SIZE = 24;
     };
     extraConfig = ''
-      # Autostart programs
-      # ==================
-      riverctl spawn "wbg -s ~/Pictures/Wallpapers/murky_peaks.jpg"
-
       # Programs keybinds
       # =================
       riverctl map normal Super Return spawn ${config.home.sessionVariables.TERMINAL}

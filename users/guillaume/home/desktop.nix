@@ -24,6 +24,7 @@
     ./services/playerctld
     ./services/polkit-gnome
     ./services/swayidle
+    ./services/wbg
 
     ./wm/river
     ./default-apps.nix
