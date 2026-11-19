@@ -14,6 +14,7 @@ let
 
   # Media keys
   volume = script "volume" [
+    pkgs.gawk
     pkgs.libnotify
     pkgs.wireplumber
   ];

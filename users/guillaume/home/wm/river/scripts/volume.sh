@@ -1,19 +1,6 @@
-# TODO: Might want to use icons instead of input/output
-
+# "Volume: 0.45 [MUTED]" -> "45% [MUTED]"
 get_volume() {
-    volume=$(wpctl get-volume "$1" | sed s'/Volume: //')
-
-    case "$volume" in
-    "0.0"*)
-        echo "${volume//0.0/}"
-        ;;
-    "0."*)
-        echo "${volume//0./}"
-        ;;
-    "1.00"*)
-        echo "${volume//./}"
-        ;;
-    esac
+    wpctl get-volume "$1" | awk '{ printf "%d%%", $2 * 100 + 0.5; if ($3) printf " %s", $3 }'
 }
 
 # Output Audio

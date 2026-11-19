@@ -1,20 +1,20 @@
 declare -A apps
 
 desktop_file() {
-    fd '\.desktop$' /run/current-system/sw/share/applications 2>/dev/null || true
-    fd '\.desktop$' /etc/profiles/per-user/guillaume/share/applications 2>/dev/null || true
-    fd '\.desktop$' /var/lib/flatpak/exports/share/applications 2>/dev/null || true
-    fd '\.desktop$' "$HOME"/.local/share/applications 2>/dev/null || true
-    fd '\.desktop$' "$HOME"/.local/share/flatpak/exports/share/applications 2>/dev/null || true
+    # Highest priority first: the first entry found for a name wins below
+    IFS=: read -ra dirs <<<"${XDG_DATA_HOME:-$HOME/.local/share}:${XDG_DATA_DIRS:-}"
+    for dir in "${dirs[@]}"; do
+        fd '\.desktop$' "$dir/applications" 2>/dev/null || true
+    done
 }
 
 while read -r df; do
     app_name=$(awk -F= '/^Name=/ {print $2; exit}' "$df")
-    [ -n "$app_name" ] && apps["$app_name"]="$df"
+    [ -n "$app_name" ] && [ -z "${apps[$app_name]:-}" ] && apps["$app_name"]="$df"
 done < <(desktop_file)
 
 export FZF_DEFAULT_OPTS="-e -i --info=hidden --layout=reverse --scroll-off=5 --tiebreak=index --bind 'home:first,end:last'"
-selected=$(printf "%s\n" "${!apps[@]}" | sort | fzf -m -d / --with-nth -1 --prompt="select program(s) to open: ")
+selected=$(printf "%s\n" "${!apps[@]}" | sort | fzf -m --prompt="select program(s) to open: ")
 [ -z "$selected" ] && exit
 
 while read -r line; do
