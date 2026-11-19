@@ -27,7 +27,7 @@
     ./services/wbg
 
     ./wm/river
-    ./default-apps.nix
+    ./default-apps
     ./themes
   ];
 
