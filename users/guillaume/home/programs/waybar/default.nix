@@ -70,7 +70,6 @@
           format = " {temperatureC}°C";
         };
         clock = {
-          on-click = "${pkgs.kdePackages.merkuro}/bin/merkuro-calendar --platform wayland";
           format = "{:%I:%M %p | %A, %b %d}";
           tooltip = true;
           tooltip-format = "{:%A, %d %B %Y} <tt>{calendar}</tt>";
