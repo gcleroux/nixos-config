@@ -2,14 +2,10 @@
   description = "NixOS configuration";
 
   inputs = {
-    # Which version of NixOS packages to use
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
-      # Which version of Home-manager to use
       url = "github:nix-community/home-manager";
-
-      # We want to use the same set of nixpkgs as our system.
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

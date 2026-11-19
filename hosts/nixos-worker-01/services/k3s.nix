@@ -39,7 +39,7 @@ in
   services.k3s = {
     enable = true;
     role = "server";
-    package = pkgs.k3s_1_37; # same Kubernetes minor as the cluster it replaces
+    package = pkgs.k3s_1_37; # Pinned: Kubernetes upgrades one minor version at a time
     nodeIP = "${addr.cluster4},${addr.cluster6}";
     disable = [
       "traefik"
@@ -76,7 +76,7 @@ in
       };
     };
   };
-  # Was created by services.kubernetes; k3s writes its kubeconfig for it.
+  # Readers of k3s's kubeconfig (--write-kubeconfig-group above)
   users.groups.kubernetes = { };
   # Kubelet mounts NFS volumes from totoro; this also brings nfs-utils and rpcbind
   boot.supportedFilesystems = [ "nfs" ];

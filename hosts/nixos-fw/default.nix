@@ -12,7 +12,6 @@
   # Keeps build dependencies alive, so calcifer can still be rebuilt offline
   nix.settings.keep-outputs = true;
 
-  # User config
   host.users.guillaume = {
     admin = true;
     profiles = [
@@ -33,7 +32,6 @@
   services.fwupd.enable = true;
 
   environment = {
-    # Installed packages
     systemPackages = with pkgs; [
       brightnessctl
       clinfo

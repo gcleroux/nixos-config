@@ -34,7 +34,7 @@ in
   };
 
   services.btrbk.instances.calcifer = {
-    onCalendar = "*-*-* 03:30:00"; # Every day at 3:30am
+    onCalendar = "*-*-* 03:30:00";
     settings = {
       ssh_identity = config.sops.secrets."btrbk/ssh_key".path;
       ssh_user = "btrbk";

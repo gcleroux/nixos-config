@@ -36,7 +36,6 @@ in
     };
 
     netdevs = {
-      # Create the bridge interface
       "20-br-lan" = {
         netdevConfig = {
           Kind = "bridge";

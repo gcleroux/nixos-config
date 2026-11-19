@@ -20,7 +20,7 @@ in
     hosts = lib.mkForce { };
     extraHosts = "${addr.cluster4} ${hostname}";
 
-    # Disable firewall for faster deployment
+    # No host firewall: Cilium filters pod traffic and calcifer guards the cluster VLAN
     firewall.enable = false;
   };
 

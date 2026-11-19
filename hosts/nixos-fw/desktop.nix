@@ -7,8 +7,6 @@
       settings = {
         screencast = {
           max_fps = 30;
-          # exec_before = "${pkgs.fnott}/bin/fnottctl pause";
-          # exec_after = "${pkgs.fnott}/bin/fnottctl unpause";
           chooser_type = "simple";
           chooser_cmd = "${pkgs.slurp}/bin/slurp -f 'Monitor: %o' -or";
         };

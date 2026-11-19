@@ -14,8 +14,7 @@ in
     firewall.enable = false;
     nftables = {
       enable = true;
-      # IPv6 comes from EBOX (SLAAC on ebox0, a /56 by DHCPv6-PD)
-      # IPv6 is routed, not NATed
+      # IPv6 comes from EBOX (SLAAC on ebox0, a /56 by DHCPv6-PD) and is routed, not NATed
       ruleset = ''
         # Zones: every interface is listed exactly once, here.
         define LAN     = { "br-lan" }
@@ -28,12 +27,10 @@ in
         define TOTORO       = ${totoro.lan4}
 
         # VPN peers with the same access as the LAN
-        define VPN_ADMINS4  = { ${nixos-fw.ipv4}, ${z-fold-8.ipv4} } # nixos-fw, z-fold-8
+        define VPN_ADMINS4  = { ${nixos-fw.ipv4}, ${z-fold-8.ipv4} }
         define VPN_ADMINS6  = { ${nixos-fw.ipv6}, ${z-fold-8.ipv6} }
 
-        # Kubernetes network segments, following this structure
-        # 10.0.30.0/24: Nodes (VLAN 30)
-        # 10.0.40.0/24: LAN/VPN reachable LB IP
+        # Cluster nodes (VLAN 30) and the private gateway's LoadBalancer IPs
         define CLUSTER4     = ${cluster4}
         define CLUSTER6     = ${cluster6}
         define VIP_PRIVATE4 = ${vipPrivate4}
@@ -133,8 +130,10 @@ in
 
             chain forward_wan {
                 icmpv6 type echo-request accept
-                # Services exposed from the /56, e.g.:
-                # ip6 daddr <prefix>::20 tcp dport { 80, 443 } accept comment "nixos-worker-01"
+                # A LAN host exposed over IPv6, e.g.:
+                # ip6 daddr <host's lan6> tcp dport 443 accept comment "<host>"
+                # Cluster services go through a public VIP instead: add an
+                # iifname $WAN oifname $CLUSTER rule to forward
             }
 
             chain handle_reject {
