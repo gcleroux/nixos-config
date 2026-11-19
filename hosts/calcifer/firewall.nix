@@ -11,10 +11,6 @@ let
 in
 {
   networking = {
-    useNetworkd = true;
-    useDHCP = false;
-
-    nat.enable = false;
     firewall.enable = false;
     nftables = {
       enable = true;
@@ -161,6 +157,6 @@ in
     };
   };
 
-  # The nftables ruleset above decides who reaches sshd
+  # The nftables ruleset above decides who reaches sshd, even if the NixOS firewall is enabled later
   services.openssh.openFirewall = false;
 }

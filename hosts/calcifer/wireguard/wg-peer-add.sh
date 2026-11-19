@@ -6,12 +6,14 @@ set -euo pipefail
 usage() {
     cat <<'EOF'
 Usage:
-  wg-peer-add.sh [--output PATH] <peer-name> <peer-address>
+  wg-peer-add.sh [--output PATH] <peer-name>
+
+The peer must be listed in vpnPeers in hosts/inventory.nix, which assigns its addresses.
 
 Examples:
-  wg-peer-add.sh s24-ultra 10.0.9.102
-  wg-peer-add.sh --output s24-ultra.conf s24-ultra 10.0.9.102
-  wg-peer-add.sh -o s24-ultra.png  s24-ultra 10.0.9.102
+  wg-peer-add.sh s24-ultra
+  wg-peer-add.sh --output s24-ultra.conf s24-ultra
+  wg-peer-add.sh -o s24-ultra.png s24-ultra
 
 Behavior:
   - default: print QR code to terminal (ansiutf8)
@@ -31,7 +33,7 @@ while [[ $# -gt 0 ]]; do
             usage
             exit 2
         }
-        OUT_PATH="$2"
+        OUT_PATH=$(realpath -m "$2")
         shift 2
         ;;
     -h | --help)
@@ -53,15 +55,22 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ $# -ne 2 ]]; then
+if [[ $# -ne 1 ]]; then
     usage
     exit 1
 fi
 
 PEER_NAME="$1"
-PEER_ADDR="$2"
-# Same host ID in calcifer's wg0 IPv6 /64 (10.0.9.100 -> ::100)
-PEER_ADDR6="2606:6d00:ffb:6609::${PEER_ADDR##*.}"
+
+# Keys live next to this script, addresses come from the inventory
+cd "$(dirname "$0")"
+inventory() { nix eval --raw -f ../../inventory.nix "$1"; }
+PEER_ADDR=$(inventory "vpnPeers.${PEER_NAME}.ipv4") || {
+    echo "Error: add ${PEER_NAME} to vpnPeers in hosts/inventory.nix first"
+    exit 1
+}
+PEER_ADDR6=$(inventory "vpnPeers.${PEER_NAME}.ipv6")
+DNS_ADDR=$(inventory "hosts.calcifer.vpn4")
 
 # Gen keys if not already present
 if [[ ! -d "./${PEER_NAME}" ]]; then
@@ -85,7 +94,7 @@ generate_conf() {
 [Interface]
 PrivateKey = $(sops -d "./${PEER_NAME}/private.key")
 Address = ${PEER_ADDR}/32, ${PEER_ADDR6}/128
-DNS = 10.0.9.1
+DNS = ${DNS_ADDR}
 
 [Peer]
 PublicKey = $(cat "./calcifer/public.key")

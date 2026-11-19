@@ -13,8 +13,6 @@
   host.services.node-exporter.enable = true;
   host.services.root-deploy.enable = true;
 
-  services.resolved.enable = false;
-
   programs.mtr.enable = true;
 
   environment.systemPackages = with pkgs; [
