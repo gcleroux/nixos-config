@@ -1,6 +1,5 @@
 {
   # Snapshots of /home: every day, kept 14 days, then weekly for 5 weeks and monthly for 3 months
-  #TODO: Exclude ~/Downloads from backup
   services.btrbk.instances.home = {
     onCalendar = "daily";
     settings = {
