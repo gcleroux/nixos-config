@@ -18,7 +18,6 @@
         linkname ebox
 
         user cg1320@pppoe.ebox.net
-        name cg1320@pppoe.ebox.net
 
         # ISP-assigned IPv4 address.
         noipdefault
@@ -42,9 +41,6 @@
         # IPv6CP only brings up a link-local address on ebox0; networkd does
         # SLAAC and DHCPv6-PD on top of it (see 12-ebox0 in interfaces.nix).
         +ipv6
-
-        # Do not use ISP DNS.
-        noresolvconf
 
         # Install the IPv4 default route
         defaultroute
