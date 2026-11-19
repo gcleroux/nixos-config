@@ -78,7 +78,7 @@ in
       })
       {
         s24-ultra = 100;
-        nixos-fw = 101;
+        howl = 101;
         iphone-lapin = 102;
         mac-lapin = 103;
         s23-julie = 104;

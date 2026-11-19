@@ -46,8 +46,8 @@
 
       # Every host, configured from hosts/<name>. `deploy` overrides its deploy-rs node.
       hosts = {
-        # Framework laptop
-        nixos-fw = {
+        # ThinkPad T14 Gen 4
+        howl = {
           deploy = {
             hostname = "localhost";
             # No root login on the laptop: deploy as guillaume, sudo asks for the password

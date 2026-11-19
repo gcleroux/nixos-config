@@ -7,7 +7,7 @@ let
     vipPrivate6
     ;
   inherit (inventory.hosts) totoro;
-  inherit (inventory.vpnPeers) nixos-fw z-fold-8;
+  inherit (inventory.vpnPeers) howl z-fold-8;
 in
 {
   networking = {
@@ -27,8 +27,8 @@ in
         define TOTORO       = ${totoro.lan4}
 
         # VPN peers with the same access as the LAN
-        define VPN_ADMINS4  = { ${nixos-fw.ipv4}, ${z-fold-8.ipv4} }
-        define VPN_ADMINS6  = { ${nixos-fw.ipv6}, ${z-fold-8.ipv6} }
+        define VPN_ADMINS4  = { ${howl.ipv4}, ${z-fold-8.ipv4} }
+        define VPN_ADMINS6  = { ${howl.ipv6}, ${z-fold-8.ipv6} }
 
         # Cluster nodes (VLAN 30) and the private gateway's LoadBalancer IPs
         define CLUSTER4     = ${cluster4}

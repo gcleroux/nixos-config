@@ -1,7 +1,7 @@
 { lib, inventory, ... }:
 let
   inherit (inventory.cidrs) lan4 lan6 cluster4;
-  inherit (inventory.vpnPeers) nixos-fw;
+  inherit (inventory.vpnPeers) howl;
 
   # Each share is the btrfs subvolume @<name> of a disk, mounted in /srv and bind-mounted into /export
   shares = {
@@ -43,8 +43,8 @@ in
         lib.concatMapStringsSep " " (client: "${client}(${opts})") [
           lan4
           lan6
-          nixos-fw.ipv4
-          nixos-fw.ipv6
+          howl.ipv4
+          howl.ipv6
         ];
       # The Kubernetes nodes on VLAN 30
       cluster = opts: "${cluster4}(${opts})";

@@ -55,7 +55,7 @@ in
 
   wayland.windowManager.river = {
     enable = true;
-    # uwsm (hosts/nixos-fw) starts and stops graphical-session.target with river
+    # uwsm (hosts/howl) starts and stops graphical-session.target with river
     systemd.enable = false;
     # river and Xwayland come from the host (programs.river-classic)
     package = null;

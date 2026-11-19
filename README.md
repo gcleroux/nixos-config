@@ -4,7 +4,7 @@ NixOS flake for my homelab and laptop, deployed with deploy-rs.
 
 | Host              | Role                     |
 | ----------------- | ------------------------ |
-| `nixos-fw`        | Framework laptop (river) |
+| `howl`            | ThinkPad (river)         |
 | `calcifer`        | Router                   |
 | `totoro`          | NAS                      |
 | `nixos-worker-01` | k3s node                 |
