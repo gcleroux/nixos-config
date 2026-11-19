@@ -18,10 +18,11 @@ in
       device = "/dev/disk/by-uuid/${uuid}";
       fsType = "btrfs";
       options = [
-        "users"
         "nofail"
-        "rw"
         "noatime"
+        "nosuid"
+        "nodev"
+        "noexec"
         "compress=zstd"
         "subvol=@${lib.toLower name}"
       ];

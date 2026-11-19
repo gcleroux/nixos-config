@@ -50,15 +50,11 @@
       openconnect
       openvpn
       p7zip
-      pciutils
       playerctl
-      powerstat
       slurp
       tpm2-tss
       unzip
-      usbutils
       wdisplays
-      wget
       wl-clipboard
       xdg-utils
     ];

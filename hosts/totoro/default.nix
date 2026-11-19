@@ -12,22 +12,7 @@
   host.services.node-exporter.enable = true;
   host.services.root-deploy.enable = true;
 
-  environment = {
-    # Installed packages
-    systemPackages = with pkgs; [
-      bottom
-      btrbk
-      foot.terminfo
-      git
-      gptfdisk
-      iputils
-      neovim
-      pciutils
-      powerstat
-      usbutils
-      wget
-    ];
-  };
+  environment.systemPackages = [ pkgs.gptfdisk ];
 
   system.stateVersion = "25.11";
 }

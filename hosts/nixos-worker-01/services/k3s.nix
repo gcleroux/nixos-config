@@ -78,6 +78,6 @@ in
   };
   # Was created by services.kubernetes; k3s writes its kubeconfig for it.
   users.groups.kubernetes = { };
-  # NFS volumes (boot.supportedFilesystems has "nfs").
-  services.rpcbind.enable = true;
+  # Kubelet mounts NFS volumes from totoro; this also brings nfs-utils and rpcbind
+  boot.supportedFilesystems = [ "nfs" ];
 }

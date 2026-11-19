@@ -1,6 +1,7 @@
 # Configuration shared by every host
 {
   inputs,
+  pkgs,
   lib,
   hostname,
   ...
@@ -19,11 +20,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "backup";
-    sharedModules = [
-      inputs.sops-nix.homeManagerModules.sops
-      # Neovim lives in its own flake: plugins, config and tooling in one package
-      inputs.neovim-flake.homeModules.default
-    ];
+    sharedModules = [ inputs.sops-nix.homeManagerModules.sops ];
     extraSpecialArgs = {
       inherit inputs hostname;
     };
@@ -56,6 +53,18 @@
   };
 
   networking.hostName = hostname;
+
+  # Basic admin tools for every account, root included
+  environment.systemPackages = with pkgs; [
+    bottom
+    foot.terminfo
+    git
+    neovim
+    pciutils
+    powerstat
+    usbutils
+    wget
+  ];
 
   # Key-only SSH. Root login is off unless a host opts in for deploy-rs.
   services.openssh = {

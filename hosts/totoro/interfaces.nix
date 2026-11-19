@@ -11,12 +11,9 @@ in
   networking = {
     useNetworkd = true;
     useDHCP = false;
-
-    nat.enable = false;
     firewall.enable = false;
   };
 
-  services.resolved.enable = true;
   systemd.network = {
     wait-online.anyInterface = true;
 
@@ -68,7 +65,6 @@ in
 
       "40-br-lan" = {
         matchConfig.Name = "br-lan";
-        bridgeConfig = { };
         # Static, below calcifer's DHCP pool: the cluster's firewall rule for NFS
         # names this address. IPv6 still accepts calcifer's RA for its routes.
         address = [

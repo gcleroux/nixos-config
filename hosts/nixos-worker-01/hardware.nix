@@ -9,7 +9,6 @@
       "sd_mod"
     ];
     kernelModules = [ "kvm-intel" ];
-    supportedFilesystems = [ "nfs" ];
   };
 
   hardware = {

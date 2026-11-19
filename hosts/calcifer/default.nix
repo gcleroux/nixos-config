@@ -17,25 +17,13 @@
 
   programs.mtr.enable = true;
 
-  environment = {
-    # Installed packages
-    systemPackages = with pkgs; [
-      bottom
-      conntrack-tools
-      dnsutils
-      ethtool
-      foot.terminfo
-      git
-      iputils
-      neovim
-      pciutils
-      powerstat
-      tcpdump
-      traceroute
-      usbutils
-      wget
-    ];
-  };
+  environment.systemPackages = with pkgs; [
+    conntrack-tools
+    dnsutils
+    ethtool
+    tcpdump
+    traceroute
+  ];
 
   system.stateVersion = "25.05";
 }

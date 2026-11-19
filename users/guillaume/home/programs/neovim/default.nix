@@ -1,5 +1,8 @@
-{ hostname, ... }:
+{ inputs, hostname, ... }:
 {
+  # Neovim lives in its own flake: plugins, config and tooling in one package
+  imports = [ inputs.neovim-flake.homeModules.default ];
+
   wrappers.neovim = {
     enable = true;
 
