@@ -1,3 +1,0 @@
-{
-  host-services = import ./services;
-}

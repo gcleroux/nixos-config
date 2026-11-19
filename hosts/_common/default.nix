@@ -1,7 +1,6 @@
 # Configuration shared by every host
 {
   inputs,
-  outputs,
   lib,
   hostname,
   ...
@@ -11,10 +10,9 @@
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
+    ../../modules/nixos/services
     ../../users
-  ]
-  # Option modules (host.*); toggled per host.
-  ++ builtins.attrValues outputs.nixosModules;
+  ];
 
   # Each user's config comes from users/<name>/home/, see users/default.nix
   home-manager = {
@@ -33,9 +31,7 @@
 
   nixpkgs = {
     config.allowUnfree = true;
-    overlays = [
-      outputs.overlays.default
-    ];
+    overlays = [ (import ../../overlays) ];
   };
   nix = {
     gc = {

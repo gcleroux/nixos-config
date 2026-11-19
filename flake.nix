@@ -42,8 +42,6 @@
   outputs =
     { self, ... }@inputs:
     let
-      inherit (self) outputs;
-
       systems = [
         "x86_64-linux"
         "aarch64-darwin"
@@ -79,7 +77,7 @@
         inputs.nixpkgs.lib.nixosSystem {
           system = host.system or "x86_64-linux";
           specialArgs = {
-            inherit inputs outputs hostname;
+            inherit inputs hostname;
             inventory = import ./hosts/inventory.nix;
           };
           modules = [
@@ -124,9 +122,6 @@
           statix = lint "statix" "${pkgs.statix}/bin/statix check .";
           formatting = lint "formatting" "${pkgs.nixfmt}/bin/nixfmt --check $(find . -name '*.nix')";
         };
-
-      overlays = import ./overlays;
-      nixosModules = import ./modules/nixos;
 
       nixosConfigurations = inputs.nixpkgs.lib.mapAttrs mkHost hosts;
 
