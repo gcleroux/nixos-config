@@ -23,8 +23,6 @@
       f = "yazi";
       v = "nvim";
 
-      nnn = "nnn -deo";
-
       gc = "git clone";
       gs = "git status";
 

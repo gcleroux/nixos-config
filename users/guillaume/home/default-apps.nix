@@ -47,7 +47,6 @@
           "image/jpg"
           "image/pjpeg"
           "image/png"
-          "image/tiff"
           "image/x-bmp"
           "image/x-gray"
           "image/x-icb"
@@ -62,7 +61,8 @@
           "image/x-pcx"
           "image/svg+xml"
           "image/svg+xml-compressed"
-          "image/vnd.wap.wbmp;image/x-icns"
+          "image/vnd.wap.wbmp"
+          "image/x-icns"
         ];
         urls = [
           "text/html"
@@ -259,6 +259,6 @@
       // (lib.genAttrs urls (_: [ "${config.home.sessionVariables.BROWSER}.desktop" ]))
       // (lib.genAttrs documents (_: [ "org.pwmt.zathura.desktop" ]))
       // (lib.genAttrs audioVideo (_: [ "mpv.desktop" ]))
-      // (lib.genAttrs files (_: [ "nnn.desktop" ]));
+      // (lib.genAttrs files (_: [ "thunar.desktop" ]));
   };
 }
