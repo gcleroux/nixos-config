@@ -22,6 +22,7 @@
     ./services/mpris-proxy
     ./services/network-manager-applet
     ./services/playerctld
+    ./services/polkit-gnome
     ./services/swayidle
 
     ./wm/river
