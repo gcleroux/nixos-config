@@ -56,10 +56,9 @@ in
     enable = true;
     # uwsm (hosts/nixos-fw) starts and stops graphical-session.target with river
     systemd.enable = false;
-    xwayland.enable = true;
-    extraSessionVariables = {
-      XCURSOR_SIZE = 24;
-    };
+    # river and Xwayland come from the host (programs.river-classic)
+    package = null;
+    xwayland.enable = false;
     extraConfig = ''
       # Programs keybinds
       # =================
@@ -79,8 +78,8 @@ in
       riverctl map normal Super+Shift Grave spawn "${pkgs.fnott}/bin/fnottctl dismiss all"
 
       # Screenshot
-      riverctl map -release normal None Print spawn 'grim -l 0 -g "$(slurp)" - | wl-copy'
-      riverctl map -release normal Shift Print spawn 'slurp | grim -g - ~/Pictures/Screenshots/$(date +"screenshot_%Y-%m-%d-%H%M%S.png")'
+      riverctl map -release normal None Print spawn '${pkgs.grim}/bin/grim -l 0 -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy'
+      riverctl map -release normal Shift Print spawn '${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - ~/Pictures/Screenshots/$(date +"screenshot_%Y-%m-%d-%H%M%S.png")'
 
       # Super+Q to close the focused view
       riverctl map normal Super Q close
@@ -102,27 +101,18 @@ in
       riverctl map normal Super+Shift H spawn 'riverctl send-to-output left && riverctl focus-output left'
       riverctl map normal Super+Shift L spawn 'riverctl send-to-output right && riverctl focus-output right'
 
-      # riverctl map normal Super+Shift H send-to-output next
-      # riverctl map normal Super+Shift L send-to-output previous
-
-      # Super+Return to bump the focused view to the top of the layout stack
+      # Super+Shift+Return to bump the focused view to the top of the layout stack
       riverctl map normal Super+Shift Return zoom
 
-      # Super+H and Super+L to decrease/increase the main ratio of rivertile(1)
+      # Super+Alt+J and Super+Alt+K to decrease/increase the main ratio of rivertile(1)
       riverctl map normal Super+Alt J send-layout-cmd rivertile "main-ratio -0.05"
       riverctl map normal Super+Alt K send-layout-cmd rivertile "main-ratio +0.05"
 
-      # Super+Shift+H and Super+Shift+L to increment/decrement the main count of rivertile(1)
+      # Super+Alt+H and Super+Alt+L to increment/decrement the main count of rivertile(1)
       riverctl map normal Super+Alt H send-layout-cmd rivertile "main-count +1"
       riverctl map normal Super+Alt L send-layout-cmd rivertile "main-count -1"
 
-      # Super+Alt+{H,J,K,L} to move views
-      # riverctl map normal Alt H move left 100
-      # riverctl map normal Alt J move down 100
-      # riverctl map normal Alt K move up 100
-      # riverctl map normal Alt L move right 100
-
-      # Super+Alt+Control+{H,J,K,L} to snap views to screen edges
+      # Alt+Shift+{H,J,K,L} to snap views to screen edges
       riverctl map normal Alt+Shift H snap left
       riverctl map normal Alt+Shift J snap down
       riverctl map normal Alt+Shift K snap up
@@ -146,16 +136,16 @@ in
       for i in $(seq 1 5); do
       	tags=$((1 << ($i - 1)))
 
-      	# Super+[1-9] to focus tag [0-8]
+      	# Super+[1-5] to focus tag [1-5]
       	riverctl map normal Super $i set-focused-tags $tags
 
-      	# Super+Shift+[1-9] to tag focused view with tag [0-8]
+      	# Super+Shift+[1-5] to move the focused view to tag [1-5]
       	riverctl map normal Super+Shift $i set-view-tags $tags
 
-      	# Super+Control+[1-9] to toggle focus of tag [0-8]
+      	# Super+Control+[1-5] to toggle focus of tag [1-5]
       	riverctl map normal Super+Control $i toggle-focused-tags $tags
 
-      	# Super+Shift+Control+[1-9] to toggle tag [0-8] of focused view
+      	# Super+Shift+Control+[1-5] to toggle tag [1-5] of the focused view
       	riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
       done
 
@@ -188,10 +178,9 @@ in
       # Super+F11 to return to normal mode
       riverctl map passthrough Super F11 enter-mode normal
 
-      # Various media key mapping examples for both normal and locked mode which do
-      # not have a modifier
+      # Media keys, also on the lock screen
       for mode in normal locked; do
-      	# Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
+      	# Output volume
       	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "${volume}/bin/volume --inc-output"
       	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "${volume}/bin/volume --dec-output"
       	riverctl map $mode None XF86AudioMute spawn "${volume}/bin/volume --toggle-output"
@@ -217,7 +206,7 @@ in
         riverctl map-switch $mode lid open spawn "${kanshictl} reload"
       done
 
-      # Set background and border color
+      # Borders
       riverctl border-width 3
       riverctl border-color-focused 0x81a1c1
       riverctl border-color-unfocused 0x595959
@@ -237,22 +226,18 @@ in
       # Make firefox use server-side decorations
       riverctl rule-add -app-id firefox ssd
 
-
       # Set keyboard repeat rate
       riverctl set-repeat 50 300
 
       # Set keyboard layout
       riverctl keyboard-layout -variant ",,multix" -options "shift:both_capslock,caps:escape,grp:alt_space_toggle" eu,us,ca
 
-      # Set touchpad by grabbing the event
-      for pad in $(riverctl list-inputs | grep -i touchpad); do
-      	riverctl input $pad events enabled
-      	riverctl input $pad tap enabled
-      	riverctl input $pad tap-button-map left-right-middle
-      	riverctl input $pad scroll-method two-finger
-      	riverctl input $pad natural-scroll enabled
-        riverctl input $pad scroll-factor 0.15
-      done
+      # Touchpads, including ones connected later
+      riverctl input '*Touchpad' tap enabled
+      riverctl input '*Touchpad' tap-button-map left-right-middle
+      riverctl input '*Touchpad' scroll-method two-finger
+      riverctl input '*Touchpad' natural-scroll enabled
+      riverctl input '*Touchpad' scroll-factor 0.15
 
       # Cursor config
       riverctl focus-follows-cursor normal
@@ -265,7 +250,7 @@ in
       rivertile -view-padding 6 -outer-padding 6 -main-ratio 0.5 &
 
       # Tells uwsm river is ready: exports WAYLAND_DISPLAY to systemd and starts graphical-session.target
-      ${pkgs.uwsm}/bin/uwsm finalize XCURSOR_SIZE
+      ${pkgs.uwsm}/bin/uwsm finalize
     '';
   };
 
