@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 {
   boot = {
     initrd.availableKernelModules = [
@@ -11,19 +10,7 @@
     kernelModules = [ "kvm-intel" ];
   };
 
-  hardware = {
-    cpu.intel.updateMicrocode = true;
-
-    # GPU hardware acceleration
-    graphics = {
-      enable = true;
-      extraPackages = with pkgs; [
-        intel-compute-runtime
-        intel-media-driver
-        libvdpau-va-gl
-        vpl-gpu-rt
-      ];
-    };
-  };
+  # No hardware.graphics: the kernel driver gives Jellyfin /dev/dri, and its image brings the drivers
+  hardware.cpu.intel.updateMicrocode = true;
   services.hardware.bolt.enable = true;
 }

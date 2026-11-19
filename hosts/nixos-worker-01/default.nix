@@ -16,12 +16,8 @@
   host.services.root-deploy.enable = true;
 
   environment.systemPackages = with pkgs; [
-    clinfo
     fluxcd
-    glib
     k9s
-    mesa
-    mesa-demos
   ];
 
   system.stateVersion = "24.05";
