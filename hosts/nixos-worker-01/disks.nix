@@ -28,6 +28,14 @@
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ];
+                # The top level, where btrbk snapshots the subvolumes
+                mountpoint = "/mnt/btr_pool";
+                mountOptions = [
+                  "nofail"
+                  "compress=zstd"
+                  "noatime"
+                  "subvolid=5"
+                ];
                 subvolumes = {
                   "@" = {
                     mountpoint = "/";
@@ -57,6 +65,24 @@
                       "noatime"
                     ];
                     mountpoint = "/.snapshots";
+                  };
+                  # Volumes of k3s's local-path provisioner, and k3s's own state (SQLite
+                  # datastore, token, certificates): both backed up by btrbk
+                  "@appdata" = {
+                    mountOptions = [
+                      "nofail"
+                      "compress=zstd"
+                      "noatime"
+                    ];
+                    mountpoint = "/var/lib/appdata";
+                  };
+                  "@k3s-server" = {
+                    mountOptions = [
+                      "nofail"
+                      "compress=zstd"
+                      "noatime"
+                    ];
+                    mountpoint = "/var/lib/rancher/k3s/server";
                   };
                 };
               };

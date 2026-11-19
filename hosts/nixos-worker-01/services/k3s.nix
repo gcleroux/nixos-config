@@ -44,7 +44,6 @@ in
     disable = [
       "traefik"
       "servicelb"
-      "local-storage"
       "metrics-server"
       "gateway-api-crd"
     ];
@@ -57,6 +56,7 @@ in
       "--write-kubeconfig-mode=0640"
       "--write-kubeconfig-group=kubernetes"
       "--tls-san=${hostname}"
+      "--default-local-storage-path=/var/lib/appdata"
     ];
     gracefulNodeShutdown.enable = true;
     manifests.cilium.content = {
@@ -76,6 +76,12 @@ in
       };
     };
   };
+  # Never start on an unmounted server dir: k3s would create a new, empty cluster there
+  systemd.services.k3s.unitConfig.RequiresMountsFor = [
+    "/var/lib/rancher/k3s/server"
+    "/var/lib/appdata"
+  ];
+
   # Readers of k3s's kubeconfig (--write-kubeconfig-group above)
   users.groups.kubernetes = { };
   # Kubelet mounts NFS volumes from totoro; this also brings nfs-utils and rpcbind

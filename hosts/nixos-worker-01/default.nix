@@ -14,6 +14,14 @@
   };
 
   host.services.root-deploy.enable = true;
+  # Hourly snapshots of the app volumes and k3s's state, pulled nightly by totoro
+  host.services.btrbk-source = {
+    enable = true;
+    subvolumes = {
+      "@appdata" = "appdata";
+      "@k3s-server" = "k3s-server";
+    };
+  };
 
   environment.systemPackages = with pkgs; [
     fluxcd
