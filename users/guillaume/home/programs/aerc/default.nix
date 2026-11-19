@@ -152,8 +152,8 @@
         timestamp-format = "2006-01-02 15:04";
         spinner = "[ ⡿ ],[ ⣟ ],[ ⣯ ],[ ⣷ ],[ ⣾ ],[ ⣽ ],[ ⣻ ],[ ⢿ ]";
       };
-      triggers = {
-        new-email = ''exec notify-send "New email from %n" "%s"'';
+      hooks = {
+        mail-received = ''${pkgs.libnotify}/bin/notify-send "New email from $AERC_FROM_NAME" "$AERC_SUBJECT"'';
       };
       filters = {
         "text/plain" = "colorize";
