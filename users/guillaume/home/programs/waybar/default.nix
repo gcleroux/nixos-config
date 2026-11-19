@@ -22,10 +22,7 @@
           # "custom/cava-internal"
         ];
 
-        modules-center = [
-          "custom/weather"
-          "clock"
-        ];
+        modules-center = [ "clock" ];
 
         modules-right = [
           "custom/brightness"

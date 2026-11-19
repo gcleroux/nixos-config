@@ -45,22 +45,6 @@
   animation-direction: alternate;
 }
 
-#mode,
-#clock,
-#memory,
-#temperature,
-#cpu,
-#mpd,
-#idle_inhibitor,
-#backlight,
-#pulseaudio,
-#network,
-#battery,
-#custom-powermenu,
-#custom-launcher,
-#tray,
-#disk,
-
 /* Bar */
 window#waybar {
   background-color: @bg1;
