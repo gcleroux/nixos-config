@@ -1,31 +1,16 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 let
-  kubectl = rec {
-    source = ./kubectl_aliases;
-    target = "fish/kubectl_aliases";
-    path = "${config.xdg.configHome}/${target}";
-  };
+  # Upstream's aliases, with `kubectl ... --watch` turned into `watch kubectl ...`
+  kubectlAliases = pkgs.runCommand "kubectl_aliases.fish" { } ''
+    sed -r 's/(kubectl.*) --watch/watch \1/g' ${./kubectl_aliases} > $out
+  '';
 in
 {
-  # Load the kubectl_aliases in $XDG_CONFIG_HOME
-  xdg.configFile.kubectl_aliases = {
-    inherit (kubectl) source target;
-  };
-
   programs.fish = {
     shellInit = ''
       # Load the KUBECONFIG variable, keeping the per-shell context layers inherited from a parent shell
-      set -gx KUBECONFIG (
-        begin
-          string split : -- "$KUBECONFIG" | string match '*/kube-session-*.yaml'
-          test -d "${config.home.homeDirectory}/.kube/Configs"
-          and ${pkgs.busybox}/bin/find "${config.home.homeDirectory}/.kube/Configs" \
-            -type f \
-            -name '*.yaml' \
-          | ${pkgs.busybox}/bin/sort
-        end \
-        | string join :
-      )
+      set -l configs $HOME/.kube/Configs/**.yaml
+      set -gx KUBECONFIG (string join : -- (string split : -- "$KUBECONFIG" | string match '*/kube-session-*.yaml') $configs)
     '';
     interactiveShellInit = ''
       # Per-shell kubeconfig layer in front of KUBECONFIG: kubectl writes the current-context there,
@@ -39,8 +24,7 @@ in
       complete -c kcx -f -a '(kubectl config get-contexts -o name)'
       complete -c kns -f -a '(kubectl get namespaces -o name | string replace namespace/ "")'
 
-      # Load the kubectl_aliases file
-      source (cat ${kubectl.path} | sed -r 's/(kubectl.*) --watch/watch \1/g' | psub)
+      source ${kubectlAliases}
     '';
     functions = {
       kcx = {
