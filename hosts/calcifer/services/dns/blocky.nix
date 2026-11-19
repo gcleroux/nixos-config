@@ -19,7 +19,7 @@
       bootstrapDns = [
         "127.0.0.1:${toString config.services.unbound.settings.server.port}"
       ];
-      caching.maxTime = "-1"; # Disables blocky's cache
+      caching.maxTime = "-1m"; # Disables blocky's cache
       specialUseDomains.enable = false; # Don't block .lan TLD
       blocking = {
         denylists = {
@@ -44,6 +44,16 @@
             "phishing"
             "tracking"
           ];
+        };
+        # blocky can start before the WAN is up (boot, pppd restart): serve DNS right
+        # away and keep retrying the lists for about 5 minutes, instead of 3 quick
+        # tries and then nothing until the 4h refresh
+        loading = {
+          strategy = "fast";
+          downloads = {
+            attempts = 20;
+            cooldown = "15s";
+          };
         };
       };
     };
