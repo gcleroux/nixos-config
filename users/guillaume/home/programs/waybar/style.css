@@ -55,22 +55,6 @@ window > box {
   margin-bottom: 0;
 }
 
-#workspaces button {
-  padding-right: 0.1rem;
-  padding-left: 0.1rem;
-  color: @fg0;
-  background: @bg1;
-}
-
-#workspaces button.active {
-  color: @blue;
-}
-
-#workspaces button:hover {
-  /* border: .2px solid transparent; */
-  color: @cyan;
-}
-
 #tags button {
   padding-right: 0.1rem;
   padding-left: 0.1rem;
@@ -118,27 +102,6 @@ tooltip label {
 #battery.critical:not(.charging) {
   color: @red;
 }
-#custom-powermenu {
-  color: @red;
-}
-
-/* mpd */
-#mpd.paused {
-  color: @pink;
-  font-style: italic;
-}
-#mpd.stopped {
-  color: @red;
-  /* background: transparent; */
-}
-#mpd {
-  padding-right: 0.4rem;
-  padding-left: 0.4rem;
-  color: @yellow;
-}
-#custom-launcher {
-  color: @yellow;
-}
 #memory {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
@@ -164,7 +127,7 @@ tooltip label {
   padding-left: 0.4rem;
   color: @pink;
 }
-#custom-brightness {
+#backlight {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
   color: @green;
@@ -178,9 +141,4 @@ tooltip label {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
   color: @yellow;
-}
-#language {
-  padding-right: 0.4rem;
-  padding-left: 0.4rem;
-  color: @green;
 }

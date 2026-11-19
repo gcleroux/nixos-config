@@ -1,6 +1,5 @@
 { pkgs, ... }:
 {
-
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -11,35 +10,22 @@
         position = "top";
 
         modules-left = [
-          # "custom/launcher"
           "river/tags"
           "temperature"
           "pulseaudio"
           "idle_inhibitor"
-          # "river/mode"
-          # "river/window"
-
-          # "custom/cava-internal"
         ];
 
         modules-center = [ "clock" ];
 
         modules-right = [
-          "custom/brightness"
+          "backlight"
           "disk"
           "memory"
           "cpu"
           "battery"
-          # "hyprland/language"
           "tray"
-          # "custom/powermenu"
         ];
-        "river/mode" = {
-          format = "mode: {}";
-        };
-        "river/window" = {
-          format = "mode: {}";
-        };
 
         "river/tags" = {
           num-tags = 5;
@@ -49,14 +35,7 @@
             "𝍢"
             "𝍣"
             "𝍤"
-            "𝍥"
-            "𝍦"
-            "𝍧"
           ];
-          # "urgent" = "";
-          # "focused" = "";
-          # "default" = "";
-          # };
         };
         idle_inhibitor = {
           format = "{icon}";
@@ -92,14 +71,13 @@
         };
         clock = {
           on-click = "${pkgs.kdePackages.merkuro}/bin/merkuro-calendar --platform wayland";
-          interval = 1;
           format = "{:%I:%M %p | %A, %b %d}";
           tooltip = true;
           tooltip-format = "{:%A, %d %B %Y} <tt>{calendar}</tt>";
         };
-        "custom/brightness" = {
-          interval = 5;
-          format = "{icon} {text}%";
+        backlight = {
+          device = "intel_backlight";
+          format = "{icon} {percent}%";
           format-icons = [
             "󱩏"
             "󱩑"
@@ -107,14 +85,6 @@
             "󱩕"
             "󰛨"
           ];
-          exec = pkgs.writeShellScript "brightness" ''
-            # Get the brightness percentage of the display as an int
-            ${pkgs.brightnessctl}/bin/brightnessctl -m | \
-            ${pkgs.busybox}/bin/cut -d, -f4 | \
-            ${pkgs.busybox}/bin/tr -d '%' | \
-            ${pkgs.jq}/bin/jq -cR --unbuffered '{"text": ., "percentage": tonumber}'
-          '';
-          return-type = "json";
         };
         memory = {
           on-click = "${pkgs.foot}/bin/foot ${pkgs.bottom}/bin/btm";
@@ -148,16 +118,12 @@
         disk = {
           interval = 1800;
           format = " {used}";
-          path = "/";
           tooltip = true;
           tooltip-format = "{used}/{total} => {path} {percentage_used}%";
         };
         tray = {
           icon-size = 20;
           spacing = 5;
-        };
-        "hyprland/language" = {
-          format = "󰌌 {short}";
         };
       };
     };
