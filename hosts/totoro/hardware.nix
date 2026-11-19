@@ -1,42 +1,10 @@
 {
-  config,
-  lib,
-  modulesPath,
-  ...
-}:
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "nvme"
+    "usb_storage"
+    "sd_mod"
+  ];
 
-{
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
-  boot = {
-    loader = {
-      # Use the systemd-boot EFI boot loader.
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 10;
-      };
-      efi.canTouchEfiVariables = true;
-    };
-    # Kernel config
-    kernelModules = [ ];
-
-    initrd = {
-      availableKernelModules = [
-        "xhci_pci"
-        "nvme"
-        "usb_storage"
-        "sd_mod"
-      ];
-      kernelModules = [ ];
-    };
-  };
-
-  hardware = {
-    enableRedistributableFirmware = true;
-    enableAllFirmware = true;
-
-    cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  };
+  hardware.cpu.amd.updateMicrocode = true;
 }

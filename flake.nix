@@ -73,9 +73,8 @@
       };
 
       mkHost =
-        hostname: host:
+        hostname: _:
         inputs.nixpkgs.lib.nixosSystem {
-          system = host.system or "x86_64-linux";
           specialArgs = {
             inherit inputs hostname;
             inventory = import ./hosts/inventory.nix;

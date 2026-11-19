@@ -1,26 +1,7 @@
+{ lib, pkgs, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  modulesPath,
-  ...
-}:
-
-{
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
   boot = {
-    loader = {
-      # Use the systemd-boot EFI boot loader.
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 50;
-      };
-      efi.canTouchEfiVariables = true;
-    };
-    # Kernel config
+    loader.systemd-boot.configurationLimit = 50;
     kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [ "kvm-intel" ];
     kernelParams = [
@@ -38,18 +19,14 @@
         "usb_storage"
         "sd_mod"
       ];
-      kernelModules = [ ];
       luks.devices."root".device = "/dev/disk/by-uuid/dbed6eea-7331-4610-b531-4f78b063fb1a";
     };
     tmp.cleanOnBoot = true;
   };
 
   hardware = {
-    enableRedistributableFirmware = true;
-    enableAllFirmware = true;
     bluetooth.enable = true;
-
-    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    cpu.intel.updateMicrocode = true;
 
     # GPU hardware acceleration
     graphics = {

@@ -30,9 +30,19 @@
   };
 
   nixpkgs = {
+    hostPlatform = lib.mkDefault "x86_64-linux";
     config.allowUnfree = true;
     overlays = [ (import ../../overlays) ];
   };
+
+  boot.loader = {
+    systemd-boot = {
+      enable = true;
+      configurationLimit = lib.mkDefault 10;
+    };
+    efi.canTouchEfiVariables = true;
+  };
+  hardware.enableAllFirmware = true;
   nix = {
     gc = {
       automatic = true;
