@@ -9,8 +9,8 @@ get_brightness() {
 }
 
 notify_user() {
-    notify-send -h string:x-canonical-private-synchronous:sys-notify \
-        -c "overlay" "Brightness: $(get_brightness)"
+    notify-send -t 2000 -h string:x-canonical-private-synchronous:sys-notify \
+        -u low -c "overlay" "Brightness: $(get_brightness)"
 }
 
 inc_laptop() {

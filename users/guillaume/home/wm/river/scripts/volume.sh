@@ -6,7 +6,7 @@ get_volume() {
 # Output Audio
 # ============
 notify_output_volume() {
-    notify-send -h string:x-canonical-private-synchronous:sys-notify \
+    notify-send -t 2000 -h string:x-canonical-private-synchronous:sys-notify \
         -u low -c "overlay" "Output: $(get_volume @DEFAULT_AUDIO_SINK@)"
 }
 
@@ -25,7 +25,7 @@ toggle_output() {
 # Input Audio
 # ===========
 notify_input_volume() {
-    notify-send -h string:x-canonical-private-synchronous:sys-notify \
+    notify-send -t 2000 -h string:x-canonical-private-synchronous:sys-notify \
         -u low -c "overlay" "Input: $(get_volume @DEFAULT_AUDIO_SOURCE@)"
 }
 
