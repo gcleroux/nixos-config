@@ -105,7 +105,7 @@
         };
         "custom/brightness" = {
           interval = 5;
-          format = "{icon} {}%";
+          format = "{icon} {text}%";
           format-icons = [
             "󱩏"
             "󱩑"
