@@ -10,7 +10,6 @@
     kubectl
     kubelogin-oidc
     kubernetes-helm
-    kubie
     kustomize
   ];
 }
