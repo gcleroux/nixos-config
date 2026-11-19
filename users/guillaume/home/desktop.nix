@@ -34,8 +34,5 @@
   home.sessionVariables = {
     BROWSER = "firefox";
     TERMINAL = "foot";
-
-    # gcr's ssh agent only exports this to systemd's user environment, which river doesn't inherit
-    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/gcr/ssh";
   };
 }
