@@ -12,15 +12,13 @@ in
     settings = {
       ldap_base_dn = "dc=cleroux,dc=dev";
       ldap_host = "127.0.0.1";
-      ldap_port = 3890;
+      # calcifer's firewall opens this port to the private gateway
       http_port = 17170;
       http_url = "https://lldap.home.cleroux.dev";
-      database_url = "sqlite://./users.db?mode=rwc";
       # The key comes from key_seed instead, see LLDAP_KEY_SEED_FILE
       key_file = "";
 
       ldap_user_email = "admin@cleroux.dev";
-      ldap_user_dn = "admin";
       force_ldap_user_pass_reset = "always";
     };
     environment = {

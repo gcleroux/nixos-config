@@ -22,7 +22,8 @@ in
       default_2fa_method = "webauthn";
       log.level = "info";
 
-      # Reached by the gateway over the cluster VLAN
+      # Every interface: the gateway reaches it over the cluster VLAN, and calcifer's
+      # firewall opens this port to it
       server = {
         address = "tcp://:9091/";
         endpoints.authz.ext-authz.implementation = "ExtAuthz";
@@ -106,22 +107,13 @@ in
           client_name = "Vikunja";
           # Digest of the client secret in flux-apps apps/vikunja/secret.yaml
           client_secret = "$pbkdf2-sha512$310000$aiBGxF2NyrWYaowj.OAOIg$aWXtzI9vFOFF6s3FiXLB/ZJPiYVt0F/.VSa8eOMYgh8sXmYA2QazjeLRTvKZSNYoH35uwBhZ1DQwUN5QHKS5mQ";
-          public = false;
           authorization_policy = "two_factor";
-          # Vikunja doesn't send PKCE
-          require_pkce = false;
-          pkce_challenge_method = "";
           redirect_uris = [ "https://vikunja.${domain}/auth/openid/authelia" ];
           scopes = [
             "openid"
             "profile"
             "email"
           ];
-          response_types = [ "code" ];
-          grant_types = [ "authorization_code" ];
-          access_token_signed_response_alg = "none";
-          userinfo_signed_response_alg = "none";
-          token_endpoint_auth_method = "client_secret_basic";
         }
         {
           client_id = "grafana";
@@ -129,23 +121,11 @@ in
           # Digest of the client secret in flux-infra
           # infra/monitoring/controllers/victoria-metrics/grafana-oidc.yaml
           client_secret = "$pbkdf2-sha512$310000$mf7hbUKhXHN4bx8tOfaQ/A$6y01FGqzyyxAVm9o2OoxEXhw72OSS4DSc.4XPm6jiGevUSTf4PtvW1OQWMnPu1JfVap.v9YdOjZ8KQf08RFi9A";
-          public = false;
           authorization_policy = "two_factor";
           claims_policy = "grafana";
           require_pkce = true;
           pkce_challenge_method = "S256";
           redirect_uris = [ "https://grafana.${domain}/login/generic_oauth" ];
-          scopes = [
-            "openid"
-            "profile"
-            "groups"
-            "email"
-          ];
-          response_types = [ "code" ];
-          grant_types = [ "authorization_code" ];
-          access_token_signed_response_alg = "none";
-          userinfo_signed_response_alg = "none";
-          token_endpoint_auth_method = "client_secret_basic";
         }
       ];
       identity_providers.oidc.claims_policies.grafana.id_token = [

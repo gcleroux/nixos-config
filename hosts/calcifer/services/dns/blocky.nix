@@ -5,11 +5,12 @@
     settings = {
       ports = {
         dns = 53;
-        # nginx below exposes only /metrics on 9102.
+        # nginx below exposes only /metrics on 9102
         http = "127.0.0.1:4000";
       };
       prometheus = {
         enable = true;
+        # Proxied by nginx below
         path = "/metrics";
       };
       upstreams.groups.default = [
@@ -18,11 +19,7 @@
       bootstrapDns = [
         "127.0.0.1:${toString config.services.unbound.settings.server.port}"
       ];
-      caching = {
-        minTime = "0";
-        maxTime = "-1"; # Disables blocky cache
-        prefetching = false;
-      };
+      caching.maxTime = "-1"; # Disables blocky's cache
       specialUseDomains.enable = false; # Don't block .lan TLD
       blocking = {
         denylists = {

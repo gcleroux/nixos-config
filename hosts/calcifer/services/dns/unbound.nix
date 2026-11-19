@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  hostname,
   inventory,
   ...
 }:
 let
-  addr = inventory.hosts.${hostname};
   inherit (inventory) ip;
   inherit (inventory.cidrs) lan4 vipPrivate4 vipPrivate6;
   # 10.0.0.0/24 -> 0.0.10.in-addr.arpa
@@ -28,29 +26,18 @@ in
     prometheus.exporters.unbound = {
       enable = true;
       port = 9101;
-      unbound = {
-        host = "tcp://127.0.0.1:${toString config.services.unbound.settings.remote-control.control-port}";
-      };
+      unbound.host = "tcp://127.0.0.1:${toString config.services.unbound.settings.remote-control.control-port}";
     };
     unbound = {
       enable = true;
       settings = {
         server = {
-          interface = [
-            "127.0.0.1"
-            addr.lan4
-          ];
+          # Only blocky queries it, on localhost
           port = 5335;
-          access-control = [
-            "127.0.0.1 allow"
-            "10.0.0.0/8 allow"
-          ];
 
           harden-glue = true;
           harden-dnssec-stripped = true;
-          use-caps-for-id = false;
           prefetch = true;
-          edns-buffer-size = 1232;
           hide-identity = true;
           hide-version = true;
           extended-statistics = true;
@@ -85,56 +72,26 @@ in
             ''"${privateZone}. ${privateTTL} AAAA ${privateGateway6}"''
           ];
         };
-        auth-zone = [
-          {
-            name = ".";
-            master = [
-              "lax.xfr.dns.icann.org"
-              "iad.xfr.dns.icann.org"
+        auth-zone =
+          map
+            (zone: {
+              name = if zone == "root" then "." else "${zone}.";
+              master = [
+                "lax.xfr.dns.icann.org"
+                "iad.xfr.dns.icann.org"
+              ];
+              url = "https://www.internic.net/domain/${zone}.zone";
+              fallback-enabled = true;
+              for-downstream = false;
+              for-upstream = true;
+              zonefile = "${zone}.zone";
+            })
+            [
+              "root"
+              "arpa"
+              "in-addr.arpa"
+              "ip6.arpa"
             ];
-            url = "https://www.internic.net/domain/root.zone";
-            fallback-enabled = true;
-            for-downstream = false;
-            for-upstream = true;
-            zonefile = "root.zone";
-          }
-          {
-            name = "arpa.";
-            master = [
-              "lax.xfr.dns.icann.org"
-              "iad.xfr.dns.icann.org"
-            ];
-            url = "https://www.internic.net/domain/arpa.zone";
-            fallback-enabled = true;
-            for-downstream = false;
-            for-upstream = true;
-            zonefile = "arpa.zone";
-          }
-          {
-            name = "in-addr.arpa.";
-            master = [
-              "lax.xfr.dns.icann.org"
-              "iad.xfr.dns.icann.org"
-            ];
-            url = "https://www.internic.net/domain/in-addr.arpa.zone";
-            fallback-enabled = true;
-            for-downstream = false;
-            for-upstream = true;
-            zonefile = "in-addr.arpa.zone";
-          }
-          {
-            name = "ip6.arpa.";
-            master = [
-              "lax.xfr.dns.icann.org"
-              "iad.xfr.dns.icann.org"
-            ];
-            url = "https://www.internic.net/domain/ip6.arpa.zone";
-            fallback-enabled = true;
-            for-downstream = false;
-            for-upstream = true;
-            zonefile = "ip6.arpa.zone";
-          }
-        ];
         forward-zone = [
           {
             name = "lan";
@@ -149,12 +106,8 @@ in
         ];
         remote-control = {
           control-enable = true;
-          control-use-cert = true;
+          # The exporter above connects here
           control-port = 8953;
-          control-interface = [
-            "127.0.0.1"
-            "::1"
-          ];
         };
       };
     };

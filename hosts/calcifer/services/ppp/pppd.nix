@@ -3,6 +3,7 @@
   services.pppd = {
     enable = true;
 
+    # The only WAN: calcifer has no internet unless this session comes up at boot
     peers.ebox = {
       enable = true;
       autostart = true;
@@ -54,10 +55,6 @@
   sops.secrets."ppp/ebox-auth" = {
     sopsFile = ./ebox-auth;
     format = "binary";
-
-    owner = "root";
-    group = "root";
-    mode = "0600";
   };
 
   environment.etc = {

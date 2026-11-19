@@ -10,10 +10,8 @@ let
 
   wgSecret = sopsFile: {
     inherit sopsFile;
-    key = "data";
-    mode = "0640";
+    format = "binary";
     owner = "systemd-network";
-    group = "systemd-network";
   };
 
   # VLANs on the LAN ports, and on br-lan's own port for the guest and cluster netdevs
@@ -200,7 +198,6 @@ in
           "${addr.lan4}/24"
         ];
         networkConfig = {
-          IPv4ReversePathFilter = "no";
           ConfigureWithoutCarrier = true;
           DHCPPrefixDelegation = true;
           IPv6SendRA = true;
