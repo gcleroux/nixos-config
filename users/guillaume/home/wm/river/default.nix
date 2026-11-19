@@ -55,7 +55,8 @@ in
 
   wayland.windowManager.river = {
     enable = true;
-    systemd.enable = true;
+    # uwsm (hosts/nixos-fw) starts and stops graphical-session.target with river
+    systemd.enable = false;
     xwayland.enable = true;
     extraSessionVariables = {
       XCURSOR_SIZE = 24;
@@ -267,6 +268,9 @@ in
       # River will send the process group of the init executable SIGTERM on exit.
       riverctl default-layout rivertile
       rivertile -view-padding 6 -outer-padding 6 -main-ratio 0.5 &
+
+      # Tells uwsm river is ready: exports WAYLAND_DISPLAY to systemd and starts graphical-session.target
+      ${pkgs.uwsm}/bin/uwsm finalize XCURSOR_SIZE
     '';
   };
 

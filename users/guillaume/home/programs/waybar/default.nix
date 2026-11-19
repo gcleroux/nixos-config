@@ -3,10 +3,7 @@
 
   programs.waybar = {
     enable = true;
-    systemd = {
-      enable = true;
-      targets = [ "river-session.target" ];
-    };
+    systemd.enable = true;
 
     settings = {
       mainBar = {

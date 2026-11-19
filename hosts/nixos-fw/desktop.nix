@@ -26,6 +26,14 @@
 
   programs = {
     river-classic.enable = true;
+    # Runs river as a systemd service: logging out stops graphical-session.target and its services
+    uwsm = {
+      enable = true;
+      waylandCompositors.river = {
+        prettyName = "River";
+        binPath = "/run/current-system/sw/bin/river";
+      };
+    };
     thunar = {
       enable = true;
       plugins = with pkgs; [

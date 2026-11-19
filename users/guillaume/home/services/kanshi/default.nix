@@ -27,7 +27,6 @@ in
   # e.g. 3840 / 1.625 = 2363 for the Dells.
   services.kanshi = {
     enable = true;
-    systemdTarget = "river-session.target";
     settings = [
       {
         profile = {
