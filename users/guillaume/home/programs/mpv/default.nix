@@ -35,7 +35,6 @@
       keep-open = "no";
       osc = "no";
       osd-bar = "no";
-      ytdl-format = "bestvideo+bestaudio";
     };
   };
 }
