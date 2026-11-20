@@ -1,4 +1,14 @@
 { pkgs, ... }:
+let
+  notificationCount = pkgs.writeShellApplication {
+    name = "notification-count";
+    runtimeInputs = [
+      pkgs.glib
+      pkgs.systemd
+    ];
+    text = builtins.readFile ./notification-count.sh;
+  };
+in
 {
   programs.waybar = {
     enable = true;
@@ -24,6 +34,7 @@
           "memory"
           "cpu"
           "battery"
+          "custom/notifications"
           "custom/kb-layout"
           "tray"
         ];
@@ -37,6 +48,13 @@
             "𝍣"
             "𝍤"
           ];
+        };
+        # Shown while dunst's history holds notifications; a click opens the list (Super+N)
+        "custom/notifications" = {
+          exec = "${notificationCount}/bin/notification-count";
+          format = "󰂚 {}";
+          on-click = "${pkgs.foot}/bin/foot --title fzf-launcher _notifications";
+          tooltip = false;
         };
         # Set and recorded by kb-layout (river's config), which sends signal 8 on each change
         "custom/kb-layout" = {

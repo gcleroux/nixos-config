@@ -100,6 +100,8 @@ in
     wlr-randr
     riverReload
     kbLayout
+    # Opened by waybar's notification count
+    notificationMenu
   ];
 
   wayland.windowManager.river = {
