@@ -9,4 +9,15 @@
       "10"
     ];
   };
+
+  # Lives and restarts with dunst. libnotify caches the notification daemon's bus
+  # address, and batsignal runs no GLib main loop to learn of a new one, so after a
+  # dunst restart its notifications would silently go nowhere.
+  systemd.user.services.batsignal = {
+    Unit = {
+      BindsTo = [ "dunst.service" ];
+      After = [ "dunst.service" ];
+    };
+    Install.WantedBy = [ "dunst.service" ];
+  };
 }
