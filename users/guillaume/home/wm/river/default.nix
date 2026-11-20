@@ -66,12 +66,19 @@ let
     pkgs.bash
     pkgs.gnugrep
   ];
+
+  # Alt+Space and a click on waybar's layout module; riverctl comes from the host's river
+  kbLayout = script "kb-layout" [
+    pkgs.coreutils
+    pkgs.procps
+  ];
 in
 {
   home.packages = with pkgs; [
     lswt
     wlr-randr
     riverReload
+    kbLayout
   ];
 
   wayland.windowManager.river = {
@@ -225,6 +232,9 @@ in
       	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "${brightness}/bin/brightness --inc"
       	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "${brightness}/bin/brightness --dec"
 
+      	# Keyboard layout, EurKEY or Canadian Multilingual (also for the lock screen password)
+      	riverctl map $mode Alt Space spawn "${kbLayout}/bin/kb-layout"
+
         # Lid closed while docked: turn off eDP-1. Undocked, the switch doesn't match and logind suspends.
         # Opening it lets kanshi pick the profile for the connected outputs again.
         riverctl map-switch $mode lid close spawn "${kanshictl} switch docked-lid-closed"
@@ -255,8 +265,8 @@ in
       # Set keyboard repeat rate
       riverctl set-repeat 50 300
 
-      # Set keyboard layout
-      riverctl keyboard-layout -variant ",,multix" -options "shift:both_capslock,caps:escape,grp:alt_space_toggle" eu,us,ca
+      # Keyboard layout: EurKEY to start, Alt+Space switches (see kb-layout)
+      ${kbLayout}/bin/kb-layout eu
 
       # Touchpads, including ones connected later
       riverctl input '*Touchpad' tap enabled

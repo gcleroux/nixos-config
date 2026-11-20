@@ -24,6 +24,7 @@
           "memory"
           "cpu"
           "battery"
+          "custom/kb-layout"
           "tray"
         ];
 
@@ -36,6 +37,15 @@
             "𝍣"
             "𝍤"
           ];
+        };
+        # Set and recorded by kb-layout (river's config), which sends signal 8 on each change
+        "custom/kb-layout" = {
+          exec = "tr a-z A-Z < $XDG_RUNTIME_DIR/kb-layout";
+          interval = "once";
+          signal = 8;
+          format = "󰌌 {}";
+          on-click = "kb-layout";
+          tooltip = false;
         };
         idle_inhibitor = {
           format = "{icon}";

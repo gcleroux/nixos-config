@@ -118,6 +118,11 @@ tooltip label {
   padding-left: 0.4rem;
   color: @orange;
 }
+#custom-kb-layout {
+  padding-right: 0.4rem;
+  padding-left: 0.4rem;
+  color: @cyan;
+}
 #temperature {
   padding-right: 0.4rem;
   padding-left: 0.4rem;
