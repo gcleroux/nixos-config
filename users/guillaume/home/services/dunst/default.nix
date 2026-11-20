@@ -51,6 +51,11 @@ in
         category = "overlay";
         history_ignore = true;
       };
+      # Shown as sent: a sender's <address> isn't markup
+      mail = {
+        appname = "mail";
+        markup = "no";
+      };
       sound = {
         appname = "*";
         script = "${sound}";

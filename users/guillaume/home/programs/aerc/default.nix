@@ -1,4 +1,37 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  inherit (config.accounts.email) accounts;
+
+  mailNotify = pkgs.writers.writePython3Bin "mail-notify" {
+    flakeIgnore = [ "E501" ];
+    makeWrapperArgs = [
+      "--prefix"
+      "PATH"
+      ":"
+      (lib.makeBinPath [ pkgs.libnotify ])
+    ];
+  } (builtins.readFile ./mail-notify.py);
+
+  # Watches the account's INBOX in the background, aerc's own hook only runs while it's open
+  notifyNewMail = name: secret: {
+    enable = true;
+    boxes = [ "INBOX" ];
+    onNotify =
+      lib.escapeShellArgs [
+        "${mailNotify}/bin/mail-notify"
+        name
+        accounts.${name}.imap.host
+        accounts.${name}.userName
+        config.sops.secrets.${secret}.path
+      ]
+      + " '{{.Mailbox}}'";
+  };
+in
 {
   programs.aerc = {
     enable = true;
@@ -152,9 +185,6 @@
         timestamp-format = "2006-01-02 15:04";
         spinner = "[ ⡿ ],[ ⣟ ],[ ⣯ ],[ ⣷ ],[ ⣾ ],[ ⣽ ],[ ⣻ ],[ ⢿ ]";
       };
-      hooks = {
-        mail-received = ''${pkgs.libnotify}/bin/notify-send "New email from $AERC_FROM_NAME" "$AERC_SUBJECT"'';
-      };
       filters = {
         "text/plain" = "colorize";
         "text/html" = "html";
@@ -181,6 +211,7 @@
 
       userName = "guillaume@cleroux.dev";
       passwordCommand = "${pkgs.coreutils}/bin/cat ${config.sops.secrets.migadu_password.path}";
+      imapnotify = notifyNewMail "Personal" "migadu_password";
     };
     Pinax = {
       aerc.enable = true;
@@ -191,8 +222,19 @@
 
       userName = "guillaume@eosnation.io";
       passwordCommand = "${pkgs.coreutils}/bin/cat ${config.sops.secrets.gmail_password.path}";
+      imapnotify = notifyNewMail "Pinax" "gmail_password";
     };
   };
+
+  services.imapnotify.enable = true;
+  # Notifications need the desktop, so the watchers run with it rather than from login
+  systemd.user.services = lib.genAttrs [ "imapnotify-Personal" "imapnotify-Pinax" ] (_: {
+    Unit = {
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Install.WantedBy = lib.mkForce [ "graphical-session.target" ];
+  });
 
   sops.secrets.migadu_password = {
     sopsFile = ./secrets.yaml;
