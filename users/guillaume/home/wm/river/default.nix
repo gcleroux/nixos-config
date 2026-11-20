@@ -43,6 +43,8 @@ let
     pkgs.chafa
     pkgs.fzf
     pkgs.jq
+    pkgs.util-linux
+    pkgs.xdg-utils
   ];
   kanshictl = "${config.services.kanshi.package}/bin/kanshictl";
 
