@@ -28,21 +28,17 @@
   font-size: 1.2rem;
 }
 
-@keyframes blink_red {
-  to {
-    background-color: @bg1;
-    color: @red;
-  }
+/* Alerts: plain red, no blinking */
+#tags button.urgent,
+#temperature.critical,
+#memory.warning {
+  color: @red;
 }
 
-.warning,
-.critical,
-.urgent {
-  animation-name: blink_red;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+/* The GTK theme (Nordic) gives .warning an orange background */
+#battery.warning,
+#memory.warning {
+  background-color: transparent;
 }
 
 /* Bar */
