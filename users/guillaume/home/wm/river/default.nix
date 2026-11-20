@@ -236,9 +236,10 @@ in
       riverctl border-color-focused 0x81a1c1
       riverctl border-color-unfocused 0x595959
 
-      # Make fzf-launcher floating with set dimensions
+      # The fzf menus float, large. Logical px: 1200x720 still fits the smallest
+      # output, eDP-1 at scale 1.5 when docked (1280x800).
       riverctl rule-add -title 'fzf-launcher' float
-      riverctl rule-add -title 'fzf-launcher' dimensions 1000 200
+      riverctl rule-add -title 'fzf-launcher' dimensions 1200 720
 
       riverctl rule-add -app-id 'float*' float
       riverctl rule-add -app-id 'nm-connection-editor' float
