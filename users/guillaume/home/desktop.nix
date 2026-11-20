@@ -14,6 +14,7 @@
     ./programs/waybar
     ./programs/zathura
 
+    ./services/batsignal
     ./services/blueman-applet
     ./services/cliphist
     ./services/fnott
