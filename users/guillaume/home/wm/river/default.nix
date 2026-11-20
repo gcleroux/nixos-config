@@ -60,11 +60,18 @@ let
     config.services.dunst.package
     pkgs.jq
   ];
+
+  # Run from a shell after a rebuild
+  riverReload = script "river-reload" [
+    pkgs.bash
+    pkgs.gnugrep
+  ];
 in
 {
   home.packages = with pkgs; [
     lswt
     wlr-randr
+    riverReload
   ];
 
   wayland.windowManager.river = {
