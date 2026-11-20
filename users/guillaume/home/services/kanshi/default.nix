@@ -1,12 +1,14 @@
 let
   laptop = {
     criteria = "eDP-1";
+    status = "enable";
     mode = "1920x1200";
     adaptiveSync = false;
   };
   dells = [
     {
       criteria = "Dell Inc. DELL S2721QS FQ0FM43";
+      status = "enable";
       mode = "3840x2160";
       position = "0,0";
       scale = 1.625;
@@ -14,6 +16,7 @@ let
     }
     {
       criteria = "Dell Inc. DELL S2721QS 7Q1FM43";
+      status = "enable";
       mode = "3840x2160";
       position = "2363,0";
       scale = 1.625;
