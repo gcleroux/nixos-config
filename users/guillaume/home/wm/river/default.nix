@@ -38,7 +38,26 @@ let
     pkgs.fzf
     pkgs.wl-clipboard
   ];
+  # Lets a link opened from the notification list mark the browser's tag urgent
+  activationToken =
+    pkgs.runCommandCC "xdg-activation-token"
+      {
+        nativeBuildInputs = [
+          pkgs.pkg-config
+          pkgs.wayland-scanner
+        ];
+        buildInputs = [ pkgs.wayland ];
+      }
+      ''
+        xml=${pkgs.wayland-protocols}/share/wayland-protocols/staging/xdg-activation/xdg-activation-v1.xml
+        wayland-scanner client-header $xml xdg-activation-v1.h
+        wayland-scanner private-code $xml xdg-activation-v1.c
+        mkdir -p $out/bin
+        $CC -O2 -Wall -Wextra -Werror -I. ${./xdg-activation-token.c} xdg-activation-v1.c \
+          $(pkg-config --cflags --libs wayland-client) -o $out/bin/xdg-activation-token
+      '';
   notificationMenu = script "_notifications" [
+    activationToken
     config.services.dunst.package
     pkgs.chafa
     pkgs.fzf

@@ -49,6 +49,10 @@ case "${1:-}" in
     else
         line=${lines[0]}
     fi
+    # With a token, the browser asks to be activated and river marks its tag urgent
+    if token=$(xdg-activation-token); then
+        export XDG_ACTIVATION_TOKEN=$token
+    fi
     # Detached, so closing the list's terminal doesn't take the browser with it
     setsid -f xdg-open "${line##* }" >/dev/null 2>&1
     exit
