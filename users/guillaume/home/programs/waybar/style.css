@@ -28,8 +28,7 @@
   font-size: 1.2rem;
 }
 
-/* Alerts: plain red, no blinking */
-#tags button.urgent,
+/* Alerts: plain red, no blinking (urgent tags are with the tag rules) */
 #temperature.critical,
 #memory.warning {
   color: @red;
@@ -64,6 +63,11 @@ window > box {
 
 #tags button.focused {
   color: @blue;
+}
+
+/* After .occupied and .focused: the same weight, so the later rule wins */
+#tags button.urgent {
+  color: @red;
 }
 
 #tags button:hover {
