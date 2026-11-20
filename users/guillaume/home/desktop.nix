@@ -17,7 +17,7 @@
     ./services/batsignal
     ./services/blueman-applet
     ./services/cliphist
-    ./services/fnott
+    ./services/dunst
     ./services/gpg-agent
     ./services/kanshi
     ./services/mpris-proxy

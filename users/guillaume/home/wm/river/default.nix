@@ -38,6 +38,12 @@ let
     pkgs.fzf
     pkgs.wl-clipboard
   ];
+  notificationMenu = script "_notifications" [
+    config.services.dunst.package
+    pkgs.chafa
+    pkgs.fzf
+    pkgs.jq
+  ];
   kanshictl = "${config.services.kanshi.package}/bin/kanshictl";
 
   launcher = script "launcher" [
@@ -45,6 +51,14 @@ let
     appMenu
     clipboardMenu
     emojiMenu
+    notificationMenu
+  ];
+
+  # Notifications
+  dunstctl = "${config.services.dunst.package}/bin/dunstctl";
+  notificationRemove = script "notification-remove" [
+    config.services.dunst.package
+    pkgs.jq
   ];
 in
 {
@@ -75,8 +89,11 @@ in
 
       # Notifications
       # =============
-      riverctl map normal Super Grave spawn "${pkgs.fnott}/bin/fnottctl dismiss"
-      riverctl map normal Super+Shift Grave spawn "${pkgs.fnott}/bin/fnottctl dismiss all"
+      # Hidden notifications stay in the list on Super+N; Super+Control+Grave removes one for good
+      riverctl map normal Super Grave spawn "${dunstctl} close"
+      riverctl map normal Super+Shift Grave spawn "${dunstctl} close-all"
+      riverctl map normal Super+Control Grave spawn "${notificationRemove}/bin/notification-remove"
+      riverctl map normal Super N spawn "${config.home.sessionVariables.TERMINAL} --title fzf-launcher ${notificationMenu}/bin/_notifications"
 
       # Screenshot
       riverctl map -release normal None Print spawn '${pkgs.grim}/bin/grim -l 0 -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy'
