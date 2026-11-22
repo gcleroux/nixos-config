@@ -9,5 +9,6 @@
     ./powersave.nix
     ./printing.nix
     ./virtualisation.nix
+    ./yubikey.nix
   ];
 }

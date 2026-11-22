@@ -1,6 +1,13 @@
 { pkgs, ... }:
 {
-  programs.gpg.enable = true;
+  programs.gpg = {
+    enable = true;
+    # scdaemon's own CCID driver holds the card exclusively, locking out ykman and age-plugin-yubikey
+    scdaemonSettings = {
+      disable-ccid = true;
+      pcsc-shared = true;
+    };
+  };
   services.gpg-agent = {
     enable = true;
     defaultCacheTtl = 28800;
