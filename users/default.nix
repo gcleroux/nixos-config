@@ -82,6 +82,13 @@ in
       home.stateVersion = config.system.stateVersion;
     }) homeUsers;
 
+    # At boot there's no session bus yet, so the activation's dconf step runs on a throwaway one.
+    # GIO would start gvfs there, which mounts ~/.gvfs and dies with that bus, leaving a dead mount
+    # that breaks file managers in ~.
+    systemd.services = lib.mapAttrs' (
+      name: _: lib.nameValuePair "home-manager-${name}" { environment.GIO_USE_VFS = "local"; }
+    ) homeUsers;
+
     assertions =
       # Without a password, an admin couldn't use sudo
       lib.mapAttrsToList (name: user: {
