@@ -1,8 +1,8 @@
 {
   imports = [
     ./backups
+    ./game-streaming
 
-    ./game-streaming.nix
     ./nfs.nix
   ];
 }

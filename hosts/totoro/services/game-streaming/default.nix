@@ -7,12 +7,25 @@
 let
   swaymsg = "${config.programs.sway.package}/bin/swaymsg";
 
+  # Sunshine outlives Sway sessions, and greetd leaves dead sessions' sockets behind
+  findSway = ''
+    SWAYSOCK=$(ls -t "$XDG_RUNTIME_DIR"/sway-ipc.*.sock | head -n 1)
+    export SWAYSOCK
+  '';
+
+  # Between streams; each stream sets the mode its client asked for (setMode)
+  idle = {
+    width = "1920";
+    height = "1080";
+    refresh = "119.879";
+  };
+
   # A kiosk on the HDMI dummy plug: whichever window has the focus fills the screen
   swayConfig = pkgs.writeText "sway-games.conf" ''
     # Starts graphical-session.target, which Sunshine waits for
     include /etc/sway/config.d/*
 
-    output HDMI-A-1 mode 1920x1080@119.879Hz
+    output HDMI-A-1 mode ${idle.width}x${idle.height}@${idle.refresh}Hz
     default_border none
     # A window that asks for the focus gets it, e.g. a game resumed from Big Picture
     focus_on_window_activation focus
@@ -31,17 +44,29 @@ let
   '';
 
   # A Moonlight tile: brings the first open window matching the criteria to the front, or
-  # starts the app if none is open. Finds Sway's socket itself, as Sunshine outlives sessions.
+  # starts the app if none is open
   showOrStart =
     name: criteria: start:
     pkgs.writeShellScript "show-${name}" ''
-      SWAYSOCK=$(ls -t "$XDG_RUNTIME_DIR"/sway-ipc.*.sock | head -n 1)
-      export SWAYSOCK
+      ${findSway}
       for c in ${lib.escapeShellArgs criteria}; do
         ${swaymsg} "$c focus" >/dev/null 2>&1 && exit 0
       done
       exec ${pkgs.util-linux}/bin/setsid ${start}
     '';
+
+  # Let the moonlight client set the screen resolution for sunshine streaming.
+  # Sway picks the closest resolution available
+  setMode = pkgs.writeShellScript "kiosk-set-mode" ''
+    ${findSway}
+    width=''${1:-$SUNSHINE_CLIENT_WIDTH} height=''${2:-$SUNSHINE_CLIENT_HEIGHT} fps=''${3:-$SUNSHINE_CLIENT_FPS}
+    if ${swaymsg} -t get_outputs -r |
+      ${pkgs.jq}/bin/jq -e --argjson w "$width" --argjson h "$height" \
+        '.[] | select(.name == "HDMI-A-1") | .modes | any(.width == $w and .height == $h)' >/dev/null; then
+      ${swaymsg} output HDMI-A-1 mode "''${width}x''${height}@''${fps}Hz" >/dev/null
+    fi
+    exit 0
+  '';
 
   # Minecraft: Java Edition, signed in with the Microsoft account that owns it
   prism = pkgs.prismlauncher;
@@ -93,25 +118,41 @@ in
   };
   security.rtkit.enable = true;
 
-  # Sunshine's virtual Switch and DualSense controllers. /dev/uhid only gets Sunshine's
-  # udev permissions once the module is loaded.
+  # Sunshine's virtual Switch and DualSense controllers.
   boot.kernelModules = [ "uhid" ];
+
+  # Emulate 4k60 display through software. Using edid from px3-pro
+  hardware.display = {
+    edid.packages = [
+      (pkgs.runCommand "edid-px3-pro" { } ''
+        install -Dm444 ${./edid/px3-pro.bin} $out/lib/firmware/edid/px3-pro.bin
+      '')
+    ];
+    outputs."HDMI-A-1" = {
+      edid = "px3-pro.bin";
+      mode = "e";
+    };
+  };
 
   services.sunshine = {
     enable = true;
     autoStart = true;
-    # KMS capture reads the display's buffers straight from the GPU. wlr capture
-    # (screencopy from Sway) keeps frames in order but tops out at 60 fps here.
     capSysAdmin = true;
     openFirewall = true;
-    # NVENC needs CUDA
-    package = pkgs.sunshine.override { cudaSupport = true; };
+    package = pkgs.sunshine.override { cudaSupport = true; }; # Required for NVENC
     settings = {
       capture = "kms";
       encoder = "nvenc";
       # The web UI only trusts localhost; any port is allowed
       csrf_allowed_origins = "https://totoro.lan,https://totoro";
+      global_prep_cmd = builtins.toJSON [
+        {
+          do = "${setMode}";
+          undo = "${setMode} ${idle.width} ${idle.height} ${idle.refresh}";
+        }
+      ];
     };
+
     # Moonlight's tiles. Each runs showOrStart, so reopening a tile focuses the app instead
     # of starting a second copy, and the kiosk makes whatever has the focus fullscreen.
     # To add one, open the app once and match its window's app_id (Wayland) or class (X11):
