@@ -27,12 +27,27 @@ let
 
     output HDMI-A-1 mode ${idle.width}x${idle.height}@${idle.refresh}Hz
     default_border none
-    # A window that asks for the focus gets it, e.g. a game resumed from Big Picture
-    focus_on_window_activation focus
+
+    # A window that asks for the focus gets it, e.g. a game resumed from Big Picture, but only
+    # while its workspace is shown: between streams, Steam would bring its windows back on screen
+    focus_on_window_activation smart
     for_window [all] fullscreen enable
+
+    # Every window lives on workspace 1, so the empty "idle" workspace hides them all: hidden
+    # windows aren't asked for frames, and the GPU idles between streams (streamEnd)
+    assign [class=".*"] workspace number 1
+    assign [app_id=".*"] workspace number 1
     exec ${fullscreenFocused}
 
     exec steam -gamepadui
+    exec ${idleOnceDrawn}
+  '';
+
+  # Big Picture only draws once it has been on screen; a stream starting before that is black
+  idleOnceDrawn = pkgs.writeShellScript "kiosk-idle-once-drawn" ''
+    until ${swaymsg} '[class="steam" title="Steam Big Picture Mode"] focus' >/dev/null 2>&1; do sleep 1; done
+    sleep 5
+    exec ${swaymsg} workspace idle
   '';
 
   # Only one window can be fullscreen, and Sway doesn't hand it back when that window
@@ -68,7 +83,19 @@ let
     exit 0
   '';
 
-  # Minecraft: Java Edition, signed in with the Microsoft account that owns it
+  # The GPU doesn't render anything between streams to save power
+  streamStart = pkgs.writeShellScript "kiosk-stream-start" ''
+    ${findSway}
+    ${swaymsg} workspace number 1 >/dev/null
+    exec ${setMode}
+  '';
+  streamEnd = pkgs.writeShellScript "kiosk-stream-end" ''
+    ${setMode} ${idle.width} ${idle.height} ${idle.refresh}
+    ${findSway}
+    ${swaymsg} workspace idle >/dev/null
+    exit 0
+  '';
+
   prism = pkgs.prismlauncher;
 in
 {
@@ -108,10 +135,8 @@ in
     '';
   };
 
-  # Proton comes with it
   programs.steam.enable = true;
 
-  # Sunshine streams the session's sound
   services.pipewire = {
     enable = true;
     pulse.enable = true;
@@ -147,8 +172,8 @@ in
       csrf_allowed_origins = "https://totoro.lan,https://totoro";
       global_prep_cmd = builtins.toJSON [
         {
-          do = "${setMode}";
-          undo = "${setMode} ${idle.width} ${idle.height} ${idle.refresh}";
+          do = "${streamStart}";
+          undo = "${streamEnd}";
         }
       ];
     };
